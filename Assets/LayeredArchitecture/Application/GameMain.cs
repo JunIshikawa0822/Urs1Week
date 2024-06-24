@@ -19,6 +19,7 @@ public class GameMain : MonoBehaviour
         allSystems = new List<SystemBase>()
         {
             new PlayerSystem()
+            ,new PhotonSystem()
         };
 
         allUpdateSystems = new List<IOnUpdate>();
