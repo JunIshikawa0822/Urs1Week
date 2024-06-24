@@ -8,7 +8,7 @@ public class RPCTest : MonoBehaviourPunCallbacks
     [ContextMenu("RPC")]
     public void RPCt()
     {
-        photonView.RPC(nameof(RpcSendMessage), RpcTarget.All, "こんにちは");
+        photonView.RPC("RpcSendMessage", RpcTarget.All, "こんにちは");
     }
 
 
