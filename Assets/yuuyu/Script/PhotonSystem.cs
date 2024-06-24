@@ -16,22 +16,12 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
 
     }
     
-   
-
-    
-
-    private void OnDisable()
-    {
-        
-    }
 
     // マスターサーバーへの接続が成功した時に呼ばれるコールバック
     void IConnectionCallbacks.OnConnectedToMaster()
     {
-        Debug.Log("aa");
         // ランダムなルームに参加する
         PhotonNetwork.JoinRandomRoom();
-        Debug.Log("bbzs");
         // "Room"という名前のルームに参加する（ルームが存在しなければ作成して参加する）
         //PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
     }

@@ -20,6 +20,7 @@ public class GameMain : MonoBehaviour
         {
             new PlayerSystem()
             ,new PhotonSystem()
+            ,new CameraSystem()
         };
 
         allUpdateSystems = new List<IOnUpdate>();
