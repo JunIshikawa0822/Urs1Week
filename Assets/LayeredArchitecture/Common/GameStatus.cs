@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 [System.Serializable]
 public class GameStatus
 {
+
     [SerializeField] public Tilemap mainTileMap;
     [SerializeField] public TileBase occupiedTile; //占有されたことを示す
 
@@ -66,4 +67,5 @@ public class GameStatus
         right_shift,
         left_shift
     }
+
 }
