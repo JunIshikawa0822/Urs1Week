@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class CameraSystem : SystemBase, IOnUpdate
 {
@@ -14,14 +15,26 @@ public class CameraSystem : SystemBase, IOnUpdate
     float yLimitLow = 2.0f;
     float zLimit = 3.0f;
 
+    private GameStatus gameStatus;
+
     public override void SetUp()
     {
-        mainCamera = Camera.main;
-        
+        gameStatus = new GameStatus();
+        SetCamera();
+
+
     }
 
     public void OnUpdate()
     {
+        /*
+        if (GameStatus.isCameraSet)
+        {
+            GameStatus.isCameraSet = false;
+        }
+        */
+
+
         Vector3 currentPos;
         if (Input.GetMouseButton(0))
         {
@@ -44,4 +57,19 @@ public class CameraSystem : SystemBase, IOnUpdate
             new Vector3(Mathf.Clamp(currentPos.x, -xLimit, xLimit), Mathf.Clamp(currentPos.y, yLimitLow, yLimitHight), Mathf.Clamp(currentPos.z, -zLimit, zLimit));
 
     }
+
+    public void SetCamera()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            mainCamera=GameObject.Find("MainCamera1").GetComponent<Camera>();
+            Debug.Log(mainCamera.gameObject.name);
+        }
+        else
+        {
+            mainCamera = GameObject.Find("MainCamera2").GetComponent<Camera>();
+            Debug.Log(mainCamera.gameObject.name);
+        }
+    }
+
 }
