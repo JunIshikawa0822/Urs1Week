@@ -7,6 +7,8 @@ public class CameraSystem : SystemBase, IOnUpdate
 {
     public float zoomSpeed = 1;
     private Camera mainCamera;
+    private GameObject camera1;
+    private GameObject camera2;
     float sensitiveMove = 0.8f;
     float sensitiveRotate = 5.0f;
 
@@ -20,6 +22,8 @@ public class CameraSystem : SystemBase, IOnUpdate
     public override void SetUp()
     {
         gameStatus = new GameStatus();
+        camera1 = GameObject.Find("MainCamera1");
+        camera2 = GameObject.Find("MainCamera2");
         SetCamera();
 
 
@@ -62,12 +66,16 @@ public class CameraSystem : SystemBase, IOnUpdate
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            mainCamera=GameObject.Find("MainCamera1").GetComponent<Camera>();
+            mainCamera = camera1.GetComponent<Camera>();
+            camera1.SetActive(true);
+            camera2.SetActive(false);
             Debug.Log(mainCamera.gameObject.name);
         }
         else
         {
-            mainCamera = GameObject.Find("MainCamera2").GetComponent<Camera>();
+            mainCamera = camera2.GetComponent<Camera>();
+            camera1.SetActive(false);
+            camera2.SetActive(true);
             Debug.Log(mainCamera.gameObject.name);
         }
     }
