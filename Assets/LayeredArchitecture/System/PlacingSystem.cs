@@ -20,6 +20,8 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
     public void OnUpdate()
     {
+        if (!gameStat.isMySetPhase) return;
+
         gameStat.selectingCellPos = SnapCoordinateToGrid(gameStat.mousePos, gameStat.placingObjectGrid, gameStat.placingObjectGridLayout);
         gameStat.predictionObjectArray[0].transform.position = gameStat.selectingCellPos;
 
@@ -29,7 +31,10 @@ public class PlacingSystem : SystemBase, IOnUpdate
             //置こうとしたところになにもない
             if (CanBePlaced(gameStat.predictionObjectArray[0], gameStat.occupiedTile, gameStat.placingObjectGridLayout))
             {
-                Place(gameStat.objectToPlacePrefab, gameStat.selectingCellPos);  
+                Place(gameStat.objectToPlacePrefab, gameStat.selectingCellPos);
+                gameStat.isMySetPhase = false;
+
+                PhaseEnd();
             }
         }
     }
@@ -38,7 +43,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
     {
         PlaceableObject placedObject = GameObject.Instantiate(_prefab, _setPos, Quaternion.identity);
         placedObject.SetUp();
-        gameStat.placedObjectlist.Add(placedObject);
+        gameStat.placedObjectList.Add(placedObject);
 
         Vector3Int start = gameStat.placingObjectGridLayout.WorldToCell(placedObject.GetStartPosition());
         TakeArea(gameStat.occupiedTile, start, placedObject.Size);

@@ -29,7 +29,7 @@ public class GameStatus
     public PlaceableObject predictionObjectPrefab;
 
     [System.NonSerialized]
-    public List<PlaceableObject> placedObjectlist = new List<PlaceableObject>();
+    public List<PlaceableObject> placedObjectList = new List<PlaceableObject>();
 
     [SerializeField]
     public Vector3 mousePos;
@@ -43,6 +43,14 @@ public class GameStatus
     [Header("Input")]
     [SerializeField]
     public bool isPlacingInput = false;
+
+    [Header("Flag")]
+    [System.NonSerialized]
+    public bool isMySetPhase = false;
+    [System.NonSerialized]
+    public bool isMyMovePhase = false;
+    [System.NonSerialized]
+    public bool isPhaseEnd = false;
 
     [SerializeField]
     public LayerMask layHitlayer;

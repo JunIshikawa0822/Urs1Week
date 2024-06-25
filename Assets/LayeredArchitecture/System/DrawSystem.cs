@@ -13,14 +13,16 @@ public class DrawSystem : MonoBehaviour
     };
 
     public float gridSize = 1f;
-    public int size = 8;
+    public int sizeX = 8;
+    public int sizeY = 11;
     public Color color = Color.white;
     public Face face = Face.xy;
     public bool back = true;
 
     //更新検出用
     float preGridSize = 0;
-    int preSize = 0;
+    int preSizeX = 0;
+    //int preSizeY = 0;
     Color preColor = Color.red;
     Face preFace = Face.zx;
     bool preBack = true;
@@ -57,7 +59,7 @@ public class DrawSystem : MonoBehaviour
         int[] lines;
         Color[] colors;
 
-        drawSize = size * 2;
+        drawSize = sizeX * 2;
         width = gridSize * drawSize / 4.0f;
         Vector2 startPosition = new Vector2(-width, -width);
         Vector2 endPosition = new Vector2(width, width);
@@ -108,7 +110,7 @@ public class DrawSystem : MonoBehaviour
         mesh.SetIndices(lines, MeshTopology.Lines, 0);
 
         preGridSize = gridSize;
-        preSize = size;
+        preSizeX = sizeX;
         preColor = color;
         preFace = face;
         preBack = back;
@@ -130,10 +132,10 @@ public class DrawSystem : MonoBehaviour
     void Update()
     {
         //関係値の更新を検出したらメッシュも更新
-        if (gridSize != preGridSize || size != preSize || preColor != color || preFace != face || preBack != back)
+        if (gridSize != preGridSize || sizeX != preSizeX || /*sizeY != preSizeY || */ preColor != color || preFace != face || preBack != back)
         {
             if (gridSize < 0) { gridSize = 0.000001f; }
-            if (size < 0) { size = 1; }
+            if (sizeX < 0) { sizeX = 1; }
             ReGrid(mesh);
         }
     }
