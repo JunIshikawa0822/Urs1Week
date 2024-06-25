@@ -17,6 +17,8 @@ public class CameraSystem : SystemBase, IOnUpdate
     float yLimitLow = 2.0f;
     float zLimit = 3.0f;
 
+    bool isCamera1or2;
+
     private GameStatus gameStatus;
 
     public override void SetUp()
@@ -24,8 +26,9 @@ public class CameraSystem : SystemBase, IOnUpdate
         gameStatus = new GameStatus();
         camera1 = GameObject.Find("MainCamera1");
         camera2 = GameObject.Find("MainCamera2");
-        SetCamera();
 
+        SetCamera();
+        
 
     }
 
@@ -37,15 +40,19 @@ public class CameraSystem : SystemBase, IOnUpdate
             GameStatus.isCameraSet = false;
         }
         */
-
+        
+        
 
         Vector3 currentPos;
         if (Input.GetMouseButton(0))
         {
             float moveX = Input.GetAxis("Mouse X") * sensitiveMove;
             float moveY = Input.GetAxis("Mouse Y") * sensitiveMove;
-            mainCamera.transform.localPosition -= new Vector3(moveX, 0.0f, moveY);
-           
+            if(isCamera1or2)
+                mainCamera.transform.localPosition -= new Vector3(moveX, 0.0f, moveY);
+            else
+                mainCamera.transform.localPosition += new Vector3(moveX, 0.0f, moveY);
+
         }
         if (Input.GetMouseButton(1))
         {
@@ -59,16 +66,18 @@ public class CameraSystem : SystemBase, IOnUpdate
         currentPos = mainCamera.transform.localPosition;
         mainCamera.transform.localPosition =
             new Vector3(Mathf.Clamp(currentPos.x, -xLimit, xLimit), Mathf.Clamp(currentPos.y, yLimitLow, yLimitHight), Mathf.Clamp(currentPos.z, -zLimit, zLimit));
-
+        
     }
 
+    
     public void SetCamera()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsMasterClient)
         {
             mainCamera = camera1.GetComponent<Camera>();
             camera1.SetActive(true);
             camera2.SetActive(false);
+            isCamera1or2 = true;
             Debug.Log(mainCamera.gameObject.name);
         }
         else
@@ -76,6 +85,7 @@ public class CameraSystem : SystemBase, IOnUpdate
             mainCamera = camera2.GetComponent<Camera>();
             camera1.SetActive(false);
             camera2.SetActive(true);
+            isCamera1or2 = false;
             Debug.Log(mainCamera.gameObject.name);
         }
     }

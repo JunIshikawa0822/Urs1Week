@@ -29,6 +29,7 @@ public class NameSystem :MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            
             enemyNameText.text = PhotonNetwork.PlayerList[1].NickName;
         }
         else
