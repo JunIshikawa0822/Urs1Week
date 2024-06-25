@@ -5,5 +5,5 @@ using UnityEngine;
 [System.Serializable]
 public class GameStatus
 {
-    public bool isCameraSet { get { return isCameraSet; } set { isCameraSet = value; } }
+    public bool isCameraSet;
 }
