@@ -54,7 +54,7 @@ public class GameStatus
     [System.NonSerialized]
     public PlaceableObject[] predictionObjectInstancesArray;
 
-    [SerializeField]
+    [System.NonSerialized]
     public Vector3 selectingCellPos;
 
     [Header("Input")]
