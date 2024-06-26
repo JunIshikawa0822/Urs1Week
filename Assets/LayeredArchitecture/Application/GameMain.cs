@@ -20,7 +20,7 @@ public class GameMain : MonoBehaviour
         {
             new InputSystem(),
             new PlacingSystem(),
-            //new PlayerSystem(),
+            new PlayerSystem(),
             //new PhotonSystem(),
             //new CameraSystem()
 

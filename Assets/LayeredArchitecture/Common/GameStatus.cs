@@ -6,8 +6,13 @@ using UnityEngine.Tilemaps;
 [System.Serializable]
 public class GameStatus
 {
+    [Header("Player")]
+    public Player player;
+
+    [Header("Placing")]
     [SerializeField] public Tilemap mainTileMap;
-    [SerializeField] public TileBase occupiedTile; //占有されたことを示す
+
+    [SerializeField] public TileBase[] occupiedTilesArray; //占有されたことを示す
 
     [System.NonSerialized]
     public Grid placingObjectGrid;
@@ -17,11 +22,11 @@ public class GameStatus
 
     //実際に設置するオブジェクト
     [System.NonSerialized]
-    public PlaceableObject objectToPlace;
+    public PlaceableObject objectToPlace = null;
 
     //実際に移動するPredictionObj
     [System.NonSerialized]
-    public PlaceableObject predictionObject;
+    public PlaceableObject predictionObject = null;
 
     [System.NonSerialized]
     public int optionNumber = 4;
@@ -50,20 +55,27 @@ public class GameStatus
     public PlaceableObject[] predictionObjectInstancesArray;
 
     [SerializeField]
-    public Vector3 mousePos;
-
-    [SerializeField]
     public Vector3 selectingCellPos;
 
-    //[SerializeField]
-    //public GridLayout gridLayout;
-
     [Header("Input")]
+    [System.NonSerialized]
+    public Vector3 mousePos;
+
     [SerializeField]
     public bool isPlacingInput = false;
 
     //画面左の4つの選択肢のうち、どの選択肢を選んでいるか
     public int selectedPlacingObjectIndex = 0;
+
+    [Header("InputDebug")]
+    [System.NonSerialized]
+    public bool isForward = false;
+    [System.NonSerialized]
+    public bool isRight = false;
+    [System.NonSerialized]
+    public bool isLeft = false;
+    [System.NonSerialized]
+    public bool isBackward = false;
 
     [Header("Flag")]
     [System.NonSerialized]

@@ -8,9 +8,19 @@ public class InputSystem : SystemBase, IOnPreUpdate
     public void OnPreUpdate()
     {
         gameStat.mousePos = GetMouseWorldPosition(Input.mousePosition);
+        gameStat.selectingCellPos = SnapCoordinateToGrid(gameStat.mousePos, gameStat.placingObjectGrid, gameStat.placingObjectGridLayout);
         gameStat.isPlacingInput = InputDown(gameStat.placingInputDownName);
 
         GetBlockSelectInput();
+        KeyInput();
+    }
+
+    private void KeyInput()
+    {
+        gameStat.isForward = (Input.GetKeyDown(KeyCode.UpArrow)) ? true : false;
+        gameStat.isRight = (Input.GetKeyDown(KeyCode.RightArrow)) ? true : false;
+        gameStat.isLeft = (Input.GetKeyDown(KeyCode.LeftArrow)) ? true : false;
+        gameStat.isBackward = (Input.GetKeyDown(KeyCode.DownArrow)) ? true : false;
     }
 
     private Vector3 GetMouseWorldPosition(Vector3 _point)
@@ -27,6 +37,14 @@ public class InputSystem : SystemBase, IOnPreUpdate
             //当たらないなら0
             return Vector3.zero;
         }
+    }
+
+    //ワールド座標からセルの中心を計算して返す
+    private Vector3 SnapCoordinateToGrid(Vector3 position, Grid _grid, GridLayout _gridLayout)
+    {
+        Vector3Int cellPos = _gridLayout.WorldToCell(position);
+        position = _grid.GetCellCenterWorld(cellPos);
+        return position;
     }
 
     private bool InputDown(GameStatus.InputNameType _isInput)
@@ -99,7 +117,7 @@ public class InputSystem : SystemBase, IOnPreUpdate
         }
         else
         {
-            //Debug.Log(strToInt);
+            Debug.Log(strToInt);
             gameStat.selectedPlacingObjectIndex = strToInt;
         }
     }
