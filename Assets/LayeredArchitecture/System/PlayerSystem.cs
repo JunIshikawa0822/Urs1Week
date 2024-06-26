@@ -12,22 +12,32 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     public void OnUpdate()
     {
-        if (gameStat.isForward)
+        //if (!gameStat.isMyMovePhase) return;
+        //isMyMovePhaseスタート
+
+        //まずInitializeで選べる選択肢（左の4つ）を生成
+        if (gameStat.isMyMoveStart == false)
         {
-            gameStat.player.MoveForward();
+            gameStat.player.MoveByProgram(gameStat.programList);
+            gameStat.isMySetPhaseInitialized = true;
         }
-        else if(gameStat.isRight)
-        {
-            gameStat.player.MoveRight();
-        }
-        else if (gameStat.isLeft)
-        {
-            gameStat.player.MoveLeft();
-        }
-        else if (gameStat.isBackward)
-        {
-            gameStat.player.MoveBackward();
-        }
+
+        //if (gameStat.isForward)
+        //{
+        //    gameStat.player.MoveForward();
+        //}
+        //else if (gameStat.isRight)
+        //{
+        //    gameStat.player.MoveRight();
+        //}
+        //else if (gameStat.isLeft)
+        //{
+        //    gameStat.player.MoveLeft();
+        //}
+        //else if (gameStat.isBackward)
+        //{
+        //    gameStat.player.MoveBackward();
+        //}
     }
 
     private void PlayerInit()

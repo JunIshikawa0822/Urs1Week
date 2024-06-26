@@ -85,6 +85,8 @@ public class GameStatus
     [System.NonSerialized]
     public bool isMyMovePhase = false;
     [System.NonSerialized]
+    public bool isMyMoveStart = true;
+    [System.NonSerialized]
     public bool isPhaseEnd = false;
 
     [SerializeField]

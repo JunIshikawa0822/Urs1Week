@@ -57,6 +57,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
                 //設置
                 Place(listIndex, gameStat.selectingCellPos);
 
+                Debug.Log(string.Join(",", gameStat.programList));
                 //gameStat.isMySetPhase = false;
 
                 //PhaseEnd();

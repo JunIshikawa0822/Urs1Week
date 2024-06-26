@@ -21,6 +21,8 @@ public class InputSystem : SystemBase, IOnPreUpdate
         gameStat.isRight = (Input.GetKeyDown(KeyCode.RightArrow)) ? true : false;
         gameStat.isLeft = (Input.GetKeyDown(KeyCode.LeftArrow)) ? true : false;
         gameStat.isBackward = (Input.GetKeyDown(KeyCode.DownArrow)) ? true : false;
+
+        gameStat.isMyMoveStart = Input.GetKeyDown(KeyCode.Return) ? false : true;
     }
 
     private Vector3 GetMouseWorldPosition(Vector3 _point)

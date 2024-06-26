@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Tilemaps;
 using System.Drawing;
+using Palmmedia.ReportGenerator.Core;
 
 public class Player : MonoBehaviour
 {
@@ -86,7 +87,7 @@ public class Player : MonoBehaviour
         if (CanbeMoved("Forward"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 1),gridLayout);
-            Debug.Log("Move Forward");
+            //Debug.Log("Move Forward");
         }
     }
 
@@ -95,7 +96,7 @@ public class Player : MonoBehaviour
         if (CanbeMoved("Right"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
-            Debug.Log("Move Right");
+            //Debug.Log("Move Right");
         }
     }
 
@@ -104,7 +105,7 @@ public class Player : MonoBehaviour
         if (CanbeMoved("Left"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
-            Debug.Log("Move Left");
+            //Debug.Log("Move Left");
         } 
     }
 
@@ -113,12 +114,44 @@ public class Player : MonoBehaviour
         if (CanbeMoved("Backward"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
-            Debug.Log("Move Backward");
+            //Debug.Log("Move Backward");
         }
     }
 
     public Vector3Int GetSize
     {
         get { return playerSize; }
+    }
+
+    public void MoveByProgram(List<int> _program)
+    {
+        if (_program == null) return;
+
+        StartCoroutine(AnimationWait(_program));
+    }
+
+    IEnumerator AnimationWait(List<int> _program)
+    {
+        foreach (int _code in _program)
+        {
+            if (_code == 0)
+            {
+                MoveForward();
+            }
+            else if (_code == 1)
+            {
+                MoveRight();
+            }
+            else if (_code == 2)
+            {
+                MoveLeft();
+            }
+            else
+            {
+                MoveBackward();
+            }
+
+            yield return new WaitForSeconds(2.0f);
+        }
     }
 }
