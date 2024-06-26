@@ -10,12 +10,9 @@ public class PlacingSystem : SystemBase, IOnUpdate
     {
         gameStat.placingObjectGrid = gameStat.placingObjectGridLayout.gameObject.GetComponent<Grid>();
 
-        for (int i = 0; i < gameStat.predictionObjectArray.Length; i++)
-        {
-            PlaceableObject obj = GameObject.Instantiate(gameStat.predictionObjectPrefab, Vector3.zero, Quaternion.identity);
-            obj.SetUp();
-            gameStat.predictionObjectArray[i] = obj;
-        }
+        PlaceableObject obj = GameObject.Instantiate(gameStat.predictionObjectPrefab, Vector3.zero, Quaternion.identity);
+        obj.SetUp();
+        gameStat.predictionObject = obj;
     }
 
     public void OnUpdate()
@@ -24,16 +21,24 @@ public class PlacingSystem : SystemBase, IOnUpdate
         //if (!gameStat.isMySetPhase) return;
         //isMySetPhaseスタート
         //まずInitializeで選べる選択肢（左の4つ）を生成
-        //if(gameStat.isMySetPhaseInitialized)return;
+        //if(gameStat.isMySetPhaseInitialized){};
 
-        gameStat.selectingCellPos = SnapCoordinateToGrid(gameStat.mousePos, gameStat.placingObjectGrid, gameStat.placingObjectGridLayout);
-        gameStat.predictionObjectArray[0].transform.position = gameStat.selectingCellPos;
+        if(gameStat.mousePos != Vector3.zero)
+        {
+            gameStat.selectingCellPos = SnapCoordinateToGrid(gameStat.mousePos, gameStat.placingObjectGrid, gameStat.placingObjectGridLayout);
+            gameStat.predictionObject.transform.position = gameStat.selectingCellPos;
+        }
+        else
+        {
+            gameStat.predictionObject.transform.position = new Vector3(0, 100, 0);
+        }
+        
 
         //確定ボタンが押された
         if (gameStat.isPlacingInput)
         {
             //置こうとしたところになにもない
-            if (CanBePlaced(gameStat.predictionObjectArray[0], gameStat.occupiedTile, gameStat.placingObjectGridLayout))
+            if (CanBePlaced(gameStat.predictionObject, gameStat.occupiedTile, gameStat.placingObjectGridLayout))
             {
                 Place(gameStat.objectToPlacePrefab, gameStat.selectingCellPos);
                 //gameStat.isMySetPhase = false;
@@ -114,16 +119,6 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
     private void SetPhaseInitialize()
     {
-        //BlockのInit
-        int max = gameStat.objectAllPatternArray.Length;
-        for (int i = 0; i < gameStat.placeToObjectArray.Length; i++)
-        {
-            //BlockのInit
-            int indexNum = Random.Range(0, max);
-            gameStat.placeToObjectArray[i] = gameStat.objectAllPatternArray[indexNum];
-
-            //predictionのInit
-            //gameStat.predictionObjectArray[i] = 
-        }
+        
     }
 }

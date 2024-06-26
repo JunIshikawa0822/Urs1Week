@@ -15,28 +15,29 @@ public class GameStatus
     [SerializeField]
     public GridLayout placingObjectGridLayout;
 
+    //実際に設置するオブジェクト
     [System.NonSerialized]
     public PlaceableObject objectToPlace;
 
-    //Blockのパターン全てを格納するArray
-    [SerializeField]
-    public PlaceableObject[] objectAllPatternArray;
-
-    //画面左端に出る選択肢4つに対して、それぞれ位置予測オブジェクトを用意するためのArray
+    //実際に移動するPredictionObj
     [System.NonSerialized]
-    public PlaceableObject[] predictionObjectArray = new PlaceableObject[4];
-
-    //画面左端に出る選択肢4つに対して、生成のために準備するArray
-    [System.NonSerialized]
-    public PlaceableObject[] placeToObjectArray = new PlaceableObject[4];
+    public PlaceableObject predictionObject;
 
     //盤面に置くBlockのPrefab
     [SerializeField]
     public PlaceableObject objectToPlacePrefab;
 
-    //位置予測オブジェクトのPrefab
+    //Blockのパターン全てを格納するArray
+    [SerializeField]
+    public PlaceableObject[] objectAllPrefabArray;
+
+    //PredictionObjのPrefab
     [SerializeField]
     public PlaceableObject predictionObjectPrefab;
+
+    //PredictionObjのパターン全てを格納するArray
+    [SerializeField]
+    public PlaceableObject[] predictionObjectAllPrefabArray;
 
     //盤面に置いてあるBlockを格納するリスト
     [System.NonSerialized]
