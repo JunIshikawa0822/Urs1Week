@@ -8,7 +8,10 @@ public class InputSystem : SystemBase, IOnPreUpdate
     public void OnPreUpdate()
     {
         gameStat.mousePos = GetMouseWorldPosition(Input.mousePosition);
-        gameStat.selectingCellPos = SnapCoordinateToGrid(gameStat.mousePos, gameStat.placingObjectGrid, gameStat.placingObjectGridLayout);
+
+        Vector3 posXZ = SnapCoordinateToGrid(gameStat.mousePos, gameStat.placingObjectGrid, gameStat.placingObjectGridLayout);
+        gameStat.selectingCellPos = new Vector3(posXZ.x, 0.5f, posXZ.z);
+
         gameStat.isPlacingInput = InputDown(gameStat.placingInputDownName);
 
         GetBlockSelectInput();

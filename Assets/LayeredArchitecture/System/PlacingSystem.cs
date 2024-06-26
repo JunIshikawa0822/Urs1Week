@@ -93,6 +93,12 @@ public class PlacingSystem : SystemBase, IOnUpdate
         //MainTileMapに対して、areaの範囲内のtileを全て取ってきて配列に入れる
         TileBase[] baseArray = GetTilesBlock(area);
 
+        Vector3 playerPos = gameStat.player.transform.position;
+        if (area.Contains(new Vector3Int((int)playerPos.x, (int)playerPos.y, (int)playerPos.z)))
+        {
+            return false;
+        }
+        
         //配列内を調べ、一つでもwhitetileがあるならfalseを返す（置けない）
         foreach (TileBase tile in baseArray)
         {
@@ -104,7 +110,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
                 }
             }
         }
-
+        
         //置ける
         return true;
     }
