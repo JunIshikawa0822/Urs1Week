@@ -23,21 +23,21 @@ public class GameStatus
     [System.NonSerialized]
     public PlaceableObject predictionObject;
 
-    //盤面に置くBlockのPrefab
-    [SerializeField]
-    public PlaceableObject objectToPlacePrefab;
+    //使用可能なオブジェクト番号を選択し、格納するArray
+    [System.NonSerialized]
+    public int[] objectOptionsIndexArray = new int[4];
 
-    //Blockのパターン全てを格納するArray
+    //BlockのPrefab全てを格納するArray
     [SerializeField]
-    public PlaceableObject[] objectAllPrefabArray;
+    public PlaceableObject[] objectAllPrefabsArray;
 
-    //PredictionObjのPrefab
+    //PredictionObjのPrefab全てを格納するArray
     [SerializeField]
-    public PlaceableObject predictionObjectPrefab;
+    public PlaceableObject[] predictionObjectAllPrefabsArray;
 
-    //PredictionObjのパターン全てを格納するArray
-    [SerializeField]
-    public PlaceableObject[] predictionObjectAllPrefabArray;
+    //生成したPredictionObj全てを格納するArray
+    [System.NonSerialized]
+    public PlaceableObject[] predictionObjectInstancesArray;
 
     //盤面に置いてあるBlockを格納するリスト
     [System.NonSerialized]

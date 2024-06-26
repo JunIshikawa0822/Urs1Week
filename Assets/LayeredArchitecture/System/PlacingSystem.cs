@@ -10,9 +10,15 @@ public class PlacingSystem : SystemBase, IOnUpdate
     {
         gameStat.placingObjectGrid = gameStat.placingObjectGridLayout.gameObject.GetComponent<Grid>();
 
-        PlaceableObject obj = GameObject.Instantiate(gameStat.predictionObjectPrefab, Vector3.zero, Quaternion.identity);
+        PlaceableObject obj = GameObject.Instantiate(gameStat.predictionObjectAllPrefabsArray[0], Vector3.zero, Quaternion.identity);
         obj.SetUp();
         gameStat.predictionObject = obj;
+
+        //for(int i = 0; i < gameStat.predictionObjectAllPrefabsArray.Length; i++)
+        //{
+        //    PlaceableObject preObj = GameObject.Instantiate(gameStat.predictionObjectAllPrefabsArray[i], Vector3.zero, Quaternion.identity);
+        //    gameStat.predictionObjectInstancesArray[i] = preObj;
+        //}
     }
 
     public void OnUpdate()
@@ -40,7 +46,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
             //置こうとしたところになにもない
             if (CanBePlaced(gameStat.predictionObject, gameStat.occupiedTile, gameStat.placingObjectGridLayout))
             {
-                Place(gameStat.objectToPlacePrefab, gameStat.selectingCellPos);
+                Place(gameStat.objectAllPrefabsArray[0], gameStat.selectingCellPos);
                 //gameStat.isMySetPhase = false;
 
                 //PhaseEnd();
@@ -119,6 +125,9 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
     private void SetPhaseInitialize()
     {
-        
+        for(int i = 0; i < gameStat.objectOptionsIndexArray.Length; i++)
+        {
+            gameStat.objectOptionsIndexArray[i] = Random.Range(0, gameStat.objectAllPrefabsArray.Length);
+        }
     }
 }
