@@ -5,10 +5,12 @@ using Photon.Pun;
 
 public class RPCTest : MonoBehaviourPunCallbacks
 {
+    bool ids;
     [ContextMenu("RPC")]
+
     public void RPCt()
     {
-        photonView.RPC("RpcSendMessage", RpcTarget.All, "こんにちは");
+        photonView.RPC("RpcSendMessage", RpcTarget.Others, "こんにちは");
     }
 
 
@@ -16,5 +18,6 @@ public class RPCTest : MonoBehaviourPunCallbacks
     private void RpcSendMessage(string message)
     {
         Debug.Log(message);
+        ids = true;
     }
 }

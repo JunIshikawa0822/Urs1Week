@@ -15,6 +15,7 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
         PhotonNetwork.AddCallbackTarget(this);
 
     }
+    //isFazeEndがとんできてtrueになったかを判断
     
 
     // マスターサーバーへの接続が成功した時に呼ばれるコールバック
@@ -43,9 +44,9 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
         }
-        // ネットワークオブジェクトを生成する
-        var position = new Vector3(1.0f,1.0f,1.0f);
-        PhotonNetwork.Instantiate("TestCube", position, Quaternion.identity);
+       
+        //var position = new Vector3(1.0f,1.0f,1.0f);
+        //PhotonNetwork.Instantiate("TestCube", position, Quaternion.identity);
     }
 
     // Photonのサーバーから切断された時に呼ばれるコールバック

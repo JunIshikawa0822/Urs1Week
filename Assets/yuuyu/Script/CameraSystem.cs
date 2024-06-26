@@ -23,7 +23,7 @@ public class CameraSystem : SystemBase, IOnUpdate
 
     public override void SetUp()
     {
-        gameStatus = new GameStatus();
+        
         camera1 = GameObject.Find("MainCamera1");
         camera2 = GameObject.Find("MainCamera2");
 
@@ -35,11 +35,12 @@ public class CameraSystem : SystemBase, IOnUpdate
     public void OnUpdate()
     {
         /*
-        if (GameStatus.isCameraSet)
+        if (gameStat.isCameraSet)
         {
-            GameStatus.isCameraSet = false;
+            gameStat.isCameraSet = false;
         }
         */
+        
         
         
 
