@@ -56,28 +56,11 @@ public class Player : MonoBehaviour
 
         Vector3Int cell;
 
-        switch (_direction)
-        {
-            case "Forward":
-                cell = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
-                break;
-
-            case "Backward":
-                cell = new Vector3Int(player.position.x, player.position.y - playerSize.z, player.position.z);
-                break;
-
-            case "Right":
-                cell = new Vector3Int(player.position.x + playerSize.x, player.position.y, player.position.z);
-                break;
-
-            case "Left":
-                cell = new Vector3Int(player.position.x - playerSize.x, player.position.y, player.position.z);
-                break;
-
-            default:
-                cell = new Vector3Int(player.position.x, player.position.y, player.position.z + playerSize.z);
-                break;
-        }
+        if(_direction == "Forward") cell = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
+        else if(_direction == "Right") cell = new Vector3Int(player.position.x + playerSize.x, player.position.y, player.position.z);
+        else if(_direction == "Left") cell = new Vector3Int(player.position.x - playerSize.x, player.position.y, player.position.z);
+        else if(_direction == "Backward") cell = new Vector3Int(player.position.x, player.position.y - playerSize.z, player.position.z);
+        else cell = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
 
         return canBeMovedCheckFunc(this, cell, detectTilesArray);
     }

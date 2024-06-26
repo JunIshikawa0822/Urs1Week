@@ -106,9 +106,13 @@ public class GameStatus
 
     public enum BlockPattern
     {
+        Forward,
         Right,
         Left,
-        Forward,
-
+        Backward,
+        RightFront,
+        LeftFront,
+        Jump,
+        Break
     }
 }
