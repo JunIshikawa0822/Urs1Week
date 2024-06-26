@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
         playerSize = new Vector3Int(Mathf.Abs((vertices[0] - vertices[1]).x), Mathf.Abs((vertices[0] - vertices[3]).y), 1);
     }
 
-    private bool CanbeMoved(string _direction)
+    private bool MoveCheck(string _direction)
     {
         BoundsInt player = new BoundsInt();
         player.position = gridLayout.WorldToCell(transform.position);
@@ -60,14 +60,44 @@ public class Player : MonoBehaviour
         else if(_direction == "Right") cell = new Vector3Int(player.position.x + playerSize.x, player.position.y, player.position.z);
         else if(_direction == "Left") cell = new Vector3Int(player.position.x - playerSize.x, player.position.y, player.position.z);
         else if(_direction == "Backward") cell = new Vector3Int(player.position.x, player.position.y - playerSize.z, player.position.z);
+        else if(_direction == "RightFront") cell = new Vector3Int(player.position.x + playerSize.x, player.position.y + playerSize.z, player.position.z);
+        else if(_direction == "LeftFront") cell = new Vector3Int(player.position.x - playerSize.x, player.position.y + playerSize.z, player.position.z);
         else cell = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
 
         return canBeMovedCheckFunc(this, cell, detectTilesArray);
     }
 
+    private bool SpMoveCheck(string _special)
+    {
+        BoundsInt player = new BoundsInt();
+        player.position = gridLayout.WorldToCell(transform.position);
+
+        Vector3Int cell1;
+        Vector3Int cell2;
+
+        if(_special == "Jump")
+        {
+            cell1 = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
+            cell2 = new Vector3Int(player.position.x, player.position.y + playerSize.z * 2, player.position.z);
+
+            if(canBeMovedCheckFunc(this, cell1, detectTilesArray) == false && canBeMovedCheckFunc(this, cell2, detectTilesArray) == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void MoveForward()
     {
-        if (CanbeMoved("Forward"))
+        if (MoveCheck("Forward"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 1),gridLayout);
             //Debug.Log("Move Forward");
@@ -76,7 +106,7 @@ public class Player : MonoBehaviour
 
     public void MoveRight()
     {
-        if (CanbeMoved("Right"))
+        if (MoveCheck("Right"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
             //Debug.Log("Move Right");
@@ -85,7 +115,7 @@ public class Player : MonoBehaviour
 
     public void MoveLeft()
     {
-        if (CanbeMoved("Left"))
+        if (MoveCheck("Left"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
             //Debug.Log("Move Left");
@@ -94,10 +124,34 @@ public class Player : MonoBehaviour
 
     public void MoveBackward()
     {
-        if (CanbeMoved("Backward"))
+        if (MoveCheck("Backward"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
             //Debug.Log("Move Backward");
+        }
+    }
+
+    public void MoveRightFront()
+    {
+        if (MoveCheck("RightFront"))
+        {
+            transform.position = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 1), gridLayout);
+        }
+    }
+
+    public void MoveLeftFront()
+    {
+        if (MoveCheck("LeftFront"))
+        {
+            transform.position = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, -1), gridLayout);
+        }
+    }
+
+    public void MoveJump()
+    {
+        if (SpMoveCheck("Jump"))
+        {
+            transform.position = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 2), gridLayout);
         }
     }
 
@@ -129,9 +183,13 @@ public class Player : MonoBehaviour
             {
                 MoveLeft();
             }
-            else
+            else if (_code == 3)
             {
                 MoveBackward();
+            }
+            else if (_code == 4)
+            {
+                MoveJump();
             }
 
             yield return new WaitForSeconds(2.0f);
