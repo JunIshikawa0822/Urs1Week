@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     private TileBase[] detectTilesArray;
     private GridLayout gridLayout;
 
+    private int yOffset;
+
     private Vector3Int playerSize;
     private Vector3[] Vertices;
 
@@ -29,11 +31,12 @@ public class Player : MonoBehaviour
     private void GetColliderVertexPositionLoacl()
     {
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
-        Vertices = new Vector3[4];
+        Vertices = new Vector3[5];
         Vertices[0] = boxCollider.center + new Vector3(-boxCollider.size.x, -boxCollider.size.y, -boxCollider.size.z) * 0.5f;
         Vertices[1] = boxCollider.center + new Vector3(boxCollider.size.x, -boxCollider.size.y, -boxCollider.size.z) * 0.5f;
         Vertices[2] = boxCollider.center + new Vector3(boxCollider.size.x, -boxCollider.size.y, boxCollider.size.z) * 0.5f;
         Vertices[3] = boxCollider.center + new Vector3(-boxCollider.size.x, -boxCollider.size.y, boxCollider.size.z) * 0.5f;
+        Vertices[4] = boxCollider.center + new Vector3(-boxCollider.size.x, boxCollider.size.y, -boxCollider.size.z) * 0.5f;
     }
 
     private void CalculateSizeInCells()
@@ -47,6 +50,11 @@ public class Player : MonoBehaviour
         }
 
         playerSize = new Vector3Int(Mathf.Abs((vertices[0] - vertices[1]).x), Mathf.Abs((vertices[0] - vertices[3]).y), 1);
+        //Debug.Log(playerSize);
+
+        //Vector3 u = (vertices[0] - vertices[4]);
+        //yOffset = Mathf.Abs((vertices[4] - vertices[0]).y);
+        //Debug.Log(u);
     }
 
     private bool MoveCheck(string _direction)
@@ -99,7 +107,8 @@ public class Player : MonoBehaviour
     {
         if (MoveCheck("Forward"))
         {
-            transform.position = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 1),gridLayout);
+            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 1), gridLayout);
+            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             //Debug.Log("Move Forward");
         }
     }
@@ -108,7 +117,8 @@ public class Player : MonoBehaviour
     {
         if (MoveCheck("Right"))
         {
-            transform.position = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
+            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
+            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             //Debug.Log("Move Right");
         }
     }
@@ -117,7 +127,8 @@ public class Player : MonoBehaviour
     {
         if (MoveCheck("Left"))
         {
-            transform.position = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
+            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
+            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             //Debug.Log("Move Left");
         } 
     }
@@ -126,7 +137,8 @@ public class Player : MonoBehaviour
     {
         if (MoveCheck("Backward"))
         {
-            transform.position = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
+            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
+            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             //Debug.Log("Move Backward");
         }
     }
@@ -135,7 +147,8 @@ public class Player : MonoBehaviour
     {
         if (MoveCheck("RightFront"))
         {
-            transform.position = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 1), gridLayout);
+            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 1), gridLayout);
+            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
         }
     }
 
@@ -143,7 +156,8 @@ public class Player : MonoBehaviour
     {
         if (MoveCheck("LeftFront"))
         {
-            transform.position = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, -1), gridLayout);
+            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, -1), gridLayout);
+            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
         }
     }
 
@@ -151,13 +165,19 @@ public class Player : MonoBehaviour
     {
         if (SpMoveCheck("Jump"))
         {
-            transform.position = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 2), gridLayout);
+            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 2), gridLayout);
+            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
         }
     }
 
     public Vector3Int GetSize
     {
         get { return playerSize; }
+    }
+
+    public int GetYOffset
+    {
+        get { return yOffset; }
     }
 
     public void MoveByProgram(List<int> _program)

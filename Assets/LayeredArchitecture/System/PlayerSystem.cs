@@ -22,22 +22,22 @@ public class PlayerSystem : SystemBase, IOnUpdate
             gameStat.isMySetPhaseInitialized = true;
         }
 
-        //if (gameStat.isForward)
-        //{
-        //    gameStat.player.MoveForward();
-        //}
-        //else if (gameStat.isRight)
-        //{
-        //    gameStat.player.MoveRight();
-        //}
-        //else if (gameStat.isLeft)
-        //{
-        //    gameStat.player.MoveLeft();
-        //}
-        //else if (gameStat.isBackward)
-        //{
-        //    gameStat.player.MoveBackward();
-        //}
+        if (gameStat.isForward)
+        {
+            gameStat.player.MoveForward();
+        }
+        else if (gameStat.isRight)
+        {
+            gameStat.player.MoveRight();
+        }
+        else if (gameStat.isLeft)
+        {
+            gameStat.player.MoveLeft();
+        }
+        else if (gameStat.isBackward)
+        {
+            gameStat.player.MoveBackward();
+        }
     }
 
     private void PlayerInit()
@@ -46,8 +46,12 @@ public class PlayerSystem : SystemBase, IOnUpdate
         gameStat.player.convertPosToCellPosFunc = SnapCoordinateToGrid;
 
         gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.occupiedTilesArray);
+        //Debug.Log(gameStat.player.GetYOffset);
 
-        gameStat.player.transform.position = SnapCoordinateToGrid(gameStat.player.transform.position, gameStat.placingObjectGridLayout);
+        Vector3 playerPosXZ = SnapCoordinateToGrid(gameStat.player.transform.position, gameStat.placingObjectGridLayout);
+        //Debug.Log(gameStat.player.GetSize.y);
+        Debug.Log((int)gameStat.player.GetSize.y / 2);
+        gameStat.player.transform.position = new Vector3(playerPosXZ.x, gameStat.player.transform.lossyScale.y / 2, playerPosXZ.z);
     }
 
     private bool CanBeMoved(Player _player, Vector3Int _cell, TileBase[] _occupiedTilesArray)
@@ -105,6 +109,8 @@ public class PlayerSystem : SystemBase, IOnUpdate
     {
         Vector3Int cellPos = _gridLayout.WorldToCell(_position);
         _position = gameStat.placingObjectGrid.GetCellCenterWorld(cellPos);
+
+        //Debug.Log(_position);
         return _position;
     }
 }
