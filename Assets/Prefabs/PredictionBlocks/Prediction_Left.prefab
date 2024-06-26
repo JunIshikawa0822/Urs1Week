@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8645370829251083954}
   - component: {fileID: -8306381301468514785}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Prediction_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 2, z: 0.8}
+  m_LocalScale: {x: 0.8, y: 1, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 20ce6013f6273492ca4a1f2a2ff2feed, type: 2}
+  - {fileID: 2100000, guid: d7ecfdc5a01d446a8b0abf0d4445edbc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

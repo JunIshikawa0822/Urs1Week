@@ -8,7 +8,24 @@ public class InputSystem : SystemBase, IOnPreUpdate
     public void OnPreUpdate()
     {
         gameStat.mousePos = GetMouseWorldPosition(Input.mousePosition);
+
+        Vector3 posXZ = SnapCoordinateToGrid(gameStat.mousePos, gameStat.placingObjectGrid, gameStat.placingObjectGridLayout);
+        gameStat.selectingCellPos = new Vector3(posXZ.x, 0.5f, posXZ.z);
+
         gameStat.isPlacingInput = InputDown(gameStat.placingInputDownName);
+
+        GetBlockSelectInput();
+        KeyInput();
+    }
+
+    private void KeyInput()
+    {
+        gameStat.isForward = (Input.GetKeyDown(KeyCode.UpArrow)) ? true : false;
+        gameStat.isRight = (Input.GetKeyDown(KeyCode.RightArrow)) ? true : false;
+        gameStat.isLeft = (Input.GetKeyDown(KeyCode.LeftArrow)) ? true : false;
+        gameStat.isBackward = (Input.GetKeyDown(KeyCode.DownArrow)) ? true : false;
+
+        gameStat.isMyMoveStart = Input.GetKeyDown(KeyCode.Return) ? false : true;
     }
 
     private Vector3 GetMouseWorldPosition(Vector3 _point)
@@ -25,6 +42,14 @@ public class InputSystem : SystemBase, IOnPreUpdate
             //当たらないなら0
             return Vector3.zero;
         }
+    }
+
+    //ワールド座標からセルの中心を計算して返す
+    private Vector3 SnapCoordinateToGrid(Vector3 position, Grid _grid, GridLayout _gridLayout)
+    {
+        Vector3Int cellPos = _gridLayout.WorldToCell(position);
+        position = _grid.GetCellCenterWorld(cellPos);
+        return position;
     }
 
     private bool InputDown(GameStatus.InputNameType _isInput)
@@ -77,6 +102,28 @@ public class InputSystem : SystemBase, IOnPreUpdate
             {
                 return false;
             }
+        }
+    }
+
+    private void GetBlockSelectInput()
+    {
+        if (!Input.anyKeyDown) return;
+
+        string keyStr = Input.inputString;
+        int strToInt;
+
+        if (!int.TryParse(keyStr, out strToInt))
+        {
+            return;
+        }
+        else if (strToInt > 3) 
+        {
+            return;
+        }
+        else
+        {
+            Debug.Log(strToInt);
+            gameStat.selectedPlacingObjectIndex = strToInt;
         }
     }
 }

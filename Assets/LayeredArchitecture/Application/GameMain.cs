@@ -18,10 +18,11 @@ public class GameMain : MonoBehaviour
     {
         allSystems = new List<SystemBase>()
         {
-
-            new PlayerSystem()
-            ,new PhotonSystem()
-            ,new CameraSystem()
+            new InputSystem(),
+            new PlacingSystem(),
+            new PlayerSystem(),
+            //new PhotonSystem(),
+            //new CameraSystem()
 
         };
 
