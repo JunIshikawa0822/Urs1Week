@@ -33,6 +33,8 @@ public class PlayerSystem : SystemBase, IOnUpdate
     private void PlayerInit()
     {
         gameStat.player.canBeMovedCheckFunc = CanBeMoved;
+        gameStat.player.convertPosToCellPosFunc = SnapCoordinateToGrid;
+
         gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.occupiedTilesArray);
 
         gameStat.player.transform.position = SnapCoordinateToGrid(gameStat.player.transform.position, gameStat.placingObjectGridLayout);

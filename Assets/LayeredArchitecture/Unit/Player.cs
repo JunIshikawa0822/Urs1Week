@@ -58,11 +58,11 @@ public class Player : MonoBehaviour
         switch (_direction)
         {
             case "Forward":
-                cell = new Vector3Int(player.position.x, player.position.y, player.position.z + playerSize.z);
+                cell = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
                 break;
 
             case "Backward":
-                cell = new Vector3Int(player.position.x, player.position.y, player.position.z - playerSize.z);
+                cell = new Vector3Int(player.position.x, player.position.y - playerSize.z, player.position.z);
                 break;
 
             case "Right":
@@ -86,9 +86,8 @@ public class Player : MonoBehaviour
         if (CanbeMoved("Forward"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 1),gridLayout);
+            Debug.Log("Move Forward");
         }
-
-        Debug.Log("Move Forward");
     }
 
     public void MoveRight()
@@ -96,9 +95,8 @@ public class Player : MonoBehaviour
         if (CanbeMoved("Right"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
+            Debug.Log("Move Right");
         }
-
-        Debug.Log("Move Right");
     }
 
     public void MoveLeft()
@@ -106,9 +104,8 @@ public class Player : MonoBehaviour
         if (CanbeMoved("Left"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
-        }
-
-        Debug.Log("Move Left");
+            Debug.Log("Move Left");
+        } 
     }
 
     public void MoveBackward()
@@ -116,9 +113,8 @@ public class Player : MonoBehaviour
         if (CanbeMoved("Backward"))
         {
             transform.position = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
+            Debug.Log("Move Backward");
         }
-
-        Debug.Log("Move Backward");
     }
 
     public Vector3Int GetSize
