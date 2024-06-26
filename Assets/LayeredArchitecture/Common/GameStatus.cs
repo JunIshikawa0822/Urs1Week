@@ -23,25 +23,31 @@ public class GameStatus
     [System.NonSerialized]
     public PlaceableObject predictionObject;
 
+    [System.NonSerialized]
+    public int optionNumber = 4;
+
     //使用可能なオブジェクト番号を選択し、格納するArray
     [System.NonSerialized]
-    public int[] objectOptionsIndexArray = new int[4];
+    public int[] objectOptionsIndexArray;
 
     //BlockのPrefab全てを格納するArray
     [SerializeField]
     public PlaceableObject[] objectAllPrefabsArray;
 
+    //盤面に置いてあるBlockを格納するリスト
+    [System.NonSerialized]
+    public List<PlaceableObject> placedObjectList = new List<PlaceableObject>();
+
+    [System.NonSerialized]
+    public List<int> programList = new List<int>();
+
     //PredictionObjのPrefab全てを格納するArray
     [SerializeField]
-    public PlaceableObject[] predictionObjectAllPrefabsArray;
+    public PlaceableObject[] predictionObjectPrefabsArray;
 
     //生成したPredictionObj全てを格納するArray
     [System.NonSerialized]
     public PlaceableObject[] predictionObjectInstancesArray;
-
-    //盤面に置いてあるBlockを格納するリスト
-    [System.NonSerialized]
-    public List<PlaceableObject> placedObjectList = new List<PlaceableObject>();
 
     [SerializeField]
     public Vector3 mousePos;

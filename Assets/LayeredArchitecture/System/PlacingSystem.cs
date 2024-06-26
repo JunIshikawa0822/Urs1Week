@@ -8,17 +8,11 @@ public class PlacingSystem : SystemBase, IOnUpdate
 {
     public override void SetUp()
     {
+        gameStat.objectOptionsIndexArray = new int[gameStat.optionNumber];
+        gameStat.predictionObjectInstancesArray = new PlaceableObject[gameStat.predictionObjectPrefabsArray.Length];
         gameStat.placingObjectGrid = gameStat.placingObjectGridLayout.gameObject.GetComponent<Grid>();
 
-        PlaceableObject obj = GameObject.Instantiate(gameStat.predictionObjectAllPrefabsArray[0], Vector3.zero, Quaternion.identity);
-        obj.SetUp();
-        gameStat.predictionObject = obj;
-
-        //for(int i = 0; i < gameStat.predictionObjectAllPrefabsArray.Length; i++)
-        //{
-        //    PlaceableObject preObj = GameObject.Instantiate(gameStat.predictionObjectAllPrefabsArray[i], Vector3.zero, Quaternion.identity);
-        //    gameStat.predictionObjectInstancesArray[i] = preObj;
-        //}
+        PredictionObjectInitialize();
     }
 
     public void OnUpdate()
@@ -26,11 +20,27 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
         //if (!gameStat.isMySetPhase) return;
         //isMySetPhaseスタート
-        //まずInitializeで選べる選択肢（左の4つ）を生成
-        //if(gameStat.isMySetPhaseInitialized){};
 
-        if(gameStat.mousePos != Vector3.zero)
+        #region Initialize
+
+        //まずInitializeで選べる選択肢（左の4つ）を生成
+        if (gameStat.isMySetPhaseInitialized == false)
         {
+            SetPhaseInitialize();
+            gameStat.isMySetPhaseInitialized = true;
+        }
+
+        #endregion
+
+        #region Placing
+
+        //選べる4つのうち、選択されているインデックスに入っている数字をIDとする
+        int selectOptionIndex = gameStat.objectOptionsIndexArray[gameStat.selectedPlacingObjectIndex];
+
+        if (gameStat.mousePos != Vector3.zero)
+        {
+            PredictionObjectPosSet(selectOptionIndex);
+
             gameStat.selectingCellPos = SnapCoordinateToGrid(gameStat.mousePos, gameStat.placingObjectGrid, gameStat.placingObjectGridLayout);
             gameStat.predictionObject.transform.position = gameStat.selectingCellPos;
         }
@@ -38,25 +48,28 @@ public class PlacingSystem : SystemBase, IOnUpdate
         {
             gameStat.predictionObject.transform.position = new Vector3(0, 100, 0);
         }
-        
 
         //確定ボタンが押された
         if (gameStat.isPlacingInput)
         {
             //置こうとしたところになにもない
             if (CanBePlaced(gameStat.predictionObject, gameStat.occupiedTile, gameStat.placingObjectGridLayout))
-            {
-                Place(gameStat.objectAllPrefabsArray[0], gameStat.selectingCellPos);
+            { 
+                //設置
+                Place(selectOptionIndex, gameStat.selectingCellPos);
+
                 //gameStat.isMySetPhase = false;
 
                 //PhaseEnd();
             }
         }
+
+        #endregion
     }
 
-    private void Place(PlaceableObject _prefab, Vector3 _setPos)
+    private void Place(int _prefabIndex, Vector3 _setPos)
     {
-        PlaceableObject placedObject = GameObject.Instantiate(_prefab, _setPos, Quaternion.identity);
+        PlaceableObject placedObject = GameObject.Instantiate(gameStat.objectAllPrefabsArray[_prefabIndex], _setPos, Quaternion.identity);
         placedObject.SetUp();
         gameStat.placedObjectList.Add(placedObject);
 
@@ -89,6 +102,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
         return true;
     }
 
+    //このarea内にあるtileの情報が全て入った配列を返す
     private TileBase[] GetTilesBlock(BoundsInt _areaBox)
     {
         //areaのサイズ分TileBaseの配列を作成
@@ -106,10 +120,10 @@ public class PlacingSystem : SystemBase, IOnUpdate
             counter++;
         }
 
-        //このarea内にあるtileの情報が全て入った配列を返す
         return array;
     }
 
+    //ワールド座標からセルの中心を計算して返す
     private Vector3 SnapCoordinateToGrid(Vector3 position, Grid _grid, GridLayout _gridLayout)
     {
         Vector3Int cellPos = _gridLayout.WorldToCell(position);
@@ -117,10 +131,27 @@ public class PlacingSystem : SystemBase, IOnUpdate
         return position;
     }
 
+    //startの位置から、size分のtileを敷き詰める
     private void TakeArea(TileBase _Tile, Vector3Int _start, Vector3Int _size)
     {
-        //startの位置からに、size分のtileを敷き詰める
+        
         gameStat.mainTileMap.BoxFill(_start, _Tile, _start.x, _start.y, _start.x + _size.x, _start.y + _size.y);
+    }
+
+    //selectOptionIndexが変更された際にpredictionObjectが盤面に残らないようにする処理
+    private void PredictionObjectPosSet(int _index)
+    {
+        for (int i = 0; i < gameStat.predictionObjectInstancesArray.Length; i++)
+        {
+            if (i == _index)
+            {
+                gameStat.predictionObject = gameStat.predictionObjectInstancesArray[i];
+            }
+            else
+            {
+                gameStat.predictionObjectInstancesArray[i].transform.position = new Vector3(0, 100, 0);
+            }
+        }
     }
 
     private void SetPhaseInitialize()
@@ -129,5 +160,19 @@ public class PlacingSystem : SystemBase, IOnUpdate
         {
             gameStat.objectOptionsIndexArray[i] = Random.Range(0, gameStat.objectAllPrefabsArray.Length);
         }
+
+        Debug.Log(string.Join(",", gameStat.objectOptionsIndexArray));
     }
+
+    private void PredictionObjectInitialize()
+    {
+        for (int i = 0; i < gameStat.predictionObjectPrefabsArray.Length; i++)
+        {
+            PlaceableObject preObj = GameObject.Instantiate(gameStat.predictionObjectPrefabsArray[i], new Vector3(0, 100, 0), Quaternion.identity);
+            preObj.SetUp();
+            gameStat.predictionObjectInstancesArray[i] = preObj;
+        }
+    }
+
+    
 }

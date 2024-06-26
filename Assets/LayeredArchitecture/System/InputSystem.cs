@@ -93,9 +93,13 @@ public class InputSystem : SystemBase, IOnPreUpdate
         {
             return;
         }
+        else if (strToInt > 3) 
+        {
+            return;
+        }
         else
         {
-            Debug.Log(strToInt);
+            //Debug.Log(strToInt);
             gameStat.selectedPlacingObjectIndex = strToInt;
         }
     }
