@@ -6,7 +6,6 @@ using UnityEngine.Tilemaps;
 [System.Serializable]
 public class GameStatus
 {
-
     [SerializeField] public Tilemap mainTileMap;
     [SerializeField] public TileBase occupiedTile; //占有されたことを示す
 
@@ -18,17 +17,28 @@ public class GameStatus
 
     [System.NonSerialized]
     public PlaceableObject objectToPlace;
-    //[System.NonSerialized]
-    //public PlaceableObject predictionObject;
-    [SerializeField]
-    public List<PlaceableObject> predictionObjectArray;
 
+    //Blockのパターン全てを格納するArray
+    [SerializeField]
+    public PlaceableObject[] objectAllPatternArray;
+
+    //画面左端に出る選択肢4つに対して、それぞれ位置予測オブジェクトを用意するためのArray
+    [System.NonSerialized]
+    public PlaceableObject[] predictionObjectArray = new PlaceableObject[4];
+
+    //画面左端に出る選択肢4つに対して、生成のために準備するArray
+    [System.NonSerialized]
+    public PlaceableObject[] placeToObjectArray = new PlaceableObject[4];
+
+    //盤面に置くBlockのPrefab
     [SerializeField]
     public PlaceableObject objectToPlacePrefab;
 
+    //位置予測オブジェクトのPrefab
     [SerializeField]
     public PlaceableObject predictionObjectPrefab;
 
+    //盤面に置いてあるBlockを格納するリスト
     [System.NonSerialized]
     public List<PlaceableObject> placedObjectList = new List<PlaceableObject>();
 
@@ -45,9 +55,14 @@ public class GameStatus
     [SerializeField]
     public bool isPlacingInput = false;
 
+    //画面左の4つの選択肢のうち、どの選択肢を選んでいるか
+    public int selectedPlacingObjectIndex = 0;
+
     [Header("Flag")]
     [System.NonSerialized]
     public bool isMySetPhase = false;
+    [System.NonSerialized]
+    public bool isMySetPhaseInitialized = false;
     [System.NonSerialized]
     public bool isMyMovePhase = false;
     [System.NonSerialized]
@@ -68,4 +83,11 @@ public class GameStatus
         left_shift
     }
 
+    public enum BlockPattern
+    {
+        Right,
+        Left,
+        Forward,
+
+    }
 }

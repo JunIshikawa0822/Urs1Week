@@ -10,7 +10,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
     {
         gameStat.placingObjectGrid = gameStat.placingObjectGridLayout.gameObject.GetComponent<Grid>();
 
-        for (int i = 0; i < gameStat.predictionObjectArray.Count; i++)
+        for (int i = 0; i < gameStat.predictionObjectArray.Length; i++)
         {
             PlaceableObject obj = GameObject.Instantiate(gameStat.predictionObjectPrefab, Vector3.zero, Quaternion.identity);
             obj.SetUp();
@@ -20,7 +20,11 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
     public void OnUpdate()
     {
-        if (!gameStat.isMySetPhase) return;
+
+        //if (!gameStat.isMySetPhase) return;
+        //isMySetPhaseスタート
+        //まずInitializeで選べる選択肢（左の4つ）を生成
+        //if(gameStat.isMySetPhaseInitialized)return;
 
         gameStat.selectingCellPos = SnapCoordinateToGrid(gameStat.mousePos, gameStat.placingObjectGrid, gameStat.placingObjectGridLayout);
         gameStat.predictionObjectArray[0].transform.position = gameStat.selectingCellPos;
@@ -32,9 +36,9 @@ public class PlacingSystem : SystemBase, IOnUpdate
             if (CanBePlaced(gameStat.predictionObjectArray[0], gameStat.occupiedTile, gameStat.placingObjectGridLayout))
             {
                 Place(gameStat.objectToPlacePrefab, gameStat.selectingCellPos);
-                gameStat.isMySetPhase = false;
+                //gameStat.isMySetPhase = false;
 
-                PhaseEnd();
+                //PhaseEnd();
             }
         }
     }
@@ -106,5 +110,20 @@ public class PlacingSystem : SystemBase, IOnUpdate
     {
         //startの位置からに、size分のtileを敷き詰める
         gameStat.mainTileMap.BoxFill(_start, _Tile, _start.x, _start.y, _start.x + _size.x, _start.y + _size.y);
+    }
+
+    private void SetPhaseInitialize()
+    {
+        //BlockのInit
+        int max = gameStat.objectAllPatternArray.Length;
+        for (int i = 0; i < gameStat.placeToObjectArray.Length; i++)
+        {
+            //BlockのInit
+            int indexNum = Random.Range(0, max);
+            gameStat.placeToObjectArray[i] = gameStat.objectAllPatternArray[indexNum];
+
+            //predictionのInit
+            //gameStat.predictionObjectArray[i] = 
+        }
     }
 }

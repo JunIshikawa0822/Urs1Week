@@ -9,6 +9,8 @@ public class InputSystem : SystemBase, IOnPreUpdate
     {
         gameStat.mousePos = GetMouseWorldPosition(Input.mousePosition);
         gameStat.isPlacingInput = InputDown(gameStat.placingInputDownName);
+
+        GetBlockSelectInput();
     }
 
     private Vector3 GetMouseWorldPosition(Vector3 _point)
@@ -77,6 +79,24 @@ public class InputSystem : SystemBase, IOnPreUpdate
             {
                 return false;
             }
+        }
+    }
+
+    private void GetBlockSelectInput()
+    {
+        if (!Input.anyKeyDown) return;
+
+        string keyStr = Input.inputString;
+        int strToInt;
+
+        if (!int.TryParse(keyStr, out strToInt))
+        {
+            return;
+        }
+        else
+        {
+            Debug.Log(strToInt);
+            gameStat.selectedPlacingObjectIndex = strToInt;
         }
     }
 }
