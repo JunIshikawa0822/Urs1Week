@@ -24,6 +24,7 @@ public class GameStatus
     [SerializeField] public Tilemap mainTileMap;
 
     [SerializeField] public TileBase[] occupiedTilesArray; //占有されたことを示す
+    [SerializeField] public TileBase stageTile;
 
     [System.NonSerialized]
     public Grid placingObjectGrid;
@@ -78,7 +79,8 @@ public class GameStatus
     //画面左の4つの選択肢のうち、どの選択肢を選んでいるか
     public int selectedPlacingObjectIndex = 0;
 
-    public LayerMask playerLayer;
+    [System.NonSerialized]
+    public LayerMask playerLayer = 1 << 7;
 
     [Header("InputDebug")]
     [System.NonSerialized]

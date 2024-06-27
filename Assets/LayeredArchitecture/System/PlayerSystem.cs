@@ -45,7 +45,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     private void PlayerInit()
     {
-        gameStat.player = GameObject.Instantiate(gameStat.playerPrefab, gameStat.playerStartPos, true);
+        gameStat.player = GameObject.Instantiate(gameStat.playerPrefab, gameStat.playerStartPos.transform.position, Quaternion.identity);
         gameStat.player.canBeMovedCheckFunc = CanBeMoved;
         gameStat.player.convertPosToCellPosFunc = SnapCoordinateToGrid;
         gameStat.player.goalCheckFunc = isPlayerGoal;
@@ -136,6 +136,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
         gameStat.placedObjectList.RemoveAt(obj.GetIndex);
         gameStat.programList.RemoveAt(obj.GetIndex);
 
+        Debug.Log("ぶれいくされてる！！");
         obj.OnDestroy();
     }
 }

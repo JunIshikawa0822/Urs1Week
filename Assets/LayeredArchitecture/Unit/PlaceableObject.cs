@@ -11,16 +11,18 @@ public class PlaceableObject : MonoBehaviour
 
     public int index;
     private Tilemap tileMap;
-    private TileBase tileBase;
+    private TileBase occupiedTileBase;
+    private TileBase stageTileBase;
     private Vector3Int pos;
 
-    public void SetUp(Tilemap _tileMap, TileBase _tileBase, int _index)
+    public void SetUp(Tilemap _tileMap, TileBase _occupiedTileBase, TileBase _stageTileBase, int _index)
     {
         GetColliderVertexPositionLoacl();
         CalculateSizeInCells();
 
         this.tileMap = _tileMap;
-        this.tileBase = _tileBase;
+        this.occupiedTileBase = _occupiedTileBase;
+        this.stageTileBase = _stageTileBase;
         this.index = _index;
 
         SetTile();
@@ -86,8 +88,7 @@ public class PlaceableObject : MonoBehaviour
     {
         Vector3Int tilePos = tileMap.WorldToCell(this.transform.position);
         this.pos = tilePos;
-        tileMap.SetTile(pos, tileBase);
-        Debug.Log(tileMap);
+        tileMap.SetTile(pos, occupiedTileBase);
     }
 
     public void OnDestroy()

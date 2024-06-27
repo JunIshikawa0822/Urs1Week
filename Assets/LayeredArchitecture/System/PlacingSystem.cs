@@ -57,26 +57,22 @@ public class PlacingSystem : SystemBase, IOnUpdate
             if (CanBePlaced(gameStat.predictionObject, gameStat.occupiedTilesArray, gameStat.placingObjectGridLayout))
             {
                 //設置
-                Place(listIndex, gameStat.selectingCellPos);
+                Place(listIndex, gameStat.selectingCellPos, gameStat.occupiedTilesArray[0]);
 
                 //Debug.Log("program : " + string.Join(",", gameStat.programList));
                 //gameStat.isMySetPhase = false;
 
                 //PhaseEnd();
             }
-            else
-            {
-                Debug.Log("なんらかのもんだい");
-            }
         }
 
         #endregion
     }
 
-    private void Place(int _Index, Vector3 _setPos)
+    private void Place(int _Index, Vector3 _setPos, TileBase _occupiedTileBase)
     {
         PlaceableObject placedObject = GameObject.Instantiate(gameStat.objectAllPrefabsArray[_Index], _setPos, Quaternion.identity);
-        placedObject.SetUp(gameStat.mainTileMap, gameStat.occupiedTilesArray[0], gameStat.placedObjectList.Count);
+        placedObject.SetUp(gameStat.mainTileMap, _occupiedTileBase, gameStat.stageTile, gameStat.placedObjectList.Count);
 
         gameStat.placedObjectList.Add(placedObject);
         gameStat.programList.Add(_Index);
@@ -85,6 +81,8 @@ public class PlacingSystem : SystemBase, IOnUpdate
     //オブジェクトの範囲に占有タイルがあるかどうかを返す
     private bool CanBePlaced(PredictionObject _predictionObject, TileBase[] _occupiedTilesArray, GridLayout _gridLayout)
     {
+        if (_predictionObject == null) return false;
+
         BoundsInt area = new BoundsInt();
 
         //WorldPosをCellPosに変える
@@ -118,19 +116,12 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
     private bool isPlaceableArea(Player _player, PredictionObject _predictionObject)
     {
-        //Ray mouseRay = Camera.main.ScreenPointToRay(gameStat.mousePos);
-        //if(Physics.Raycast(mouseRay, out RaycastHit hitInfo, Mathf.Infinity, gameStat.playerLayer))
-        //{
-        //    Debug.Log(hitInfo.collider.gameObject.name);
-        //    Debug.Log("playerだよ");
-        //    return false;
-        //}
-        if (gameStat.mousePos == Vector3.zero)
+        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(mouseRay, out RaycastHit hitInfo, Mathf.Infinity, gameStat.playerLayer))
         {
-            Debug.Log("枠外");
             return false;
         }
-        if (_predictionObject.transform.position.z > _player.transform.position.z + _player.GetSize.z)
+        else if (_predictionObject.transform.position.z > _player.transform.position.z + _player.GetSize.z)
         {
             Debug.Log("おけないよ");
             return false;
