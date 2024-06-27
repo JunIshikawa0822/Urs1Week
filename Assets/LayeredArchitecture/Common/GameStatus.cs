@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -19,7 +20,6 @@ public class GameStatus
     [SerializeField]
     public Transform goalPos;
 
-
     [Header("Placing")]
     [SerializeField] public Tilemap mainTileMap;
 
@@ -37,7 +37,7 @@ public class GameStatus
 
     //実際に移動するPredictionObj
     [System.NonSerialized]
-    public PlaceableObject predictionObject = null;
+    public PredictionObject predictionObject = null;
 
     [System.NonSerialized]
     public int optionNumber = 4;
@@ -59,17 +59,17 @@ public class GameStatus
 
     //PredictionObjのPrefab全てを格納するArray
     [SerializeField]
-    public PlaceableObject[] predictionObjectPrefabsArray;
+    public PredictionObject[] predictionObjectPrefabsArray;
 
     //生成したPredictionObj全てを格納するArray
     [System.NonSerialized]
-    public PlaceableObject[] predictionObjectInstancesArray;
+    public PredictionObject[] predictionObjectInstancesArray;
 
     [System.NonSerialized]
     public Vector3 selectingCellPos;
 
     [Header("Input")]
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public Vector3 mousePos;
 
     [SerializeField]

@@ -5,6 +5,7 @@ using System;
 using UnityEngine.Tilemaps;
 using System.Drawing;
 using Palmmedia.ReportGenerator.Core;
+using System.Collections.Concurrent;
 
 public class Player : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class Player : MonoBehaviour
     public Func<Player, Vector3Int, TileBase[], bool> canBeMovedCheckFunc;
     public Func<Vector3, GridLayout, Vector3> convertPosToCellPosFunc;
     public Func<Player, Transform, bool> goalCheckFunc;
+    public event Action<GameObject> breakEvent;
+    public event Action damageEvent;
+
+    //test
+    private int[] nowProgramArray;
 
     public void Init(GridLayout gridLayout, TileBase[] _detectTilesArray, Transform _goalPos)
     {
@@ -74,7 +80,7 @@ public class Player : MonoBehaviour
         return canBeMovedCheckFunc(this, cell, detectTilesArray);
     }
 
-    private bool SpMoveCheck(string _special)
+    private bool JumpMoveCheck()
     {
         BoundsInt player = new BoundsInt();
         player.position = gridLayout.WorldToCell(transform.position);
@@ -82,24 +88,41 @@ public class Player : MonoBehaviour
         Vector3Int cell1;
         Vector3Int cell2;
 
-        if(_special == "Jump")
-        {
-            cell1 = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
-            cell2 = new Vector3Int(player.position.x, player.position.y + playerSize.z * 2, player.position.z);
+        
+        cell1 = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
+        cell2 = new Vector3Int(player.position.x, player.position.y + playerSize.z * 2, player.position.z);
 
-            if(canBeMovedCheckFunc(this, cell1, detectTilesArray) == false && canBeMovedCheckFunc(this, cell2, detectTilesArray) == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+        if(canBeMovedCheckFunc(this, cell1, detectTilesArray) == false && canBeMovedCheckFunc(this, cell2, detectTilesArray) == true)
+        {
+            return true;
         }
         else
         {
             return false;
         }
+        
+    }
+
+    private bool BreakCheck()
+    {
+        BoundsInt player = new BoundsInt();
+        player.position = gridLayout.WorldToCell(transform.position);
+
+        Vector3Int cell;
+
+        
+        cell = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
+
+        if (canBeMovedCheckFunc(this, cell, detectTilesArray) == false)
+        {
+            return true;
+        }
+        else
+        {
+            Debug.Log("壊せるものがなにもないよ！！");
+            return false;
+        }
+        
     }
 
     private bool GoalCheckFunc()
@@ -116,6 +139,10 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             //Debug.Log("Move Forward");
         }
+        else
+        {
+            Debug.Log("CantMove");
+        }
     }
 
     public void MoveRight()
@@ -126,6 +153,10 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             //Debug.Log("Move Right");
         }
+        else
+        {
+            Debug.Log("CantMove");
+        }
     }
 
     public void MoveLeft()
@@ -134,8 +165,11 @@ public class Player : MonoBehaviour
         {
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
-            //Debug.Log("Move Left");
-        } 
+        }
+        else
+        {
+            Debug.Log("CantMove");
+        }
     }
 
     public void MoveBackward()
@@ -144,7 +178,10 @@ public class Player : MonoBehaviour
         {
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
-            //Debug.Log("Move Backward");
+        }
+        else
+        {
+            Debug.Log("CantMove");
         }
     }
 
@@ -155,6 +192,10 @@ public class Player : MonoBehaviour
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 1), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
         }
+        else
+        {
+            Debug.Log("CantMove");
+        }
     }
 
     public void MoveLeftFront()
@@ -164,16 +205,59 @@ public class Player : MonoBehaviour
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, -1), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
         }
+        else
+        {
+            Debug.Log("CantMove");
+        }
     }
 
     public void MoveJump()
     {
-        if (SpMoveCheck("Jump"))
+        if (JumpMoveCheck())
         {
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 2), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
         }
+        else
+        {
+            Debug.Log("CantMove");
+        }
     }
+
+    public void MoveBreak()
+    {
+        if (BreakCheck())
+        {
+            if (!Physics.Raycast(this.transform.position, transform.forward, out RaycastHit hitInfo, playerSize.z))return;
+
+            Debug.Log("お、あるねえ");
+
+            if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
+            {
+                if (breakEvent == null) return;
+                breakEvent.Invoke(hitInfo.collider.gameObject);
+            }
+            else
+            {
+                DamageEvent();
+            }
+        }
+        else
+        {
+            Debug.Log("CantMove");
+        }
+
+        #region LocalMethods
+
+        void DamageEvent()
+        {
+            if (damageEvent == null) return;
+            damageEvent.Invoke();
+        }
+        #endregion
+    }
+
+
 
     public Vector3Int GetSize
     {
@@ -192,16 +276,25 @@ public class Player : MonoBehaviour
 
     public void MoveByProgram(List<int> _program)
     {
+        Debug.Log("MoveStart");
         if (_program == null) return;
 
-        StartCoroutine(AnimationWait(_program));
+        nowProgramArray = new int[_program.Count];
+        for(int i = 0; i < _program.Count; i++)
+        {
+            nowProgramArray[i] = _program[i];
+        }
+        Debug.Log("いまからこのプログラムは {" + string.Join(",", nowProgramArray) + "}");
+
+        StartCoroutine(AnimationWait());
     }
 
-    IEnumerator AnimationWait(List<int> _program)
+    IEnumerator AnimationWait()
     {
+        //Debug.Log(string.Join(", ", nowList));
         yield return new WaitForSeconds(1.0f);
         
-        foreach (int _code in _program)
+        foreach (int _code in nowProgramArray)
         {
             if (_code == 0)
             {
@@ -223,8 +316,14 @@ public class Player : MonoBehaviour
             {
                 MoveJump();
             }
+            else if (_code == 5)
+            {
+                MoveBreak();
+                //Debug.Log(string.Join(", ", nowList));
+            }
 
             isGoal = GoalCheckFunc();
+
             if (isGoal)
             {
                 yield break;
@@ -232,5 +331,7 @@ public class Player : MonoBehaviour
 
             yield return new WaitForSeconds(2.0f);
         }
+
+        Debug.Log("ターンエンド");
     }
 }

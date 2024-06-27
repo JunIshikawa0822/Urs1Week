@@ -19,7 +19,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
         if (gameStat.isMyMoveStart == false)
         {
             gameStat.player.MoveByProgram(gameStat.programList);
-            gameStat.isMySetPhaseInitialized = true;
+            gameStat.isMyMoveStart = true;
         }
 
         gameStat.isPlayerGoal = gameStat.player.GetIsGoal;
@@ -49,13 +49,11 @@ public class PlayerSystem : SystemBase, IOnUpdate
         gameStat.player.canBeMovedCheckFunc = CanBeMoved;
         gameStat.player.convertPosToCellPosFunc = SnapCoordinateToGrid;
         gameStat.player.goalCheckFunc = isPlayerGoal;
+        gameStat.player.breakEvent += BreakPlacedObject;
 
         gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.occupiedTilesArray, gameStat.goalPos);
-        //Debug.Log(gameStat.player.GetYOffset);
 
         Vector3 playerPosXZ = SnapCoordinateToGrid(gameStat.player.transform.position, gameStat.placingObjectGridLayout);
-        //Debug.Log(gameStat.player.GetSize.y);
-        Debug.Log((int)gameStat.player.GetSize.y / 2);
         gameStat.player.transform.position = new Vector3(playerPosXZ.x, gameStat.player.transform.lossyScale.y / 2, playerPosXZ.z);
     }
 
@@ -129,5 +127,15 @@ public class PlayerSystem : SystemBase, IOnUpdate
         {
             return true;
         }
+    }
+
+    private void BreakPlacedObject(GameObject _object)
+    {
+        PlaceableObject obj = _object.GetComponent<PlaceableObject>();
+
+        gameStat.placedObjectList.RemoveAt(obj.GetIndex);
+        gameStat.programList.RemoveAt(obj.GetIndex);
+
+        obj.OnDestroy();
     }
 }

@@ -9,7 +9,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
     public override void SetUp()
     {
         gameStat.objectOptionsIndexArray = new int[gameStat.optionNumber];
-        gameStat.predictionObjectInstancesArray = new PlaceableObject[gameStat.predictionObjectPrefabsArray.Length];
+        gameStat.predictionObjectInstancesArray = new PredictionObject[gameStat.predictionObjectPrefabsArray.Length];
         gameStat.placingObjectGrid = gameStat.placingObjectGridLayout.gameObject.GetComponent<Grid>();
 
         PredictionObjectInitialize();
@@ -50,8 +50,8 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
         //確定ボタンが押された
         if (!gameStat.isPlacingInput) return;
-        
-        if(isPlaceacleArea(gameStat.player, gameStat.predictionObject))
+
+        if (isPlaceableArea(gameStat.player, gameStat.predictionObject))
         {
             //置こうとしたところになにもない
             if (CanBePlaced(gameStat.predictionObject, gameStat.occupiedTilesArray, gameStat.placingObjectGridLayout))
@@ -59,10 +59,14 @@ public class PlacingSystem : SystemBase, IOnUpdate
                 //設置
                 Place(listIndex, gameStat.selectingCellPos);
 
-                Debug.Log(string.Join(",", gameStat.programList));
+                //Debug.Log("program : " + string.Join(",", gameStat.programList));
                 //gameStat.isMySetPhase = false;
 
                 //PhaseEnd();
+            }
+            else
+            {
+                Debug.Log("なんらかのもんだい");
             }
         }
 
@@ -72,25 +76,20 @@ public class PlacingSystem : SystemBase, IOnUpdate
     private void Place(int _Index, Vector3 _setPos)
     {
         PlaceableObject placedObject = GameObject.Instantiate(gameStat.objectAllPrefabsArray[_Index], _setPos, Quaternion.identity);
-        placedObject.SetUp();
+        placedObject.SetUp(gameStat.mainTileMap, gameStat.occupiedTilesArray[0], gameStat.placedObjectList.Count);
 
         gameStat.placedObjectList.Add(placedObject);
-
         gameStat.programList.Add(_Index);
-
-        Vector3Int start = gameStat.placingObjectGridLayout.WorldToCell(placedObject.GetStartPosition());
-
-        TakeArea(gameStat.occupiedTilesArray[0], gameStat.mainTileMap, start, placedObject.Size);
     }
 
     //オブジェクトの範囲に占有タイルがあるかどうかを返す
-    private bool CanBePlaced(PlaceableObject _placeableObject, TileBase[] _occupiedTilesArray, GridLayout _gridLayout)
+    private bool CanBePlaced(PredictionObject _predictionObject, TileBase[] _occupiedTilesArray, GridLayout _gridLayout)
     {
         BoundsInt area = new BoundsInt();
 
         //WorldPosをCellPosに変える
-        area.position = _gridLayout.WorldToCell(_placeableObject.GetStartPosition());
-        area.size = _placeableObject.Size;
+        area.position = _gridLayout.WorldToCell(_predictionObject.GetStartPosition());
+        area.size = _predictionObject.GetPredictionObjSize;
 
         //MainTileMapに対して、areaの範囲内のtileを全て取ってきて配列に入れる
         TileBase[] baseArray = GetTilesBlock(area);
@@ -117,15 +116,21 @@ public class PlacingSystem : SystemBase, IOnUpdate
         return true;
     }
 
-    private bool isPlaceacleArea(Player _player, PlaceableObject _placeableObject)
+    private bool isPlaceableArea(Player _player, PredictionObject _predictionObject)
     {
-        Ray mouseRay = Camera.main.ScreenPointToRay(gameStat.mousePos);
-        if(Physics.Raycast(mouseRay, Mathf.Infinity, gameStat.playerLayer))
+        //Ray mouseRay = Camera.main.ScreenPointToRay(gameStat.mousePos);
+        //if(Physics.Raycast(mouseRay, out RaycastHit hitInfo, Mathf.Infinity, gameStat.playerLayer))
+        //{
+        //    Debug.Log(hitInfo.collider.gameObject.name);
+        //    Debug.Log("playerだよ");
+        //    return false;
+        //}
+        if (gameStat.mousePos == Vector3.zero)
         {
-            Debug.Log("playerだよ");
+            Debug.Log("枠外");
             return false;
         }
-        else if (_placeableObject.transform.position.z > _player.transform.position.z + _player.GetSize.z)
+        if (_predictionObject.transform.position.z > _player.transform.position.z + _player.GetSize.z)
         {
             Debug.Log("おけないよ");
             return false;
@@ -159,11 +164,11 @@ public class PlacingSystem : SystemBase, IOnUpdate
     }
 
     //startの位置から、size分のtileを敷き詰める
-    private void TakeArea(TileBase _tile, Tilemap _tileMap, Vector3Int _start, Vector3Int _size)
-    {
+    //private void TakeArea(TileBase _tile, Tilemap _tileMap, Vector3Int _start, Vector3Int _size)
+    //{
         
-        _tileMap.BoxFill(_start, _tile, _start.x, _start.y, _start.x + _size.x, _start.y + _size.y);
-    }
+    //    _tileMap.BoxFill(_start, _tile, _start.x, _start.y, _start.x + _size.x, _start.y + _size.y);
+    //}
 
     //selectOptionIndexが変更された際にpredictionObjectが盤面に残らないようにする処理
     private void PredictionObjectPosSet(int _index)
@@ -195,7 +200,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
     {
         for (int i = 0; i < gameStat.predictionObjectPrefabsArray.Length; i++)
         {
-            PlaceableObject preObj = GameObject.Instantiate(gameStat.predictionObjectPrefabsArray[i], new Vector3(0, 100, 0), Quaternion.identity);
+            PredictionObject preObj = GameObject.Instantiate(gameStat.predictionObjectPrefabsArray[i], new Vector3(0, 100, 0), Quaternion.identity);
             preObj.SetUp();
             gameStat.predictionObjectInstancesArray[i] = preObj;
         }
