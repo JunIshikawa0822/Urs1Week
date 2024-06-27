@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -6,13 +7,30 @@ using UnityEngine.Tilemaps;
 [System.Serializable]
 public class GameStatus
 {
-    [Header("Player")]
-    public Player player;
+    [Header("Player1")]
+    [System.NonSerialized]
+    public Player player = null;
+
+    [SerializeField]
+    public Player playerPrefab;
+
+    [SerializeField]
+    public Transform playerStartPos;
+
+    [SerializeField]
+    public Transform goalPos;
+
+    [SerializeField]
+    public Vector3 player1PosForDamage;
+
+    [SerializeField]
+    public Vector3 player2PosForDamage;
 
     [Header("Placing")]
     [SerializeField] public Tilemap mainTileMap;
 
     [SerializeField] public TileBase[] occupiedTilesArray; //占有されたことを示す
+    [SerializeField] public TileBase stageTile;
 
     [System.NonSerialized]
     public Grid placingObjectGrid;
@@ -26,7 +44,7 @@ public class GameStatus
 
     //実際に移動するPredictionObj
     [System.NonSerialized]
-    public PlaceableObject predictionObject = null;
+    public PredictionObject predictionObject = null;
 
     [System.NonSerialized]
     public int optionNumber = 4;
@@ -48,17 +66,17 @@ public class GameStatus
 
     //PredictionObjのPrefab全てを格納するArray
     [SerializeField]
-    public PlaceableObject[] predictionObjectPrefabsArray;
+    public PredictionObject[] predictionObjectPrefabsArray;
 
     //生成したPredictionObj全てを格納するArray
     [System.NonSerialized]
-    public PlaceableObject[] predictionObjectInstancesArray;
+    public PredictionObject[] predictionObjectInstancesArray;
 
     [System.NonSerialized]
     public Vector3 selectingCellPos;
 
     [Header("Input")]
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public Vector3 mousePos;
 
     [SerializeField]
@@ -66,6 +84,9 @@ public class GameStatus
 
     //画面左の4つの選択肢のうち、どの選択肢を選んでいるか
     public int selectedPlacingObjectIndex = 0;
+
+    [System.NonSerialized]
+    public LayerMask playerLayer = 1 << 7;
 
     [Header("InputDebug")]
     [System.NonSerialized]
@@ -88,6 +109,10 @@ public class GameStatus
     public bool isMyMoveStart = true;
     [System.NonSerialized]
     public bool isPhaseEnd = false;
+
+    //ゴールしたか
+    [System.NonSerialized]
+    public bool isPlayerGoal = false;
 
     [SerializeField]
     public LayerMask layHitlayer;
@@ -113,6 +138,8 @@ public class GameStatus
         RightFront,
         LeftFront,
         Jump,
-        Break
+        Break,
+        RightBreak,
+        LeftBreak
     }
 }

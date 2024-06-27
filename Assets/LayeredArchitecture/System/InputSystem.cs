@@ -26,6 +26,9 @@ public class InputSystem : SystemBase, IOnPreUpdate
         gameStat.isBackward = (Input.GetKeyDown(KeyCode.DownArrow)) ? true : false;
 
         gameStat.isMyMoveStart = Input.GetKeyDown(KeyCode.Return) ? false : true;
+
+        //if (Input.GetKeyDown(KeyCode.O)) gameStat.isMyMoveStart = false;
+        if (Input.GetKeyDown(KeyCode.P)) gameStat.isMySetPhaseInitialized = false;
     }
 
     private Vector3 GetMouseWorldPosition(Vector3 _point)
@@ -34,7 +37,6 @@ public class InputSystem : SystemBase, IOnPreUpdate
 
         if (Physics.Raycast(mouseRay, out RaycastHit raycastHit, Mathf.Infinity, gameStat.layHitlayer))
         {
-            //rayが当たれば返す
             return raycastHit.point;
         }
         else
@@ -122,7 +124,7 @@ public class InputSystem : SystemBase, IOnPreUpdate
         }
         else
         {
-            Debug.Log(strToInt);
+            //Debug.Log(strToInt);
             gameStat.selectedPlacingObjectIndex = strToInt;
         }
     }

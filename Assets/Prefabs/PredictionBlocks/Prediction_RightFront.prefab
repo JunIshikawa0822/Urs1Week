@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2315015686494885509}
   - component: {fileID: 3902112383359426201}
   - component: {fileID: 8645370829251083954}
-  - component: {fileID: -7869814843845147096}
+  - component: {fileID: -5690858573045316765}
   m_Layer: 0
-  m_Name: Prediction_Jump
+  m_Name: Prediction_RightFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a69152369eb83483d9462342b0c7dcbf, type: 2}
+  - {fileID: 2100000, guid: 4b5ba2cf99001469da399562b26c8a2c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,7 +106,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-7869814843845147096
+--- !u!114 &-5690858573045316765
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,4 +118,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e25c3e1d4684a3abdfd806407242cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 0, y: 0, z: 0}
