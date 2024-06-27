@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static UnityEngine.RuleTile.TilingRuleOutput;
+using Photon.Pun;
+using Photon.Realtime;
+using System;
 
 public class PlayerSystem : SystemBase, IOnUpdate
 {
@@ -47,7 +50,22 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     private void PlayerInit()
     {
-        gameStat.player = GameObject.Instantiate(gameStat.playerPrefab, gameStat.playerStartPos.transform.position, Quaternion.identity);
+        Debug.Log(PhotonNetwork.IsMasterClient);
+        //gameStat.player = GameObject.Instantiate(gameStat.playerPrefab, gameStat.playerStartPos.transform.position, Quaternion.identity);
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Instantiate("Player", gameStat.player1StartPos.position, Quaternion.identity);
+
+            //gameStat.player = PhotonNetwork.Instantiate("TestCube", gameStat.player1StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
+            Debug.Log("Player1を生成しました");
+        }
+        else
+        {
+            gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player2StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
+            Debug.Log("Playerを生成しました");
+        }
+            
+
         //gameStat.player.canBeMovedCheckFunc += CanBeMoved;
         gameStat.player.convertPosToCellPosFunc += SnapCoordinateToGrid;
         gameStat.player.goalCheckFunc += isPlayerGoal;
@@ -58,10 +76,13 @@ public class PlayerSystem : SystemBase, IOnUpdate
         gameStat.player.jumpMoveCheckFunc += JumpMoveCheck;
         gameStat.player.breakCheckFunc += BreakCheck;
 
-        gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.goalPos);
+        if (!PhotonNetwork.IsMasterClient)
+            gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.goalPos1);
+        else
+            gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.goalPos2);
 
-        Vector3 playerPosXZ = SnapCoordinateToGrid(gameStat.player.transform.position, gameStat.placingObjectGridLayout);
-        gameStat.player.transform.position = new Vector3(playerPosXZ.x, gameStat.player.transform.lossyScale.y / 2, playerPosXZ.z);
+        //Vector3 playerPosXZ = SnapCoordinateToGrid(gameStat.player.transform.position, gameStat.placingObjectGridLayout);
+        //gameStat.player.transform.position = new Vector3(playerPosXZ.x, gameStat.player.transform.lossyScale.y / 2, playerPosXZ.z);
     }
 
     private bool CanBeMoved(Player _player, Vector3Int _cell, TileBase[] _occupiedTilesArray)
@@ -216,4 +237,13 @@ public class PlayerSystem : SystemBase, IOnUpdate
         }
 
     }
+
+    //相手の駒を下げる　photonView.RPC("ForceBackWard", RpcTarget.Others, "こんにちは");
+    [PunRPC]
+    public void ForceBackWard()
+    {
+        gameStat.player.MoveBackward();
+    }
+
+   
 }

@@ -2768,7 +2768,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f99c2f606e487bd4ba7c619b09a10f39, type: 2}
+  - {fileID: 2100000, guid: 08d90a021f5ea464d8839057832cbb6c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3157,12 +3157,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameStat:
-    player: {fileID: 0}
+    playerPrefab: {fileID: 0}
+    player1StartPos: {fileID: 0}
+    player2StartPos: {fileID: 0}
+    goalPos1: {fileID: 0}
+    goalPos2: {fileID: 0}
+    player1PosForDamage: {x: 0, y: 0, z: 0}
+    player2PosForDamage: {x: 0, y: 0, z: 0}
     mainTileMap: {fileID: 0}
     occupiedTilesArray: []
+    stageTile: {fileID: 0}
     placingObjectGridLayout: {fileID: 0}
     objectAllPrefabsArray: []
     predictionObjectPrefabsArray: []
+    mousePos: {x: 0, y: 0, z: 0}
     isPlacingInput: 0
     selectedPlacingObjectIndex: 0
     layHitlayer:

@@ -2713,8 +2713,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameStat:
     playerPrefab: {fileID: 8039233951176225184, guid: 3e0713f522bb9448186400bda7cc58ef, type: 3}
-    playerStartPos: {fileID: 1254831579}
-    goalPos: {fileID: 1919356312}
+    playerObj: {fileID: 8573287786749517844, guid: 3e0713f522bb9448186400bda7cc58ef, type: 3}
+    player1StartPos: {fileID: 1254831579}
+    player2StartPos: {fileID: 1941238852}
+    goalPos1: {fileID: 1919356312}
+    goalPos2: {fileID: 314432659}
     player1PosForDamage: {x: 0, y: 0, z: 0}
     player2PosForDamage: {x: 0, y: 0, z: 0}
     mainTileMap: {fileID: 1040058363}
@@ -3166,6 +3169,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1941238851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1941238852}
+  m_Layer: 0
+  m_Name: StartPos2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1941238852
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941238851}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 10.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2084593527
 GameObject:
   m_ObjectHideFlags: 0
@@ -3272,5 +3306,6 @@ SceneRoots:
   - {fileID: 853543451}
   - {fileID: 1245850821}
   - {fileID: 1254831579}
+  - {fileID: 1941238852}
   - {fileID: 1919356312}
   - {fileID: 314432659}

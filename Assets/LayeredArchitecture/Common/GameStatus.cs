@@ -15,10 +15,19 @@ public class GameStatus
     public Player playerPrefab;
 
     [SerializeField]
-    public Transform playerStartPos;
+    public GameObject playerObj;
 
     [SerializeField]
-    public Transform goalPos;
+    public Transform player1StartPos;
+
+    [SerializeField]
+    public Transform player2StartPos;
+
+    [SerializeField]
+    public Transform goalPos1;
+
+    [SerializeField]
+    public Transform goalPos2;
 
     [SerializeField]
     public Vector3 player1PosForDamage;

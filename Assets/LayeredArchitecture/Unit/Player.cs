@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private Transform goalPos;
 
     private bool isGoal;
+    
 
     private Vector3Int playerSize;
     private Vector3[] bottomVertices;
@@ -317,4 +318,6 @@ public class Player : MonoBehaviour
 
         Debug.Log("ターンエンド");
     }
+
+    
 }
