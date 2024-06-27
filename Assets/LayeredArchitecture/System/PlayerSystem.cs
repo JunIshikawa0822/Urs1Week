@@ -58,7 +58,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
         gameStat.player.jumpMoveCheckFunc += JumpMoveCheck;
         gameStat.player.breakCheckFunc += BreakCheck;
 
-        gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.occupiedTilesArray, gameStat.goalPos);
+        gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.goalPos);
 
         Vector3 playerPosXZ = SnapCoordinateToGrid(gameStat.player.transform.position, gameStat.placingObjectGridLayout);
         gameStat.player.transform.position = new Vector3(playerPosXZ.x, gameStat.player.transform.lossyScale.y / 2, playerPosXZ.z);

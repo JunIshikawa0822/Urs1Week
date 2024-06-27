@@ -9,15 +9,13 @@ using System.Collections.Concurrent;
 
 public class Player : MonoBehaviour
 {
-    private TileBase[] detectTilesArray;
     private GridLayout gridLayout;
     private Transform goalPos;
 
-    private int yOffset;
     private bool isGoal;
 
     private Vector3Int playerSize;
-    private Vector3[] Vertices;
+    private Vector3[] bottomVertices;
 
     public event Func<Player, string, bool> moveCheckFunc;
     public event Func<Player, bool> jumpMoveCheckFunc;
@@ -32,10 +30,9 @@ public class Player : MonoBehaviour
     //test
     private int[] nowProgramArray;
 
-    public void Init(GridLayout gridLayout, TileBase[] _detectTilesArray, Transform _goalPos)
+    public void Init(GridLayout gridLayout, Transform _goalPos)
     {
         this.gridLayout = gridLayout;
-        this.detectTilesArray = _detectTilesArray;
         this.goalPos = _goalPos;
 
         GetColliderVertexPositionLoacl();
@@ -45,21 +42,21 @@ public class Player : MonoBehaviour
     private void GetColliderVertexPositionLoacl()
     {
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
-        Vertices = new Vector3[5];
-        Vertices[0] = boxCollider.center + new Vector3(-boxCollider.size.x, -boxCollider.size.y, -boxCollider.size.z) * 0.5f;
-        Vertices[1] = boxCollider.center + new Vector3(boxCollider.size.x, -boxCollider.size.y, -boxCollider.size.z) * 0.5f;
-        Vertices[2] = boxCollider.center + new Vector3(boxCollider.size.x, -boxCollider.size.y, boxCollider.size.z) * 0.5f;
-        Vertices[3] = boxCollider.center + new Vector3(-boxCollider.size.x, -boxCollider.size.y, boxCollider.size.z) * 0.5f;
-        Vertices[4] = boxCollider.center + new Vector3(-boxCollider.size.x, boxCollider.size.y, -boxCollider.size.z) * 0.5f;
+        bottomVertices = new Vector3[5];
+        bottomVertices[0] = boxCollider.center + new Vector3(-boxCollider.size.x, -boxCollider.size.y, -boxCollider.size.z) * 0.5f;
+        bottomVertices[1] = boxCollider.center + new Vector3(boxCollider.size.x, -boxCollider.size.y, -boxCollider.size.z) * 0.5f;
+        bottomVertices[2] = boxCollider.center + new Vector3(boxCollider.size.x, -boxCollider.size.y, boxCollider.size.z) * 0.5f;
+        bottomVertices[3] = boxCollider.center + new Vector3(-boxCollider.size.x, -boxCollider.size.y, boxCollider.size.z) * 0.5f;
+        bottomVertices[4] = boxCollider.center + new Vector3(-boxCollider.size.x, boxCollider.size.y, -boxCollider.size.z) * 0.5f;
     }
 
     private void CalculateSizeInCells()
     {
-        Vector3Int[] vertices = new Vector3Int[Vertices.Length];
+        Vector3Int[] vertices = new Vector3Int[bottomVertices.Length];
 
         for (int i = 0; i < vertices.Length; i++)
         {
-            Vector3 worldPos = transform.TransformPoint(Vertices[i]);
+            Vector3 worldPos = transform.TransformPoint(bottomVertices[i]);
             vertices[i] = BuildingSystem.current.gridLayout.WorldToCell(worldPos);
         }
 
@@ -240,11 +237,6 @@ public class Player : MonoBehaviour
     public Vector3Int GetSize
     {
         get { return playerSize; }
-    }
-
-    public int GetYOffset
-    {
-        get { return yOffset; }
     }
 
     public bool GetIsGoal
