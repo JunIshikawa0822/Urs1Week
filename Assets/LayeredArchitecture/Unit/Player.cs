@@ -75,7 +75,6 @@ public class Player : MonoBehaviour
         {
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 1), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
-            //Debug.Log("Move Forward");
         }
         else
         {
@@ -89,7 +88,6 @@ public class Player : MonoBehaviour
         {
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
-            //Debug.Log("Move Right");
         }
         else
         {
