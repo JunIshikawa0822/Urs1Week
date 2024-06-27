@@ -6,8 +6,19 @@ using UnityEngine.Tilemaps;
 [System.Serializable]
 public class GameStatus
 {
-    [Header("Player")]
-    public Player player;
+    [Header("Player1")]
+    [System.NonSerialized]
+    public Player player = null;
+
+    [SerializeField]
+    public Player playerPrefab;
+
+    [SerializeField]
+    public Transform playerStartPos;
+
+    [SerializeField]
+    public Transform goalPos;
+
 
     [Header("Placing")]
     [SerializeField] public Tilemap mainTileMap;
@@ -67,6 +78,8 @@ public class GameStatus
     //画面左の4つの選択肢のうち、どの選択肢を選んでいるか
     public int selectedPlacingObjectIndex = 0;
 
+    public LayerMask playerLayer;
+
     [Header("InputDebug")]
     [System.NonSerialized]
     public bool isForward = false;
@@ -88,6 +101,10 @@ public class GameStatus
     public bool isMyMoveStart = true;
     [System.NonSerialized]
     public bool isPhaseEnd = false;
+
+    //ゴールしたか
+    [System.NonSerialized]
+    public bool isPlayerGoal = false;
 
     [SerializeField]
     public LayerMask layHitlayer;

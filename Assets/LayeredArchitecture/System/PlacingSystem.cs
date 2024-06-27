@@ -49,11 +49,13 @@ public class PlacingSystem : SystemBase, IOnUpdate
         }
 
         //確定ボタンが押された
-        if (gameStat.isPlacingInput)
+        if (!gameStat.isPlacingInput) return;
+        
+        if(isPlaceacleArea(gameStat.player, gameStat.predictionObject))
         {
             //置こうとしたところになにもない
             if (CanBePlaced(gameStat.predictionObject, gameStat.occupiedTilesArray, gameStat.placingObjectGridLayout))
-            { 
+            {
                 //設置
                 Place(listIndex, gameStat.selectingCellPos);
 
@@ -78,7 +80,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
         Vector3Int start = gameStat.placingObjectGridLayout.WorldToCell(placedObject.GetStartPosition());
 
-        TakeArea(gameStat.occupiedTilesArray[0], start, placedObject.Size);
+        TakeArea(gameStat.occupiedTilesArray[0], gameStat.mainTileMap, start, placedObject.Size);
     }
 
     //オブジェクトの範囲に占有タイルがあるかどうかを返す
@@ -115,6 +117,26 @@ public class PlacingSystem : SystemBase, IOnUpdate
         return true;
     }
 
+    private bool isPlaceacleArea(Player _player, PlaceableObject _placeableObject)
+    {
+        Ray mouseRay = Camera.main.ScreenPointToRay(gameStat.mousePos);
+        if(Physics.Raycast(mouseRay, Mathf.Infinity, gameStat.playerLayer))
+        {
+            Debug.Log("playerだよ");
+            return false;
+        }
+        else if (_placeableObject.transform.position.z > _player.transform.position.z + _player.GetSize.z)
+        {
+            Debug.Log("おけないよ");
+            return false;
+        }
+        else
+        {
+            Debug.Log("おけるよ");
+            return true;
+        }
+    }
+
     //このarea内にあるtileの情報が全て入った配列を返す
     private TileBase[] GetTilesBlock(BoundsInt _areaBox)
     {
@@ -137,10 +159,10 @@ public class PlacingSystem : SystemBase, IOnUpdate
     }
 
     //startの位置から、size分のtileを敷き詰める
-    private void TakeArea(TileBase _Tile, Vector3Int _start, Vector3Int _size)
+    private void TakeArea(TileBase _tile, Tilemap _tileMap, Vector3Int _start, Vector3Int _size)
     {
         
-        gameStat.mainTileMap.BoxFill(_start, _Tile, _start.x, _start.y, _start.x + _size.x, _start.y + _size.y);
+        _tileMap.BoxFill(_start, _tile, _start.x, _start.y, _start.x + _size.x, _start.y + _size.y);
     }
 
     //selectOptionIndexが変更された際にpredictionObjectが盤面に残らないようにする処理

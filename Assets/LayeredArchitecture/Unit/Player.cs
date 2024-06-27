@@ -10,19 +10,23 @@ public class Player : MonoBehaviour
 {
     private TileBase[] detectTilesArray;
     private GridLayout gridLayout;
+    private Transform goalPos;
 
     private int yOffset;
+    private bool isGoal;
 
     private Vector3Int playerSize;
     private Vector3[] Vertices;
 
     public Func<Player, Vector3Int, TileBase[], bool> canBeMovedCheckFunc;
     public Func<Vector3, GridLayout, Vector3> convertPosToCellPosFunc;
+    public Func<Player, Transform, bool> goalCheckFunc;
 
-    public void Init(GridLayout gridLayout, TileBase[] _detectTilesArray)
+    public void Init(GridLayout gridLayout, TileBase[] _detectTilesArray, Transform _goalPos)
     {
         this.gridLayout = gridLayout;
         this.detectTilesArray = _detectTilesArray;
+        this.goalPos = _goalPos;
 
         GetColliderVertexPositionLoacl();
         CalculateSizeInCells();
@@ -50,11 +54,6 @@ public class Player : MonoBehaviour
         }
 
         playerSize = new Vector3Int(Mathf.Abs((vertices[0] - vertices[1]).x), Mathf.Abs((vertices[0] - vertices[3]).y), 1);
-        //Debug.Log(playerSize);
-
-        //Vector3 u = (vertices[0] - vertices[4]);
-        //yOffset = Mathf.Abs((vertices[4] - vertices[0]).y);
-        //Debug.Log(u);
     }
 
     private bool MoveCheck(string _direction)
@@ -101,6 +100,12 @@ public class Player : MonoBehaviour
         {
             return false;
         }
+    }
+
+    private bool GoalCheckFunc()
+    {
+        if (goalCheckFunc == null) return false;
+        return goalCheckFunc(this, goalPos);
     }
 
     public void MoveForward()
@@ -180,6 +185,11 @@ public class Player : MonoBehaviour
         get { return yOffset; }
     }
 
+    public bool GetIsGoal
+    {
+        get { return isGoal; }
+    }
+
     public void MoveByProgram(List<int> _program)
     {
         if (_program == null) return;
@@ -189,6 +199,8 @@ public class Player : MonoBehaviour
 
     IEnumerator AnimationWait(List<int> _program)
     {
+        yield return new WaitForSeconds(1.0f);
+        
         foreach (int _code in _program)
         {
             if (_code == 0)
@@ -210,6 +222,12 @@ public class Player : MonoBehaviour
             else if (_code == 4)
             {
                 MoveJump();
+            }
+
+            isGoal = GoalCheckFunc();
+            if (isGoal)
+            {
+                yield break;
             }
 
             yield return new WaitForSeconds(2.0f);

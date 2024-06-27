@@ -22,6 +22,9 @@ public class PlayerSystem : SystemBase, IOnUpdate
             gameStat.isMySetPhaseInitialized = true;
         }
 
+        gameStat.isPlayerGoal = gameStat.player.GetIsGoal;
+        if (gameStat.isPlayerGoal) Debug.Log("ごーーーーーーる！");
+
         if (gameStat.isForward)
         {
             gameStat.player.MoveForward();
@@ -42,10 +45,12 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     private void PlayerInit()
     {
+        gameStat.player = GameObject.Instantiate(gameStat.playerPrefab, gameStat.playerStartPos, true);
         gameStat.player.canBeMovedCheckFunc = CanBeMoved;
         gameStat.player.convertPosToCellPosFunc = SnapCoordinateToGrid;
+        gameStat.player.goalCheckFunc = isPlayerGoal;
 
-        gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.occupiedTilesArray);
+        gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.occupiedTilesArray, gameStat.goalPos);
         //Debug.Log(gameStat.player.GetYOffset);
 
         Vector3 playerPosXZ = SnapCoordinateToGrid(gameStat.player.transform.position, gameStat.placingObjectGridLayout);
@@ -112,5 +117,17 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
         //Debug.Log(_position);
         return _position;
+    }
+
+    private bool isPlayerGoal(Player _player, Transform _goalPos)
+    {
+        if (_player.transform.position.z < _goalPos.position.z)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 }
