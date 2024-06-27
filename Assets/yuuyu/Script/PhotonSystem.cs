@@ -47,8 +47,18 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
         }
 
         //var position = new Vector3(1.0f,1.0f,1.0f);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player1StartPos.position, Quaternion.identity).GetComponent<Player>();
 
-        gameStat.player=PhotonNetwork.Instantiate("Player", gameStat.player1StartPos.position, Quaternion.identity).GetComponent<Player>();
+            Debug.Log("Player1を生成しました");
+        }
+        else
+        {
+            gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player2StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
+            Debug.Log("Playerを生成しました");
+        }
+        
     }
 
     // Photonのサーバーから切断された時に呼ばれるコールバック

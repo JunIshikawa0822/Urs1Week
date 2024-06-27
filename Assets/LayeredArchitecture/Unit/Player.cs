@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private bool isGoal;
     
 
-    private Vector3Int playerSize;
+    private Vector3Int playerSize= new Vector3Int(1,1,1);
     private Vector3[] bottomVertices;
 
     public event Func<Player, string, bool> moveCheckFunc;
@@ -36,8 +36,8 @@ public class Player : MonoBehaviour
         this.gridLayout = gridLayout;
         this.goalPos = _goalPos;
 
-        GetColliderVertexPositionLoacl();
-        CalculateSizeInCells();
+        //GetColliderVertexPositionLoacl();
+        //CalculateSizeInCells();
     }
 
     private void GetColliderVertexPositionLoacl()
