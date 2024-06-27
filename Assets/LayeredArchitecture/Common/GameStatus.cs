@@ -20,6 +20,12 @@ public class GameStatus
     [SerializeField]
     public Transform goalPos;
 
+    [SerializeField]
+    public Vector3 player1PosForDamage;
+
+    [SerializeField]
+    public Vector3 player2PosForDamage;
+
     [Header("Placing")]
     [SerializeField] public Tilemap mainTileMap;
 
@@ -132,6 +138,8 @@ public class GameStatus
         RightFront,
         LeftFront,
         Jump,
-        Break
+        Break,
+        RightBreak,
+        LeftBreak
     }
 }

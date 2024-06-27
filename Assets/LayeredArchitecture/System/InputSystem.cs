@@ -37,8 +37,6 @@ public class InputSystem : SystemBase, IOnPreUpdate
 
         if (Physics.Raycast(mouseRay, out RaycastHit raycastHit, Mathf.Infinity, gameStat.layHitlayer))
         {
-            //rayが当たれば返す
-            
             return raycastHit.point;
         }
         else

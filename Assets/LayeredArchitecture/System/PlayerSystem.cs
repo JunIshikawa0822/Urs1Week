@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class PlayerSystem : SystemBase, IOnUpdate
 {
@@ -18,6 +19,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
         //まずInitializeで選べる選択肢（左の4つ）を生成
         if (gameStat.isMyMoveStart == false)
         {
+            gameStat.player1PosForDamage = gameStat.player.transform.position;
             gameStat.player.MoveByProgram(gameStat.programList);
             gameStat.isMyMoveStart = true;
         }
@@ -46,10 +48,15 @@ public class PlayerSystem : SystemBase, IOnUpdate
     private void PlayerInit()
     {
         gameStat.player = GameObject.Instantiate(gameStat.playerPrefab, gameStat.playerStartPos.transform.position, Quaternion.identity);
-        gameStat.player.canBeMovedCheckFunc = CanBeMoved;
-        gameStat.player.convertPosToCellPosFunc = SnapCoordinateToGrid;
-        gameStat.player.goalCheckFunc = isPlayerGoal;
+        //gameStat.player.canBeMovedCheckFunc += CanBeMoved;
+        gameStat.player.convertPosToCellPosFunc += SnapCoordinateToGrid;
+        gameStat.player.goalCheckFunc += isPlayerGoal;
         gameStat.player.breakEvent += BreakPlacedObject;
+        gameStat.player.damageEvent += PlayerDamage;
+
+        gameStat.player.moveCheckFunc += MoveCheck;
+        gameStat.player.jumpMoveCheckFunc += JumpMoveCheck;
+        gameStat.player.breakCheckFunc += BreakCheck;
 
         gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.occupiedTilesArray, gameStat.goalPos);
 
@@ -117,7 +124,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
         return _position;
     }
 
-    private bool isPlayerGoal(Player _player, Transform _goalPos)
+    private bool isPlayerGoal(Player _player, UnityEngine.Transform _goalPos)
     {
         if (_player.transform.position.z < _goalPos.position.z)
         {
@@ -138,5 +145,75 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
         Debug.Log("ぶれいくされてる！！");
         obj.OnDestroy();
+    }
+
+    private void PlayerDamage()
+    {
+        //transform.position = gameStat.player1PosForDamage;
+    }
+
+    private bool MoveCheck(Player _player, string _direction)
+    {
+        BoundsInt player = new BoundsInt();
+        player.position = gameStat.placingObjectGridLayout.WorldToCell(_player.transform.position);
+
+        Vector3Int cell;
+
+        if (_direction == "Forward") cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+        else if (_direction == "Right") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y, player.position.z);
+        else if (_direction == "Left") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y, player.position.z);
+        else if (_direction == "Backward") cell = new Vector3Int(player.position.x, player.position.y - _player.GetSize.z, player.position.z);
+        else if (_direction == "RightFront") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y + _player.GetSize.z, player.position.z);
+        else if (_direction == "LeftFront") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y + _player.GetSize.z, player.position.z);
+        else cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+
+        return CanBeMoved(_player, cell, gameStat.occupiedTilesArray);
+    }
+
+    private bool JumpMoveCheck(Player _player)
+    {
+        BoundsInt player = new BoundsInt();
+        player.position = gameStat.placingObjectGridLayout.WorldToCell(_player.transform.position);
+
+        Vector3Int cell1;
+        Vector3Int cell2;
+
+
+        cell1 = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+        cell2 = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z * 2, player.position.z);
+
+        if (CanBeMoved(_player, cell1, gameStat.occupiedTilesArray) == false && CanBeMoved(_player, cell2, gameStat.occupiedTilesArray) == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+    private bool BreakCheck(Player _player, string _direction)
+    {
+        BoundsInt player = new BoundsInt();
+        player.position = gameStat.placingObjectGridLayout.WorldToCell(_player.transform.position);
+
+        Vector3Int cell;
+
+        if (_direction == "Break") cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+        else if (_direction == "RightBreak") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y, player.position.z);
+        else if (_direction == "LeftBreak") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y, player.position.z);
+        else cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+
+        if (CanBeMoved(_player, cell, gameStat.occupiedTilesArray) == false)
+        {
+            return true;
+        }
+        else
+        {
+            Debug.Log("壊せるものがなにもないよ！！");
+            return false;
+        }
+
     }
 }

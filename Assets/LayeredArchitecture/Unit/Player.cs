@@ -19,9 +19,13 @@ public class Player : MonoBehaviour
     private Vector3Int playerSize;
     private Vector3[] Vertices;
 
-    public Func<Player, Vector3Int, TileBase[], bool> canBeMovedCheckFunc;
-    public Func<Vector3, GridLayout, Vector3> convertPosToCellPosFunc;
-    public Func<Player, Transform, bool> goalCheckFunc;
+    public event Func<Player, string, bool> moveCheckFunc;
+    public event Func<Player, bool> jumpMoveCheckFunc;
+    public event Func<Player, string, bool> breakCheckFunc;
+
+    public event Func<Vector3, GridLayout, Vector3> convertPosToCellPosFunc;
+    public event Func<Player, Transform, bool> goalCheckFunc;
+
     public event Action<GameObject> breakEvent;
     public event Action damageEvent;
 
@@ -62,69 +66,6 @@ public class Player : MonoBehaviour
         playerSize = new Vector3Int(Mathf.Abs((vertices[0] - vertices[1]).x), Mathf.Abs((vertices[0] - vertices[3]).y), 1);
     }
 
-    private bool MoveCheck(string _direction)
-    {
-        BoundsInt player = new BoundsInt();
-        player.position = gridLayout.WorldToCell(transform.position);
-
-        Vector3Int cell;
-
-        if(_direction == "Forward") cell = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
-        else if(_direction == "Right") cell = new Vector3Int(player.position.x + playerSize.x, player.position.y, player.position.z);
-        else if(_direction == "Left") cell = new Vector3Int(player.position.x - playerSize.x, player.position.y, player.position.z);
-        else if(_direction == "Backward") cell = new Vector3Int(player.position.x, player.position.y - playerSize.z, player.position.z);
-        else if(_direction == "RightFront") cell = new Vector3Int(player.position.x + playerSize.x, player.position.y + playerSize.z, player.position.z);
-        else if(_direction == "LeftFront") cell = new Vector3Int(player.position.x - playerSize.x, player.position.y + playerSize.z, player.position.z);
-        else cell = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
-
-        return canBeMovedCheckFunc(this, cell, detectTilesArray);
-    }
-
-    private bool JumpMoveCheck()
-    {
-        BoundsInt player = new BoundsInt();
-        player.position = gridLayout.WorldToCell(transform.position);
-
-        Vector3Int cell1;
-        Vector3Int cell2;
-
-        
-        cell1 = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
-        cell2 = new Vector3Int(player.position.x, player.position.y + playerSize.z * 2, player.position.z);
-
-        if(canBeMovedCheckFunc(this, cell1, detectTilesArray) == false && canBeMovedCheckFunc(this, cell2, detectTilesArray) == true)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-        
-    }
-
-    private bool BreakCheck()
-    {
-        BoundsInt player = new BoundsInt();
-        player.position = gridLayout.WorldToCell(transform.position);
-
-        Vector3Int cell;
-
-        
-        cell = new Vector3Int(player.position.x, player.position.y + playerSize.z, player.position.z);
-
-        if (canBeMovedCheckFunc(this, cell, detectTilesArray) == false)
-        {
-            return true;
-        }
-        else
-        {
-            Debug.Log("壊せるものがなにもないよ！！");
-            return false;
-        }
-        
-    }
-
     private bool GoalCheckFunc()
     {
         if (goalCheckFunc == null) return false;
@@ -133,7 +74,7 @@ public class Player : MonoBehaviour
 
     public void MoveForward()
     {
-        if (MoveCheck("Forward"))
+        if (moveCheckFunc(this, "Forward"))
         {
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 1), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
@@ -147,7 +88,7 @@ public class Player : MonoBehaviour
 
     public void MoveRight()
     {
-        if (MoveCheck("Right"))
+        if (moveCheckFunc(this, "Right"))
         {
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
@@ -161,7 +102,7 @@ public class Player : MonoBehaviour
 
     public void MoveLeft()
     {
-        if (MoveCheck("Left"))
+        if (moveCheckFunc(this, "Left"))
         {
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
@@ -174,7 +115,7 @@ public class Player : MonoBehaviour
 
     public void MoveBackward()
     {
-        if (MoveCheck("Backward"))
+        if (moveCheckFunc(this, "Backward"))
         {
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
@@ -187,7 +128,7 @@ public class Player : MonoBehaviour
 
     public void MoveRightFront()
     {
-        if (MoveCheck("RightFront"))
+        if (moveCheckFunc(this, "RightFront"))
         {
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 1), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
@@ -200,9 +141,9 @@ public class Player : MonoBehaviour
 
     public void MoveLeftFront()
     {
-        if (MoveCheck("LeftFront"))
+        if (moveCheckFunc(this, "LeftFront"))
         {
-            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, -1), gridLayout);
+            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 1), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
         }
         else
@@ -213,7 +154,7 @@ public class Player : MonoBehaviour
 
     public void MoveJump()
     {
-        if (JumpMoveCheck())
+        if (jumpMoveCheckFunc(this))
         {
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 2), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
@@ -226,11 +167,9 @@ public class Player : MonoBehaviour
 
     public void MoveBreak()
     {
-        if (BreakCheck())
+        if (breakCheckFunc(this, "Break"))
         {
             if (!Physics.Raycast(this.transform.position, transform.forward, out RaycastHit hitInfo, playerSize.z))return;
-
-            Debug.Log("お、あるねえ");
 
             if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
             {
@@ -246,18 +185,57 @@ public class Player : MonoBehaviour
         {
             Debug.Log("CantMove");
         }
-
-        #region LocalMethods
-
-        void DamageEvent()
-        {
-            if (damageEvent == null) return;
-            damageEvent.Invoke();
-        }
-        #endregion
     }
 
+    public void MoveRightBreak()
+    {
+        if (breakCheckFunc(this, "RightBreak"))
+        {
+            if (!Physics.Raycast(this.transform.position, transform.right, out RaycastHit hitInfo, playerSize.z)) return;
 
+            if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
+            {
+                if (breakEvent == null) return;
+                breakEvent.Invoke(hitInfo.collider.gameObject);
+            }
+            else
+            {
+                DamageEvent();
+            }
+        }
+        else
+        {
+            Debug.Log("CantMove");
+        }
+    }
+
+    public void MoveLeftBreak()
+    {
+        if (breakCheckFunc(this, "LeftBreak"))
+        {
+            if (!Physics.Raycast(this.transform.position, -transform.right, out RaycastHit hitInfo, playerSize.z)) return;
+
+            if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
+            {
+                if (breakEvent == null) return;
+                breakEvent.Invoke(hitInfo.collider.gameObject);
+            }
+            else
+            {
+                DamageEvent();
+            }
+        }
+        else
+        {
+            Debug.Log("CantMove");
+        }
+    }
+
+    private void DamageEvent()
+    {
+        if (damageEvent == null) return;
+        damageEvent.Invoke();
+    }
 
     public Vector3Int GetSize
     {
@@ -319,7 +297,22 @@ public class Player : MonoBehaviour
             else if (_code == 5)
             {
                 MoveBreak();
-                //Debug.Log(string.Join(", ", nowList));
+            }
+            else if (_code == 6)
+            {
+                MoveRightFront();
+            }
+            else if (_code == 7)
+            {
+                MoveLeftFront();
+            }
+            else if (_code == 8)
+            {
+                MoveRightBreak();
+            }
+            else if (_code == 9)
+            {
+                MoveLeftBreak();
             }
 
             isGoal = GoalCheckFunc();

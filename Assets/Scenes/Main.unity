@@ -2715,6 +2715,8 @@ MonoBehaviour:
     playerPrefab: {fileID: 8039233951176225184, guid: 3e0713f522bb9448186400bda7cc58ef, type: 3}
     playerStartPos: {fileID: 1254831579}
     goalPos: {fileID: 1919356312}
+    player1PosForDamage: {x: 0, y: 0, z: 0}
+    player2PosForDamage: {x: 0, y: 0, z: 0}
     mainTileMap: {fileID: 1040058363}
     occupiedTilesArray:
     - {fileID: 11400000, guid: 95ffebcd05b7a4fb49449f678443e3c5, type: 2}
@@ -2728,6 +2730,10 @@ MonoBehaviour:
     - {fileID: -8306381301468514785, guid: 092bcba103e9441dea63755ab3ebd172, type: 3}
     - {fileID: -8306381301468514785, guid: 7046351a2f2204e80b58984df62137ba, type: 3}
     - {fileID: -8306381301468514785, guid: 0494c119b0b63429da3fcc3a7d7f190c, type: 3}
+    - {fileID: -8306381301468514785, guid: ee836238525574959b23f350e1fa4371, type: 3}
+    - {fileID: -8306381301468514785, guid: b29e72da362d14106819a9f9b00e54ef, type: 3}
+    - {fileID: -8306381301468514785, guid: b1a2aeb3bee00467a8e3bf022b0fbb2d, type: 3}
+    - {fileID: -8306381301468514785, guid: 15b0754f7c80743e1afd22462a9ffafe, type: 3}
     predictionObjectPrefabsArray:
     - {fileID: -4294073442497489089, guid: a931bbd34275444bf9359bf638e1a498, type: 3}
     - {fileID: -5690858573045316765, guid: 196e6111eac8c47f790ec13ec9351309, type: 3}
@@ -2735,6 +2741,10 @@ MonoBehaviour:
     - {fileID: 4319651376669194954, guid: c66d9fa153e1a4bcf9bf9826edc1f26a, type: 3}
     - {fileID: -7869814843845147096, guid: d7254bab9eb984c23ba1e1457ba96e00, type: 3}
     - {fileID: -5690858573045316765, guid: 86ef809d644ca454e9855b7ab7d8dd60, type: 3}
+    - {fileID: -5690858573045316765, guid: 38e310327a9f5478282c590312ebae4d, type: 3}
+    - {fileID: 4587221023068510667, guid: 784b3842178594be68c39c75310f55f3, type: 3}
+    - {fileID: -5690858573045316765, guid: 198b1f41a5af24eb79810620579820f0, type: 3}
+    - {fileID: -5690858573045316765, guid: d724b683f95e3485cba4a05a72707bd6, type: 3}
     mousePos: {x: 0, y: 0, z: 0}
     isPlacingInput: 0
     selectedPlacingObjectIndex: 0
