@@ -134,11 +134,8 @@ public class InputSystem : SystemBase, IOnPreUpdate
 
     private void GetBlockSelectInput()
     {
-       
-
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-
             gameStat.selectedPlacingObjectIndex = 0;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -156,9 +153,6 @@ public class InputSystem : SystemBase, IOnPreUpdate
             gameStat.selectedPlacingObjectIndex = 3;
         }
     }
-    public void UI1() { gameStat.selectedPlacingObjectIndex = 0; }
-    public void UI2() { gameStat.selectedPlacingObjectIndex = 1; }
-    public void UI3() { gameStat.selectedPlacingObjectIndex = 2; }
-    public void UI4() { gameStat.selectedPlacingObjectIndex = 3; }
+   
 }
  
