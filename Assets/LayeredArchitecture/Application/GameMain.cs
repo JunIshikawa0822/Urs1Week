@@ -22,8 +22,8 @@ public class GameMain : MonoBehaviour
             new InputSystem(),
             new PlacingSystem(),
             new PlayerSystem(),
-            
-            //new CameraSystem()
+            new UISystem(),
+            new CameraSystem()
 
         };
 

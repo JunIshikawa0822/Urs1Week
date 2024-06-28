@@ -132,6 +132,15 @@ public class GameStatus
     [SerializeField]
     public InputNameType placingInputDownName;
 
+
+    [Header("UI")]
+    public ButtonBase[] selectPanelArray;
+
+    [Header("Camera")]
+    public GameObject camera1;
+    public GameObject camera2;
+
+
     public enum InputNameType
     {
         MouseButtonRight,
