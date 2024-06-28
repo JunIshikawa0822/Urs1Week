@@ -8,9 +8,11 @@ public class PredictionObject : MonoBehaviour
     public bool Placed { get; private set; }
     private Vector3Int Size;
     private Vector3[] Vertices;
+    private GridLayout gridLayout;
 
-    public void SetUp()
+    public void SetUp(GridLayout _gridLayout)
     {
+        this.gridLayout = _gridLayout;
         GetColliderVertexPositionLoacl();
         CalculateSizeInCells();
     }
@@ -32,7 +34,7 @@ public class PredictionObject : MonoBehaviour
         for (int i = 0; i < vertices.Length; i++)
         {
             Vector3 worldPos = transform.TransformPoint(Vertices[i]);
-            vertices[i] = BuildingSystem.current.gridLayout.WorldToCell(worldPos);
+            vertices[i] = gridLayout.WorldToCell(worldPos);
         }
 
         Size = new Vector3Int(Mathf.Abs((vertices[0] - vertices[1]).x), Mathf.Abs((vertices[0] - vertices[3]).y), 1);

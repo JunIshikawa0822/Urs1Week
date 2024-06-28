@@ -166,7 +166,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
         }
         else
         {
-            if (_player.transform.position.z <_goalPos.position.z)
+            if (_player.transform.position.z >_goalPos.position.z)
             {
                 return false;
             }
