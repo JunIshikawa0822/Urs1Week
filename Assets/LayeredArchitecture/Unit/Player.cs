@@ -144,7 +144,16 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             bool isMasterClient = PhotonNetwork.IsMasterClient;
             if (moveCheckFunc(this, "Backward",isMasterClient))
             {
-                Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
+                Vector3 posXZ;
+                if (isMasterClient)
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
+                }
+                else
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position - new Vector3(0, 0, -1), gridLayout);
+                }
+                
                 transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             }
             else
