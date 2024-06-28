@@ -92,6 +92,8 @@ public class PlaceableObject : MonoBehaviour
 
     public void OnDestroy()
     {
+        if (tileMap == null) return;
+
         tileMap.SetTile(pos, null);
         Destroy(this.gameObject);
     }

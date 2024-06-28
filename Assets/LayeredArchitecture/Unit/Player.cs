@@ -142,7 +142,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (photonView.IsMine)
         {
             bool isMasterClient = PhotonNetwork.IsMasterClient;
-            if (moveCheckFunc(this, "Backward",!isMasterClient))
+            if (moveCheckFunc(this, "Backward",isMasterClient))
             {
                 Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
                 transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
@@ -399,9 +399,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
             else if (_code == 3)
             {
-                MoveBackward();
-                //ForceBackWard();
-                Debug.Log("下げたい");
+                //MoveBackward();
             }
             else if (_code == 4)
             {
@@ -460,7 +458,9 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
             else if (_code == 3)
             {
-                MoveBackward();
+                //MoveBackward();
+                ForceBackWard();
+                Debug.Log("下げたい");
             }
             else if (_code == 4)
             {
