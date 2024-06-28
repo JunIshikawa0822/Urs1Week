@@ -48,6 +48,7 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
 
         //var position = new Vector3(1.0f,1.0f,1.0f);
         gameStat.isInstanitiatePlayerObj = true;
+        Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber);
         /*
         if (PhotonNetwork.IsMasterClient)
         {

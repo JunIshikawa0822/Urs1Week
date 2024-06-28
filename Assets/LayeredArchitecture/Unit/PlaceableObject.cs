@@ -9,7 +9,7 @@ public class PlaceableObject : MonoBehaviour
     public Vector3Int Size;
     private Vector3[] Vertices;
 
-    public int index;
+    private int index;
     private Tilemap tileMap;
     private TileBase occupiedTileBase;
     private Vector3Int pos;

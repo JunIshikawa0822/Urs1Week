@@ -151,19 +151,34 @@ public class PlayerSystem : SystemBase, IOnUpdate
         return _position;
     }
 
-    private bool isPlayerGoal(Player _player, UnityEngine.Transform _goalPos)
+    private bool isPlayerGoal(Player _player, UnityEngine.Transform _goalPos, bool _isMasterClient)
     {
-        if (_player.transform.position.z < _goalPos.position.z)
+        if(_isMasterClient)
         {
-            return false;
+            if (_player.transform.position.z < _goalPos.position.z)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         else
         {
-            return true;
+            if (_player.transform.position.z <_goalPos.position.z)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
+        
     }
 
-    private void BreakPlacedObject(GameObject _object)
+    private void BreakPlacedObject(GameObject _object,bool _isMasterClient)
     {
         PlaceableObject obj = _object.GetComponent<PlaceableObject>();
 
@@ -179,25 +194,39 @@ public class PlayerSystem : SystemBase, IOnUpdate
         //transform.position = gameStat.player1PosForDamage;
     }
 
-    private bool MoveCheck(Player _player, string _direction)
+    private bool MoveCheck(Player _player, string _direction,bool _isMasterClient)
     {
         BoundsInt player = new BoundsInt();
         player.position = gameStat.placingObjectGridLayout.WorldToCell(_player.transform.position);
 
         Vector3Int cell;
-
-        if (_direction == "Forward") cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
-        else if (_direction == "Right") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y, player.position.z);
-        else if (_direction == "Left") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y, player.position.z);
-        else if (_direction == "Backward") cell = new Vector3Int(player.position.x, player.position.y - _player.GetSize.z, player.position.z);
-        else if (_direction == "RightFront") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y + _player.GetSize.z, player.position.z);
-        else if (_direction == "LeftFront") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y + _player.GetSize.z, player.position.z);
-        else cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+        if(_isMasterClient)
+        {
+            if (_direction == "Forward") cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+            else if (_direction == "Right") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y, player.position.z);
+            else if (_direction == "Left") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y, player.position.z);
+            else if (_direction == "Backward") cell = new Vector3Int(player.position.x, player.position.y - _player.GetSize.z, player.position.z);
+            else if (_direction == "RightFront") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y + _player.GetSize.z, player.position.z);
+            else if (_direction == "LeftFront") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y + _player.GetSize.z, player.position.z);
+            else cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+        }
+        else
+        {
+            if (_direction == "Forward") cell = new Vector3Int(player.position.x, player.position.y - _player.GetSize.z, player.position.z);
+            else if (_direction == "Right") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y, player.position.z);
+            else if (_direction == "Left") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y, player.position.z);
+            else if (_direction == "Backward") cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+            else if (_direction == "RightFront") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y - _player.GetSize.z, player.position.z);
+            else if (_direction == "LeftFront") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y - _player.GetSize.z, player.position.z);
+            else cell = new Vector3Int(player.position.x, player.position.y - _player.GetSize.z, player.position.z);
+        }
+        
+        
 
         return CanBeMoved(_player, cell, gameStat.occupiedTilesArray);
     }
 
-    private bool JumpMoveCheck(Player _player)
+    private bool JumpMoveCheck(Player _player,bool _isMasterClient)
     {
         BoundsInt player = new BoundsInt();
         player.position = gameStat.placingObjectGridLayout.WorldToCell(_player.transform.position);
@@ -205,9 +234,17 @@ public class PlayerSystem : SystemBase, IOnUpdate
         Vector3Int cell1;
         Vector3Int cell2;
 
-
-        cell1 = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
-        cell2 = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z * 2, player.position.z);
+        if(_isMasterClient)
+        {
+            cell1 = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+            cell2 = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z * 2, player.position.z);
+        }
+        else
+        {
+            cell1 = new Vector3Int(player.position.x, player.position.y - _player.GetSize.z, player.position.z);
+            cell2 = new Vector3Int(player.position.x, player.position.y - _player.GetSize.z * 2, player.position.z);
+        }
+        
 
         if (CanBeMoved(_player, cell1, gameStat.occupiedTilesArray) == false && CanBeMoved(_player, cell2, gameStat.occupiedTilesArray) == true)
         {
@@ -220,17 +257,28 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     }
 
-    private bool BreakCheck(Player _player, string _direction)
+    private bool BreakCheck(Player _player, string _direction,bool _isMasterClient)
     {
         BoundsInt player = new BoundsInt();
         player.position = gameStat.placingObjectGridLayout.WorldToCell(_player.transform.position);
 
         Vector3Int cell;
+        if(_isMasterClient)
+        {
+            if (_direction == "Break") cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+            else if (_direction == "RightBreak") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y, player.position.z);
+            else if (_direction == "LeftBreak") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y, player.position.z);
+            else cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
 
-        if (_direction == "Break") cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
-        else if (_direction == "RightBreak") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y, player.position.z);
-        else if (_direction == "LeftBreak") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y, player.position.z);
-        else cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
+        }
+        else
+        {
+            if (_direction == "Break") cell = new Vector3Int(player.position.x, player.position.y - _player.GetSize.z, player.position.z);
+            else if (_direction == "RightBreak") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y, player.position.z);
+            else if (_direction == "LeftBreak") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y, player.position.z);
+            else cell = new Vector3Int(player.position.x, player.position.y - _player.GetSize.z, player.position.z);
+
+        }
 
         if (CanBeMoved(_player, cell, gameStat.occupiedTilesArray) == false)
         {
@@ -244,13 +292,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     }
 
-    //相手の駒を下げる　photonView.RPC("ForceBackWard", RpcTarget.Others, "こんにちは");
-    [PunRPC]
-    public void ForceBackWard()
-    {
-        gameStat.player.MoveBackward();
-        Debug.Log("下げられた");
-    }
+    
 
    
 }
