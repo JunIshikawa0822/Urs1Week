@@ -12,8 +12,8 @@ public class PlaceableObject : MonoBehaviour
     public int index;
     private Tilemap tileMap;
     private TileBase occupiedTileBase;
-    private TileBase stageTileBase;
     private Vector3Int pos;
+
 
     public void SetUp(Tilemap _tileMap, TileBase _occupiedTileBase, TileBase _stageTileBase, int _index)
     {
@@ -22,7 +22,6 @@ public class PlaceableObject : MonoBehaviour
 
         this.tileMap = _tileMap;
         this.occupiedTileBase = _occupiedTileBase;
-        this.stageTileBase = _stageTileBase;
         this.index = _index;
 
         SetTile();

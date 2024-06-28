@@ -11,15 +11,21 @@ public class PlayerSystem : SystemBase, IOnUpdate
 {
     public override void SetUp()
     {
-        PlayerInit();
+       //PlayerInit();
     }
 
     public void OnUpdate()
     {
+
+        if(gameStat.isInstanitiatePlayerObj)
+        {
+            PlayerInit();
+            gameStat.isInstanitiatePlayerObj = false;
+        }
         //if (!gameStat.isMyMovePhase) return;
         //isMyMovePhaseスタート
 
-        //まずInitializeで選べる選択肢（左の4つ）を生成
+            //まずInitializeで選べる選択肢（左の4つ）を生成
         if (gameStat.isMyMoveStart == false)
         {
             gameStat.player1PosForDamage = gameStat.player.transform.position;
@@ -50,33 +56,33 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     private void PlayerInit()
     {
-        Debug.Log(PhotonNetwork.IsMasterClient);
+       
         //gameStat.player = GameObject.Instantiate(gameStat.playerPrefab, gameStat.playerStartPos.transform.position, Quaternion.identity);
-        if (!PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.Instantiate("Player", gameStat.player1StartPos.position, Quaternion.identity);
+            //PhotonNetwork.Instantiate("Player", gameStat.player1StartPos.position, Quaternion.identity);
 
             //gameStat.player = PhotonNetwork.Instantiate("TestCube", gameStat.player1StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
             Debug.Log("Player1を生成しました");
         }
         else
         {
-            gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player2StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
+            //gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player2StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
             Debug.Log("Playerを生成しました");
         }
-            
-
-        //gameStat.player.canBeMovedCheckFunc += CanBeMoved;
+        Debug.Log(gameStat.player.gameObject.name);
+        
         gameStat.player.convertPosToCellPosFunc += SnapCoordinateToGrid;
         gameStat.player.goalCheckFunc += isPlayerGoal;
         gameStat.player.breakEvent += BreakPlacedObject;
         gameStat.player.damageEvent += PlayerDamage;
-
         gameStat.player.moveCheckFunc += MoveCheck;
         gameStat.player.jumpMoveCheckFunc += JumpMoveCheck;
         gameStat.player.breakCheckFunc += BreakCheck;
+        
+       
 
-        if (!PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
             gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.goalPos1);
         else
             gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.goalPos2);

@@ -35,6 +35,9 @@ public class GameStatus
     [SerializeField]
     public Vector3 player2PosForDamage;
 
+    [SerializeField]
+    public bool isInstanitiatePlayerObj=false;
+
     [Header("Placing")]
     [SerializeField] public Tilemap mainTileMap;
 

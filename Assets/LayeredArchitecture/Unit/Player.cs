@@ -6,16 +6,17 @@ using UnityEngine.Tilemaps;
 using System.Drawing;
 using Palmmedia.ReportGenerator.Core;
 using System.Collections.Concurrent;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
     private GridLayout gridLayout;
     private Transform goalPos;
 
     private bool isGoal;
     
-
-    private Vector3Int playerSize= new Vector3Int(1,1,1);
+    public Vector3Int playerSize= new Vector3Int(1,1,1);
     private Vector3[] bottomVertices;
 
     public event Func<Player, string, bool> moveCheckFunc;
@@ -72,8 +73,11 @@ public class Player : MonoBehaviour
 
     public void MoveForward()
     {
+        //Debug.Log(moveCheckFunc(this, "Forward"));
+        
         if (moveCheckFunc(this, "Forward"))
         {
+
             Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 1), gridLayout);
             transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
         }
@@ -255,13 +259,15 @@ public class Player : MonoBehaviour
         }
         Debug.Log("いまからこのプログラムは {" + string.Join(",", nowProgramArray) + "}");
 
-        StartCoroutine(AnimationWait());
+        MoveTest();
+        //StartCoroutine(AnimationWait());
     }
 
     IEnumerator AnimationWait()
     {
+        Debug.Log("OK");
         //Debug.Log(string.Join(", ", nowList));
-        yield return new WaitForSeconds(1.0f);
+        //yield return new WaitForSeconds(1.0f);
         
         foreach (int _code in nowProgramArray)
         {
@@ -319,5 +325,66 @@ public class Player : MonoBehaviour
         Debug.Log("ターンエンド");
     }
 
-    
+    private void MoveTest()
+    {
+
+        foreach (int _code in nowProgramArray)
+        {
+            if (_code == 0)
+            {
+                MoveForward();
+            }
+            else if (_code == 1)
+            {
+                MoveRight();
+            }
+            else if (_code == 2)
+            {
+                MoveLeft();
+            }
+            else if (_code == 3)
+            {
+                MoveBackward();
+            }
+            else if (_code == 4)
+            {
+                MoveJump();
+            }
+            else if (_code == 5)
+            {
+                MoveBreak();
+            }
+            else if (_code == 6)
+            {
+                MoveRightFront();
+            }
+            else if (_code == 7)
+            {
+                MoveLeftFront();
+            }
+            else if (_code == 8)
+            {
+                MoveRightBreak();
+            }
+            else if (_code == 9)
+            {
+                MoveLeftBreak();
+            }
+
+            isGoal = GoalCheckFunc();
+        }
+    }
+
+    void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        if (info.Sender.IsLocal)
+        {
+            Debug.Log("自身がネットワークオブジェクトを生成しました");
+            
+        }
+        else
+        {
+            Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
+        }
+    }
 }

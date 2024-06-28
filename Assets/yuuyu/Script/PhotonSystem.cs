@@ -50,12 +50,14 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
         if (PhotonNetwork.IsMasterClient)
         {
             gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player1StartPos.position, Quaternion.identity).GetComponent<Player>();
+            //Debug.Log(gameStat.player.playerSize);
+            gameStat.isInstanitiatePlayerObj = true;
+            Debug.Log("Playerを生成しました");
 
-            Debug.Log("Player1を生成しました");
         }
         else
         {
-            gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player2StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
+            //gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player2StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
             Debug.Log("Playerを生成しました");
         }
         

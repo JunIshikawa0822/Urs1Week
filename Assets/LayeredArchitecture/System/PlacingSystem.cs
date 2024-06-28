@@ -118,8 +118,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
     private bool isPlaceableArea(Player _player, PredictionObject _predictionObject)
     {
-        Debug.Log(_player.GetSize.z);
-        Debug.Log(_predictionObject.transform.position.z);
+        
         Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         
         if (Physics.Raycast(mouseRay, out RaycastHit hitInfo, Mathf.Infinity, gameStat.playerLayer))

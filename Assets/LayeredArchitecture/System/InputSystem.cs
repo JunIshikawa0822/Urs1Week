@@ -21,9 +21,7 @@ public class InputSystem : SystemBase, IOnPreUpdate
 
     private void KeyInput()
     {
-        //gameStat.isForward = (Input.GetKeyDown(KeyCode.UpArrow)) ? true : false;
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-            Debug.Log("OK");
+        gameStat.isForward = (Input.GetKeyDown(KeyCode.UpArrow)) ? true : false;          
         gameStat.isRight = (Input.GetKeyDown(KeyCode.RightArrow)) ? true : false;
         gameStat.isLeft = (Input.GetKeyDown(KeyCode.LeftArrow)) ? true : false;
         gameStat.isBackward = (Input.GetKeyDown(KeyCode.DownArrow)) ? true : false;
