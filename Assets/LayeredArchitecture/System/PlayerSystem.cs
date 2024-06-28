@@ -62,12 +62,12 @@ public class PlayerSystem : SystemBase, IOnUpdate
         {
             //PhotonNetwork.Instantiate("Player", gameStat.player1StartPos.position, Quaternion.identity);
 
-            //gameStat.player = PhotonNetwork.Instantiate("TestCube", gameStat.player1StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
+            gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player1StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
             Debug.Log("Player1を生成しました");
         }
         else
         {
-            //gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player2StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
+            gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player2StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
             Debug.Log("Playerを生成しました");
         }
         Debug.Log(gameStat.player.gameObject.name);
@@ -249,6 +249,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
     public void ForceBackWard()
     {
         gameStat.player.MoveBackward();
+        Debug.Log("下げられた");
     }
 
    

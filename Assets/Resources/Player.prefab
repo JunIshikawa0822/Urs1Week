@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e408a1138a4475ba3454ced0f1acc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSize: {x: 1, y: 1, z: 1}
 --- !u!114 &-7725032707503811787
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -47,9 +47,11 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
         }
 
         //var position = new Vector3(1.0f,1.0f,1.0f);
+        gameStat.isInstanitiatePlayerObj = true;
+        /*
         if (PhotonNetwork.IsMasterClient)
         {
-            gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player1StartPos.position, Quaternion.identity).GetComponent<Player>();
+            //gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player1StartPos.position, Quaternion.identity).GetComponent<Player>();
             //Debug.Log(gameStat.player.playerSize);
             gameStat.isInstanitiatePlayerObj = true;
             Debug.Log("Playerを生成しました");
@@ -60,6 +62,7 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
             //gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player2StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
             Debug.Log("Playerを生成しました");
         }
+        */
         
     }
 

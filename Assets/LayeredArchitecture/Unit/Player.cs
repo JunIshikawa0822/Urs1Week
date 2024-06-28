@@ -73,8 +73,9 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
 
     public void MoveForward()
     {
-        //Debug.Log(moveCheckFunc(this, "Forward"));
         
+        photonView.RPC("BackWard", RpcTarget.Others);
+
         if (moveCheckFunc(this, "Forward"))
         {
 
@@ -236,6 +237,22 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (damageEvent == null) return;
         damageEvent.Invoke();
     }
+
+    public void ForceBackWard()
+    {
+        photonView.RPC("BackWard", RpcTarget.Others);
+    }
+
+    //相手の駒を下げる　p
+    [PunRPC]
+    public void BackWard()
+    {
+        MoveBackward();
+        Debug.Log("下げられた");
+    }
+    
+
+
 
     public Vector3Int GetSize
     {
