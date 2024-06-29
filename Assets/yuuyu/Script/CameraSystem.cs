@@ -25,11 +25,15 @@ public class CameraSystem : SystemBase, IOnUpdate
         camera1 = gameStat.camera1;
         camera2 = gameStat.camera2;
 
-        SetCamera();
     }
 
     public void OnUpdate()
     {
+        if (gameStat.isEnterRoom)
+        {
+            gameStat.isEnterRoom = false;
+            SetCamera();
+        }
         
         if (Input.GetMouseButton(0))
         {
@@ -69,7 +73,7 @@ public class CameraSystem : SystemBase, IOnUpdate
     public void SetCamera()
     {
         //photonの接続より先に反応してしまうため！をつけてる。
-        if (!PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             mainCamera = camera1.GetComponent<Camera>();
             camera1.SetActive(true);

@@ -140,6 +140,9 @@ public class GameStatus
     public GameObject camera1;
     public GameObject camera2;
 
+    [Header("Input")]
+    public bool isEnterRoom = false;
+    public bool isMaster;
 
     public enum InputNameType
     {

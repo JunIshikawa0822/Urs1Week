@@ -46,9 +46,20 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
             PhotonNetwork.CurrentRoom.IsOpen = false;
         }
 
-        //var position = new Vector3(1.0f,1.0f,1.0f);
+       
+        if (PhotonNetwork.IsMasterClient)
+        {
+            gameStat.isMaster = true;
+        }
+        else
+        {
+            gameStat.isMaster = false;
+        }
         gameStat.isInstanitiatePlayerObj = true;
-        Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber);
+        gameStat.isEnterRoom = true;
+        
+            Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber);
+
         /*
         if (PhotonNetwork.IsMasterClient)
         {
