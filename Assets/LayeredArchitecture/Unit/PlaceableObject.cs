@@ -94,6 +94,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
         this.pos = tilePos;
         Debug.Log(occupiedTileBase);
         tileMap.SetTile(pos, occupiedTileBase);
+        
     }
 
     public void OnDestroy()
@@ -105,7 +106,28 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     }
     void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
     {
-       
+        if (photonView.IsMine)
+        {
+            PhotonView targetPhotonView;
+            if (photonView.ViewID == 1001)
+            {
+                Debug.Log("1001です");
+                targetPhotonView = PhotonView.Find(2001);
+            }
+            else if (photonView.ViewID == 2001)
+            {
+                targetPhotonView = PhotonView.Find(1001);
+                Debug.Log("2001です");
+            }
+            else
+            {
+                targetPhotonView = photonView;
+                Debug.Log("IDわからん");
+            }
+            // 対象のPhotonView IDを指定
+            targetPhotonView.RPC("SetTileRPC", RpcTarget.Others);
+        }
+        /*
         if (info.Sender.IsLocal)
         {
             
@@ -121,6 +143,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
             SetTiles();
             //this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.All);
         }
+        */
     }
     [PunRPC]
     public void SetTileRPC()
