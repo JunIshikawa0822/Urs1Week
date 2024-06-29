@@ -86,7 +86,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     //    Placed = true;
     //}
 
-    private void SetTiles()
+    public void SetTiles()
     {
         Debug.Log("おけた");
         Vector3Int tilePos = tileMap.WorldToCell(this.transform.position);
