@@ -24,7 +24,7 @@ public class PlaceableObject : MonoBehaviour
         this.index = _index;
         GetColliderVertexPositionLoacl();
         CalculateSizeInCells();
-        SetTile();
+        SetTiles();
     }
 
     private void GetColliderVertexPositionLoacl()
@@ -83,9 +83,11 @@ public class PlaceableObject : MonoBehaviour
     //    Placed = true;
     //}
 
-    private void SetTile()
+    private void SetTiles()
     {
+        Debug.Log("おけた");
         Vector3Int tilePos = tileMap.WorldToCell(this.transform.position);
+        Debug.Log(tilePos);
         this.pos = tilePos;
         tileMap.SetTile(pos, occupiedTileBase);
     }
