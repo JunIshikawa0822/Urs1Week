@@ -94,15 +94,16 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
         Debug.Log("おけた");
         if (tileMap == null)
         {
-            tileMap = GameObject.Find("StageTileMap").GetComponent<Tilemap>();
+
+            tileMapPUN = GameObject.Find("StageTileMap").GetComponent<Tilemap>();
             Vector3Int tilePos = tileMapPUN.WorldToCell(this.transform.position);
             Debug.Log("ほんとにおけた");
             this.pos = tilePos;
             Debug.Log(occupiedTileBase);
             if(PhotonNetwork.IsMasterClient)
-                tileMap.SetTile(pos, tileBasePUN1);
+                tileMapPUN.SetTile(pos, tileBasePUN1);
             else
-                tileMap.SetTile(pos, tileBasePUN2);
+                tileMapPUN.SetTile(pos, tileBasePUN2);
         }
         else
         {
