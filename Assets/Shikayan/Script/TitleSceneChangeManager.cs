@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-public class SceneChangerScript : MonoBehaviour
+
+public class TitleSceneChangeManager : MonoBehaviour
 {
     public void SceneChange(string _nextScene){
         SceneManager.LoadScene(_nextScene);
