@@ -123,22 +123,43 @@ public class PlacingSystem : SystemBase, IOnUpdate
     {
         
         Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        
-        if (Physics.Raycast(mouseRay, out RaycastHit hitInfo, Mathf.Infinity, gameStat.playerLayer))
+        if(gameStat.isMaster)
         {
-            return false;
+            if (Physics.Raycast(mouseRay, out RaycastHit hitInfo, Mathf.Infinity, gameStat.playerLayer))
+            {
+                return false;
+            }
+            else if (_predictionObject.transform.position.z > _player.transform.position.z + _player.GetSize.z)
+            {
+                Debug.Log("おけないよ");
+                return false;
+            }
+
+            else
+            {
+                Debug.Log("おけるよ");
+                return true;
+            }
         }
-        else if (_predictionObject.transform.position.z > _player.transform.position.z + _player.GetSize.z)
-        {
-            Debug.Log("おけないよ");
-            return false;
-        }
-        
         else
         {
-            Debug.Log("おけるよ");
-            return true;
+            if (Physics.Raycast(mouseRay, out RaycastHit hitInfo, Mathf.Infinity, gameStat.playerLayer))
+            {
+                return false;
+            }
+            else if (_predictionObject.transform.position.z < _player.transform.position.z - _player.GetSize.z)
+            {
+                Debug.Log("おけないよ");
+                return false;
+            }
+
+            else
+            {
+                Debug.Log("おけるよ");
+                return true;
+            }
         }
+        
     }
 
     //このarea内にあるtileの情報が全て入った配列を返す

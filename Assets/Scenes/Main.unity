@@ -3549,8 +3549,8 @@ MonoBehaviour:
     - {fileID: 1563920720}
     camera1: {fileID: 586543165}
     camera2: {fileID: 742823464}
-    isEnterRoom: 0
-    isMaster: 0
+    taikiPanel: {fileID: 1902402469}
+    gamePanel: {fileID: 1872244146}
 --- !u!1 &1254831578
 GameObject:
   m_ObjectHideFlags: 0
@@ -4114,12 +4114,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1872244147}
   m_Layer: 0
-  m_Name: RoadPanel
+  m_Name: GameiPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1872244147
 Transform:
   m_ObjectHideFlags: 0
@@ -4150,12 +4150,12 @@ GameObject:
   - component: {fileID: 1902402472}
   - component: {fileID: 1902402471}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: TaikiPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1902402470
 RectTransform:
   m_ObjectHideFlags: 0
