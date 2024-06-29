@@ -141,9 +141,18 @@ public class GameStatus
     public GameObject camera2;
 
     [Header("Input")]
+    [System.NonSerialized]
     public bool isEnterRoom = false;
+    [System.NonSerialized]
     public bool isMaster;
 
+    [Header("Taiki")]
+    [System.NonSerialized]
+    public bool isMatchOk=false;
+    [SerializeField]
+    public GameObject taikiPanel;
+    [SerializeField]
+    public GameObject gamePanel;
     public enum InputNameType
     {
         MouseButtonRight,
