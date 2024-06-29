@@ -90,7 +90,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     {
         Debug.Log("おけた");
         Vector3Int tilePos = tileMap.WorldToCell(this.transform.position);
-        Debug.Log(tilePos);
+        Debug.Log("ほんとにおけた");
         this.pos = tilePos;
         Debug.Log(occupiedTileBase);
         tileMap.SetTile(pos, occupiedTileBase);
@@ -110,7 +110,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             
             Debug.Log("自身がネットワークオブジェクトを生成しました");
-            this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.Others);
+            //this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.Others);
 
         }
         else
@@ -118,14 +118,15 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
            
             
             Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
+            SetTiles();
             //this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.All);
         }
     }
     [PunRPC]
     public void SetTileRPC()
     {
-        
-        SetTiles();
         Debug.Log("タイルをセット");
+        SetTiles();
+        
     }
 }
