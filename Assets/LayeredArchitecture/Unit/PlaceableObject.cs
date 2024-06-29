@@ -9,22 +9,21 @@ public class PlaceableObject : MonoBehaviour
     public Vector3Int Size;
     private Vector3[] Vertices;
 
-    public int index;
+    private int index;
     private Tilemap tileMap;
     private TileBase occupiedTileBase;
-    private TileBase stageTileBase;
     private Vector3Int pos;
+    private GridLayout gridLayout;
 
-    public void SetUp(Tilemap _tileMap, TileBase _occupiedTileBase, TileBase _stageTileBase, int _index)
+
+    public void SetUp(Tilemap _tileMap, TileBase _occupiedTileBase, int _index, GridLayout _gridLayout)
     {
-        GetColliderVertexPositionLoacl();
-        CalculateSizeInCells();
-
+        this.gridLayout = _gridLayout;
         this.tileMap = _tileMap;
         this.occupiedTileBase = _occupiedTileBase;
-        this.stageTileBase = _stageTileBase;
         this.index = _index;
-
+        GetColliderVertexPositionLoacl();
+        CalculateSizeInCells();
         SetTile();
     }
 
@@ -45,7 +44,7 @@ public class PlaceableObject : MonoBehaviour
         for(int i = 0; i < vertices.Length; i++)
         {
             Vector3 worldPos = transform.TransformPoint(Vertices[i]);
-            vertices[i] = BuildingSystem.current.gridLayout.WorldToCell(worldPos);
+            vertices[i] = gridLayout.WorldToCell(worldPos);
         }
 
         Size = new Vector3Int(Mathf.Abs((vertices[0] - vertices[1]).x), Mathf.Abs((vertices[0] - vertices[3]).y), 1);
@@ -93,6 +92,8 @@ public class PlaceableObject : MonoBehaviour
 
     public void OnDestroy()
     {
+        if (tileMap == null) return;
+
         tileMap.SetTile(pos, null);
         Destroy(this.gameObject);
     }

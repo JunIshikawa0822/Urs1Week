@@ -6,25 +6,27 @@ using UnityEngine.Tilemaps;
 using System.Drawing;
 using Palmmedia.ReportGenerator.Core;
 using System.Collections.Concurrent;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
     private GridLayout gridLayout;
     private Transform goalPos;
 
     private bool isGoal;
-
-    private Vector3Int playerSize;
+    
+    public Vector3Int playerSize= new Vector3Int(1,1,1);
     private Vector3[] bottomVertices;
 
-    public event Func<Player, string, bool> moveCheckFunc;
-    public event Func<Player, bool> jumpMoveCheckFunc;
-    public event Func<Player, string, bool> breakCheckFunc;
+    public event Func<Player, string, bool,bool> moveCheckFunc;
+    public event Func<Player, bool,bool> jumpMoveCheckFunc;
+    public event Func<Player, string, bool,bool> breakCheckFunc;
 
     public event Func<Vector3, GridLayout, Vector3> convertPosToCellPosFunc;
-    public event Func<Player, Transform, bool> goalCheckFunc;
+    public event Func<Player, Transform, bool,bool> goalCheckFunc;
 
-    public event Action<GameObject> breakEvent;
+    public event Action<GameObject,bool> breakEvent;
     public event Action damageEvent;
 
     //test
@@ -57,7 +59,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < vertices.Length; i++)
         {
             Vector3 worldPos = transform.TransformPoint(bottomVertices[i]);
-            vertices[i] = BuildingSystem.current.gridLayout.WorldToCell(worldPos);
+            vertices[i] = gridLayout.WorldToCell(worldPos);
         }
 
         playerSize = new Vector3Int(Mathf.Abs((vertices[0] - vertices[1]).x), Mathf.Abs((vertices[0] - vertices[3]).y), 1);
@@ -65,172 +67,298 @@ public class Player : MonoBehaviour
 
     private bool GoalCheckFunc()
     {
+        bool isMasterClient = PhotonNetwork.IsMasterClient;
         if (goalCheckFunc == null) return false;
-        return goalCheckFunc(this, goalPos);
+        return goalCheckFunc(this, goalPos,isMasterClient);
     }
 
     public void MoveForward()
     {
-        if (moveCheckFunc(this, "Forward"))
+        
+        if(photonView.IsMine)
         {
-            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 1), gridLayout);
-            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            bool isMasterClient= PhotonNetwork.IsMasterClient;
+            if (moveCheckFunc(this, "Forward", isMasterClient))
+            {
+                Vector3 posXZ;
+                if (isMasterClient)
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 1), gridLayout);
+                }
+                else
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position - new Vector3(0, 0, 1), gridLayout);
+                }
+                transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            }
+            else
+            {
+                Debug.Log("CantMove");
+            }
         }
-        else
-        {
-            Debug.Log("CantMove");
-        }
+        
     }
 
     public void MoveRight()
     {
-        if (moveCheckFunc(this, "Right"))
+
+        //ForceBackWard();
+        if (photonView.IsMine)
         {
-            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
-            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            bool isMasterClient = PhotonNetwork.IsMasterClient;
+            if (moveCheckFunc(this, "Right",isMasterClient))
+            {
+                Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
+                transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            }
+            else
+            {
+                Debug.Log("CantMove");
+            }
         }
-        else
-        {
-            Debug.Log("CantMove");
-        }
+        
     }
 
     public void MoveLeft()
     {
-        if (moveCheckFunc(this, "Left"))
+        if (photonView.IsMine)
         {
-            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
-            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            bool isMasterClient = PhotonNetwork.IsMasterClient;
+            if (moveCheckFunc(this, "Left",isMasterClient))
+            {
+                Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
+                transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            }
+            else
+            {
+                Debug.Log("CantMove");
+            }
         }
-        else
-        {
-            Debug.Log("CantMove");
-        }
+        
     }
 
     public void MoveBackward()
     {
-        if (moveCheckFunc(this, "Backward"))
+        if (photonView.IsMine)
         {
-            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
-            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            bool isMasterClient = PhotonNetwork.IsMasterClient;
+            if (moveCheckFunc(this, "Backward",isMasterClient))
+            {
+                Vector3 posXZ;
+                if (isMasterClient)
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, -1), gridLayout);
+                }
+                else
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position - new Vector3(0, 0, -1), gridLayout);
+                }
+                
+                transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            }
+            else
+            {
+                Debug.Log("CantMove");
+            }
         }
-        else
-        {
-            Debug.Log("CantMove");
-        }
+        
     }
 
     public void MoveRightFront()
     {
-        if (moveCheckFunc(this, "RightFront"))
+        if (photonView.IsMine)
         {
-            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 1), gridLayout);
-            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            bool isMasterClient = PhotonNetwork.IsMasterClient;
+            if (moveCheckFunc(this, "RightFront",isMasterClient))
+            {
+                Vector3 posXZ;
+                if (isMasterClient)
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 1), gridLayout);
+                }
+                else
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position - new Vector3(1, 0, 1), gridLayout);
+                }
+                
+                transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            }
+            else
+            {
+                Debug.Log("CantMove");
+            }
         }
-        else
-        {
-            Debug.Log("CantMove");
-        }
+        
     }
 
     public void MoveLeftFront()
     {
-        if (moveCheckFunc(this, "LeftFront"))
+        if (photonView.IsMine)
         {
-            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 1), gridLayout);
-            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            bool isMasterClient = PhotonNetwork.IsMasterClient;
+            if (moveCheckFunc(this, "LeftFront",isMasterClient))
+            {
+                Vector3 posXZ;
+                if (isMasterClient)
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 1), gridLayout);
+                }
+                else
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position - new Vector3(-1, 0, 1), gridLayout);
+                }
+                transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            }
+            else
+            {
+                Debug.Log("CantMove");
+            }
         }
-        else
-        {
-            Debug.Log("CantMove");
-        }
+        
     }
 
     public void MoveJump()
     {
-        if (jumpMoveCheckFunc(this))
+        if (photonView.IsMine)
         {
-            Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 2), gridLayout);
-            transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            bool isMasterClient = PhotonNetwork.IsMasterClient;
+            if (jumpMoveCheckFunc(this,isMasterClient))
+            {
+                Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 2), gridLayout);
+                transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+            }
+            else
+            {
+                Debug.Log("CantMove");
+            }
         }
-        else
-        {
-            Debug.Log("CantMove");
-        }
+        
     }
 
     public void MoveBreak()
     {
-        if (breakCheckFunc(this, "Break"))
+        if (photonView.IsMine)
         {
-            if (!Physics.Raycast(this.transform.position, transform.forward, out RaycastHit hitInfo, playerSize.z))return;
-
-            if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
+            bool isMasterClient = PhotonNetwork.IsMasterClient;
+            if (breakCheckFunc(this, "Break",isMasterClient))
             {
-                if (breakEvent == null) return;
-                breakEvent.Invoke(hitInfo.collider.gameObject);
+                if (!Physics.Raycast(this.transform.position, transform.forward, out RaycastHit hitInfo, playerSize.z)) return;
+
+                if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
+                {
+                    if (breakEvent == null) return;
+                    breakEvent.Invoke(hitInfo.collider.gameObject,isMasterClient);
+                }
+                else
+                {
+                    DamageEvent();
+                }
             }
             else
             {
-                DamageEvent();
+                Debug.Log("CantMove");
             }
         }
-        else
-        {
-            Debug.Log("CantMove");
-        }
+        
     }
 
     public void MoveRightBreak()
     {
-        if (breakCheckFunc(this, "RightBreak"))
+        if (photonView.IsMine)
         {
-            if (!Physics.Raycast(this.transform.position, transform.right, out RaycastHit hitInfo, playerSize.z)) return;
-
-            if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
+            if (breakCheckFunc(this, "RightBreak",isActiveAndEnabled))
             {
-                if (breakEvent == null) return;
-                breakEvent.Invoke(hitInfo.collider.gameObject);
+                if (!Physics.Raycast(this.transform.position, transform.right, out RaycastHit hitInfo, playerSize.z)) return;
+
+                if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
+                {
+                    if (breakEvent == null) return;
+                    breakEvent.Invoke(hitInfo.collider.gameObject,isActiveAndEnabled);
+                }
+                else
+                {
+                    DamageEvent();
+                }
             }
             else
             {
-                DamageEvent();
+                Debug.Log("CantMove");
             }
         }
-        else
-        {
-            Debug.Log("CantMove");
-        }
+        
     }
 
     public void MoveLeftBreak()
     {
-        if (breakCheckFunc(this, "LeftBreak"))
+        if (photonView.IsMine)
         {
-            if (!Physics.Raycast(this.transform.position, -transform.right, out RaycastHit hitInfo, playerSize.z)) return;
-
-            if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
+            if (breakCheckFunc(this, "LeftBreak",isActiveAndEnabled))
             {
-                if (breakEvent == null) return;
-                breakEvent.Invoke(hitInfo.collider.gameObject);
+                if (!Physics.Raycast(this.transform.position, -transform.right, out RaycastHit hitInfo, playerSize.z)) return;
+
+                if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
+                {
+                    if (breakEvent == null) return;
+                    breakEvent.Invoke(hitInfo.collider.gameObject,isActiveAndEnabled);
+                }
+                else
+                {
+                    DamageEvent();
+                }
             }
             else
             {
-                DamageEvent();
+                Debug.Log("CantMove");
             }
         }
-        else
-        {
-            Debug.Log("CantMove");
-        }
+       
     }
 
     private void DamageEvent()
     {
-        if (damageEvent == null) return;
-        damageEvent.Invoke();
+        if (photonView.IsMine)
+        {
+            if (damageEvent == null) return;
+            damageEvent.Invoke();
+        }
+        
     }
+
+    public void ForceBackWard()
+    {
+        if (photonView.IsMine)
+        {
+            PhotonView targetPhotonView;
+            if (photonView.ViewID == 1001)
+            {
+                Debug.Log("1001です");
+                targetPhotonView = PhotonView.Find(2001);
+            }
+            else if (photonView.ViewID == 2001)
+            {
+                targetPhotonView = PhotonView.Find(1001);
+                Debug.Log("2001です");
+            }
+            else
+            {
+                targetPhotonView = photonView;
+                Debug.Log("IDわからん");
+            }
+            // 対象のPhotonView IDを指定
+            targetPhotonView.RPC("BackWard", RpcTarget.Others);
+        }
+    }
+
+    //相手の駒を下げる　p
+    [PunRPC]
+    public void BackWard()
+    {
+        MoveBackward();
+        Debug.Log("下げられた");
+    }
+    
+
+
 
     public Vector3Int GetSize
     {
@@ -254,13 +382,15 @@ public class Player : MonoBehaviour
         }
         Debug.Log("いまからこのプログラムは {" + string.Join(",", nowProgramArray) + "}");
 
-        StartCoroutine(AnimationWait());
+        MoveTest();
+        //StartCoroutine(AnimationWait());
     }
 
     IEnumerator AnimationWait()
     {
+        Debug.Log("OK");
         //Debug.Log(string.Join(", ", nowList));
-        yield return new WaitForSeconds(1.0f);
+        //yield return new WaitForSeconds(1.0f);
         
         foreach (int _code in nowProgramArray)
         {
@@ -278,7 +408,7 @@ public class Player : MonoBehaviour
             }
             else if (_code == 3)
             {
-                MoveBackward();
+                //MoveBackward();
             }
             else if (_code == 4)
             {
@@ -316,5 +446,70 @@ public class Player : MonoBehaviour
         }
 
         Debug.Log("ターンエンド");
+    }
+
+    private void MoveTest()
+    {
+
+        foreach (int _code in nowProgramArray)
+        {
+            if (_code == 0)
+            {
+                MoveForward();
+            }
+            else if (_code == 1)
+            {
+                MoveRight();
+            }
+            else if (_code == 2)
+            {
+                MoveLeft();
+            }
+            else if (_code == 3)
+            {
+                //MoveBackward();
+                ForceBackWard();
+                Debug.Log("下げたい");
+            }
+            else if (_code == 4)
+            {
+                MoveJump();
+            }
+            else if (_code == 5)
+            {
+                MoveBreak();
+            }
+            else if (_code == 6)
+            {
+                MoveRightFront();
+            }
+            else if (_code == 7)
+            {
+                MoveLeftFront();
+            }
+            else if (_code == 8)
+            {
+                MoveRightBreak();
+            }
+            else if (_code == 9)
+            {
+                MoveLeftBreak();
+            }
+
+            isGoal = GoalCheckFunc();
+        }
+    }
+
+    void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        if (info.Sender.IsLocal)
+        {
+            Debug.Log("自身がネットワークオブジェクトを生成しました");
+            
+        }
+        else
+        {
+            Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
+        }
     }
 }

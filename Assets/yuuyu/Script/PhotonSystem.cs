@@ -21,6 +21,7 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
     // マスターサーバーへの接続が成功した時に呼ばれるコールバック
     void IConnectionCallbacks.OnConnectedToMaster()
     {
+        Debug.Log("マスターサーバーへの接続が成功");
         // ランダムなルームに参加する
         PhotonNetwork.JoinRandomRoom();
         // "Room"という名前のルームに参加する（ルームが存在しなければ作成して参加する）
@@ -44,9 +45,26 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
         }
-       
+
         //var position = new Vector3(1.0f,1.0f,1.0f);
-        //PhotonNetwork.Instantiate("TestCube", position, Quaternion.identity);
+        gameStat.isInstanitiatePlayerObj = true;
+        Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber);
+        /*
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player1StartPos.position, Quaternion.identity).GetComponent<Player>();
+            //Debug.Log(gameStat.player.playerSize);
+            gameStat.isInstanitiatePlayerObj = true;
+            Debug.Log("Playerを生成しました");
+
+        }
+        else
+        {
+            //gameStat.player = PhotonNetwork.Instantiate("Player", gameStat.player2StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
+            Debug.Log("Playerを生成しました");
+        }
+        */
+        
     }
 
     // Photonのサーバーから切断された時に呼ばれるコールバック

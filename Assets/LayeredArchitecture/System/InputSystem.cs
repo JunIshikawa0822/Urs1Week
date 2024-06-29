@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
+using System;
 
 public class InputSystem : SystemBase, IOnPreUpdate
 {
@@ -20,7 +21,7 @@ public class InputSystem : SystemBase, IOnPreUpdate
 
     private void KeyInput()
     {
-        gameStat.isForward = (Input.GetKeyDown(KeyCode.UpArrow)) ? true : false;
+        gameStat.isForward = (Input.GetKeyDown(KeyCode.UpArrow)) ? true : false;          
         gameStat.isRight = (Input.GetKeyDown(KeyCode.RightArrow)) ? true : false;
         gameStat.isLeft = (Input.GetKeyDown(KeyCode.LeftArrow)) ? true : false;
         gameStat.isBackward = (Input.GetKeyDown(KeyCode.DownArrow)) ? true : false;
@@ -106,14 +107,15 @@ public class InputSystem : SystemBase, IOnPreUpdate
             }
         }
     }
-
+    /*
     private void GetBlockSelectInput()
     {
         if (!Input.anyKeyDown) return;
 
         string keyStr = Input.inputString;
+        Debug.Log(keyStr);
         int strToInt;
-
+        
         if (!int.TryParse(keyStr, out strToInt))
         {
             return;
@@ -124,9 +126,33 @@ public class InputSystem : SystemBase, IOnPreUpdate
         }
         else
         {
-            //Debug.Log(strToInt);
+            Debug.Log(strToInt);
             gameStat.selectedPlacingObjectIndex = strToInt;
         }
     }
+    */
+
+    private void GetBlockSelectInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            gameStat.selectedPlacingObjectIndex = 0;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            gameStat.selectedPlacingObjectIndex = 1;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+           
+            gameStat.selectedPlacingObjectIndex = 2;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+
+            gameStat.selectedPlacingObjectIndex = 3;
+        }
+    }
+   
 }
  

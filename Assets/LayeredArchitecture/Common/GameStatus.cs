@@ -15,16 +15,28 @@ public class GameStatus
     public Player playerPrefab;
 
     [SerializeField]
-    public Transform playerStartPos;
+    public GameObject playerObj;
 
     [SerializeField]
-    public Transform goalPos;
+    public Transform player1StartPos;
+
+    [SerializeField]
+    public Transform player2StartPos;
+
+    [SerializeField]
+    public Transform goalPos1;
+
+    [SerializeField]
+    public Transform goalPos2;
 
     [SerializeField]
     public Vector3 player1PosForDamage;
 
     [SerializeField]
     public Vector3 player2PosForDamage;
+
+    [SerializeField]
+    public bool isInstanitiatePlayerObj=false;
 
     [Header("Placing")]
     [SerializeField] public Tilemap mainTileMap;
@@ -119,6 +131,15 @@ public class GameStatus
 
     [SerializeField]
     public InputNameType placingInputDownName;
+
+
+    [Header("UI")]
+    public ButtonBase[] selectPanelArray;
+
+    [Header("Camera")]
+    public GameObject camera1;
+    public GameObject camera2;
+
 
     public enum InputNameType
     {
