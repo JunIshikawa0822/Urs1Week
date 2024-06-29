@@ -11,4 +11,10 @@ public class SystemBase
     {
 
     }
+
+    public virtual void PhaseEnd()
+    {
+        if (gameStat.isPhaseEnd) return;
+        gameStat.isPhaseEnd = true;
+    }
 }
