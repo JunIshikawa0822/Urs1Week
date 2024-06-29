@@ -114,8 +114,8 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
         else
         {
-            SetTiles();
-            //this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.Others);
+           
+            this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.All);
             Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
         }
     }
