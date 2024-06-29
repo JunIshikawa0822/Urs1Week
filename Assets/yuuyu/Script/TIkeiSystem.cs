@@ -12,8 +12,8 @@ public class TaikiSystem : SystemBase, IOnUpdate
             gameStat.isMatchOk = false;
             gameStat.taikiPanel.SetActive(false);
             gameStat.gamePanel.SetActive(true);
-
         }
+       
     }
 
 }

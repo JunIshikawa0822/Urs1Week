@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon;
 
 // MonoBehaviourPunCallbacksを継承して、PUNのコールバックを受け取れるようにする
-public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallbacks
+public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallbacks, IInRoomCallbacks
 {
-    //,IInRoomCallbacks
+   
     public override void SetUp()
     {
         // PhotonServerSettingsの設定内容を使ってマスターサーバーへ接続する
@@ -79,14 +79,14 @@ public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallba
         */
 
     }
-    /*
+    
     public void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         Debug.Log("MatchOk");
         gameStat.isMatchOk = true;
         throw new System.NotImplementedException();
     }
-    */
+    
     
     // Photonのサーバーから切断された時に呼ばれるコールバック
     void IConnectionCallbacks.OnDisconnected(DisconnectCause cause)
@@ -119,7 +119,7 @@ public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallba
     
     
     
-    /*
+    
     public void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         throw new System.NotImplementedException();
@@ -139,6 +139,6 @@ public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallba
     {
         throw new System.NotImplementedException();
     }
-    */
+    
     
 }
