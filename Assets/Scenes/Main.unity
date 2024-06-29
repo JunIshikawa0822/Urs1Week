@@ -3510,6 +3510,7 @@ MonoBehaviour:
     mainTileMap: {fileID: 1040058363}
     occupiedTilesArray:
     - {fileID: 11400000, guid: 95ffebcd05b7a4fb49449f678443e3c5, type: 2}
+    - {fileID: 11400000, guid: 42a0869a4daa8407d86a616a62285661, type: 2}
     - {fileID: 11400000, guid: 32e7e2a0d48fe4fdcbfb715a715e08c7, type: 2}
     stageTile: {fileID: 11400000, guid: 42a0869a4daa8407d86a616a62285661, type: 2}
     placingObjectGridLayout: {fileID: 1485745150}
@@ -3846,7 +3847,7 @@ Transform:
   m_GameObject: {fileID: 1374525628}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.01, z: -6}
+  m_LocalPosition: {x: 0, y: -0.01, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4768,7 +4769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5566550108319446422, guid: f5c4a537999d14d99968b85b2f4fbd06, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.9624999
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 5566550108319446422, guid: f5c4a537999d14d99968b85b2f4fbd06, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4822,8 +4823,8 @@ SceneRoots:
   - {fileID: 586543168}
   - {fileID: 742823467}
   - {fileID: 2084593529}
-  - {fileID: 1485745151}
   - {fileID: 1374525630}
+  - {fileID: 1485745151}
   - {fileID: 188483950}
   - {fileID: 853543451}
   - {fileID: 1245850821}

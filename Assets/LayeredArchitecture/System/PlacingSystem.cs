@@ -76,6 +76,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
     private void Place(int _Index, Vector3 _setPos, TileBase _occupiedTileBase)
     {
         PlaceableObject placedObject=PhotonNetwork.Instantiate(gameStat.objectAllPrefabsArray[_Index].name, _setPos, Quaternion.identity).GetComponent<PlaceableObject>();
+        Debug.Log("hako"+placedObject);
         //PlaceableObject placedObject = GameObject.Instantiate(gameStat.objectAllPrefabsArray[_Index], _setPos, Quaternion.identity);
         placedObject.SetUp(gameStat.mainTileMap, _occupiedTileBase, gameStat.placedObjectList.Count,gameStat.placingObjectGridLayout);
 

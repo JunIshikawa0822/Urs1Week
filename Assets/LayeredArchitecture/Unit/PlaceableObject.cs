@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class PlaceableObject : MonoBehaviour
+
+public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
     public bool Placed { get; private set; }
     public Vector3Int Size;
@@ -89,6 +92,7 @@ public class PlaceableObject : MonoBehaviour
         Vector3Int tilePos = tileMap.WorldToCell(this.transform.position);
         Debug.Log(tilePos);
         this.pos = tilePos;
+        Debug.Log(occupiedTileBase);
         tileMap.SetTile(pos, occupiedTileBase);
     }
 
@@ -98,5 +102,28 @@ public class PlaceableObject : MonoBehaviour
 
         tileMap.SetTile(pos, null);
         Destroy(this.gameObject);
+    }
+    void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+       
+        if (info.Sender.IsLocal)
+        {
+            if (photonView.IsMine)
+            {
+                this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.Others);
+            }
+            Debug.Log("自身がネットワークオブジェクトを生成しました");
+
+        }
+        else
+        {
+            Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
+        }
+    }
+    [PunRPC]
+    public void SetTileRPC()
+    {
+        SetTiles();
+        Debug.Log("タイルをセット");
     }
 }
