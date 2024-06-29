@@ -110,6 +110,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             
             Debug.Log("自身がネットワークオブジェクトを生成しました");
+            this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.Others);
 
         }
         else
@@ -117,7 +118,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
            
             
             Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
-            this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.All);
+            //this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.All);
         }
     }
     [PunRPC]
