@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static UnityEngine.RuleTile.TilingRuleOutput;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class PlacingSystem : SystemBase, IOnUpdate
 {
@@ -73,7 +75,8 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
     private void Place(int _Index, Vector3 _setPos, TileBase _occupiedTileBase)
     {
-        PlaceableObject placedObject = GameObject.Instantiate(gameStat.objectAllPrefabsArray[_Index], _setPos, Quaternion.identity);
+        PlaceableObject placedObject=PhotonNetwork.Instantiate(gameStat.objectAllPrefabsArray[_Index].name, _setPos, Quaternion.identity).GetComponent<PlaceableObject>();
+        //PlaceableObject placedObject = GameObject.Instantiate(gameStat.objectAllPrefabsArray[_Index], _setPos, Quaternion.identity);
         placedObject.SetUp(gameStat.mainTileMap, _occupiedTileBase, gameStat.placedObjectList.Count,gameStat.placingObjectGridLayout);
 
         gameStat.placedObjectList.Add(placedObject);

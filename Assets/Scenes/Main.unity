@@ -3566,6 +3566,8 @@ MonoBehaviour:
     - {fileID: 1563920720}
     camera1: {fileID: 586543165}
     camera2: {fileID: 742823464}
+    isEnterRoom: 0
+    isMaster: 0
 --- !u!1 &1254831578
 GameObject:
   m_ObjectHideFlags: 0
@@ -3852,7 +3854,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!156049354 &1485745150
 Grid:
   m_ObjectHideFlags: 0
