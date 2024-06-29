@@ -177,7 +177,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
         }
         
     }
-
+    //プログラムのリストをけしてる
     private void BreakPlacedObject(GameObject _object,bool _isMasterClient)
     {
         PlaceableObject obj = _object.GetComponent<PlaceableObject>();

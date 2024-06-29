@@ -18,6 +18,9 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     private Vector3Int pos;
     private GridLayout gridLayout;
 
+    public Tilemap tileMapPUN;
+    public TileBase tileBasePUN1;
+    public TileBase tileBasePUN2;
 
     public void SetUp(Tilemap _tileMap, TileBase _occupiedTileBase, int _index, GridLayout _gridLayout)
     {
@@ -89,11 +92,28 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     public void SetTiles()
     {
         Debug.Log("おけた");
-        Vector3Int tilePos = tileMap.WorldToCell(this.transform.position);
-        Debug.Log("ほんとにおけた");
-        this.pos = tilePos;
-        Debug.Log(occupiedTileBase);
-        tileMap.SetTile(pos, occupiedTileBase);
+        if (tileMap == null)
+        {
+            tileMap = GameObject.Find("StageTileMap").GetComponent<Tilemap>();
+            Vector3Int tilePos = tileMapPUN.WorldToCell(this.transform.position);
+            Debug.Log("ほんとにおけた");
+            this.pos = tilePos;
+            Debug.Log(occupiedTileBase);
+            if(PhotonNetwork.IsMasterClient)
+                tileMap.SetTile(pos, tileBasePUN1);
+            else
+                tileMap.SetTile(pos, tileBasePUN2);
+        }
+        else
+        {
+            Vector3Int tilePos = tileMap.WorldToCell(this.transform.position);
+            Debug.Log("ほんとにおけた");
+            this.pos = tilePos;
+            Debug.Log(occupiedTileBase);
+            tileMap.SetTile(pos, occupiedTileBase);
+        }
+
+       
         
     }
 
@@ -106,24 +126,10 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     }
     void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
     {
-        if (photonView.IsMine)
+        if (info.photonView.IsMine)
         {
             PhotonView targetPhotonView;
-            if (photonView.ViewID == 1001)
-            {
-                Debug.Log("1001です");
-                targetPhotonView = PhotonView.Find(2001);
-            }
-            else if (photonView.ViewID == 2001)
-            {
-                targetPhotonView = PhotonView.Find(1001);
-                Debug.Log("2001です");
-            }
-            else
-            {
-                targetPhotonView = photonView;
-                Debug.Log("IDわからん");
-            }
+            targetPhotonView = info.photonView;
             // 対象のPhotonView IDを指定
             targetPhotonView.RPC("SetTileRPC", RpcTarget.Others);
         }
