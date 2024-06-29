@@ -499,17 +499,18 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             isGoal = GoalCheckFunc();
         }
     }
-
+    
     void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
     {
         if (info.Sender.IsLocal)
         {
-            Debug.Log("自身がネットワークオブジェクトを生成しました");
+            //Debug.Log("自身がネットワークオブジェクトを生成しました");
             
         }
         else
         {
-            Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
+            //Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
         }
     }
+    
 }
