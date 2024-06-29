@@ -108,15 +108,14 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
        
         if (info.Sender.IsLocal)
         {
-            if (photonView.IsMine)
-            {
-                this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.Others);
-            }
+            
             Debug.Log("自身がネットワークオブジェクトを生成しました");
 
         }
         else
         {
+            
+            this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.Others);
             Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
         }
     }
