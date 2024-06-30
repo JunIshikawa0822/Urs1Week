@@ -13,6 +13,10 @@ public class OptionsButtonBase : MonoBehaviour
     [SerializeField]
     private GameObject isSelectUI;
 
+    [SerializeField]
+    private AudioSource audioSource; 
+
+
     EventTrigger optionsButtonEventTrigger;
 
     private event Action<GameObject> pointerDownEvent;
@@ -43,6 +47,8 @@ public class OptionsButtonBase : MonoBehaviour
 
     private void PointerDownEvent()
     {
+        audioSource.PlayOneShot(audioSource.clip);
+
         if (pointerDownEvent == null) return;
         pointerDownEvent?.Invoke(objectUI);
 

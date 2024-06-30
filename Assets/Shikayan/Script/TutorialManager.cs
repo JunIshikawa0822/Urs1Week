@@ -9,8 +9,11 @@ public class TutorialManager : MonoBehaviour
 
     private int tutorialIndex = 0;
 
+    private AudioSource audioSource;
+
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         SetImage();
     }
 
@@ -31,6 +34,7 @@ public class TutorialManager : MonoBehaviour
         tutorialIndex++;
 
         SetImage();
+        audioSource.PlayOneShot(audioSource.clip);
     }
 
     public void Reset()
