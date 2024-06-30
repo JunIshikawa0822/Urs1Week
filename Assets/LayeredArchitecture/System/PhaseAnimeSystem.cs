@@ -16,7 +16,13 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     }
     public void OnUpdate()
     {
-        
+        if (gameStat.isMatchOk && (!gameStat.isFirstUI))
+        {
+            gameStat.isFirstUI = true;
+            if (gameStat.isMaster) { StartSetBlockPhase(); }
+            else { EnenmyPhaseUI(); }
+
+        }
         //if (!gameStat.isMyPhase) return;
         //自分のSetターンが終わったらい相手のセットターンを始めるようにTurmmanagerに伝える
         if (gameStat.isAtackFirst)
@@ -25,12 +31,14 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
             {
                 Debug.Log("さいしよ");
                 gameStat.turnNum++;
+                EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartSetPhase();
             }
             if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 3))
             {
                 
                 gameStat.turnNum++;
+                EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartMovePhase();
             }
         }
@@ -40,6 +48,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
             {
                 
                 gameStat.turnNum++;
+                EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartMovePhase();
             }
             if ((!gameStat.isMyMovePhase)&& (gameStat.turnNum == 4))
@@ -50,6 +59,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
                 gameStat.isMyPhase = true;
                 gameStat.isAtackFirst = true;
                 gameStat.isMySetPhaseInitialized = false;
+                StartSetBlockPhase();
                 gameStat.turnManger.ResetTurenNum();
             }
         }
@@ -66,13 +76,23 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     //アニメーションやテロップなどを動かす処理をかく
     private void StartSetBlockPhase()
     {
+        GameObject obj = GameObject.Instantiate(gameStat.mySetPhaseUI, gameStat.mySetPhaseUI.transform.position, Quaternion.identity);
+        obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("SetBlockターンをかいし");
     }
     //アニメーションやテロップなどを動かす処理をかく
     private void StartMovePhase()
     {
+        GameObject obj = GameObject.Instantiate(gameStat.myMovePhaseUI, gameStat.myMovePhaseUI.transform.position, Quaternion.identity);
+        obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("Moveターンを開始");
     }
+    private void EnenmyPhaseUI()
+    {
+        GameObject obj = GameObject.Instantiate(gameStat.enemyTurenUI, gameStat.enemyTurenUI.transform.position, Quaternion.identity);
+        obj.transform.parent = gameStat.canvas.transform;
+    }
+
 
     private void GoalAnime(bool _isWinPlayer)
     {
@@ -111,6 +131,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
         gameStat.isMySetPhase = false;
         gameStat.isAtackFirst = false;
         gameStat.isMySetPhaseInitialized = false;
+        EnenmyPhaseUI();
     }
 
     private void getResultCheck(bool _isWinPlayer)
