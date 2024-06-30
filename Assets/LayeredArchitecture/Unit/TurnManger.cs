@@ -10,6 +10,7 @@ public class TurnManger : MonoBehaviourPunCallbacks
     public event Action enemyStartSetPhase;
     public event Action enemyStartMovePhase;
     public event Action resetCicle;
+    public event Action<bool> result;
 
     [ContextMenu("やる")]
     public void EnemyStartSetPhase()
@@ -25,6 +26,10 @@ public class TurnManger : MonoBehaviourPunCallbacks
     public void ResetTurenNum()
     {
         photonView.RPC(nameof(ResetTurenNumRPC), RpcTarget.Others);
+    }
+    public void ResultCheck()
+    {
+        
     }
 
     [PunRPC]
@@ -49,5 +54,11 @@ public class TurnManger : MonoBehaviourPunCallbacks
         
         resetCicle.Invoke();
        
+    }
+
+    [PunRPC]
+    public void ResultCheckRPC()
+    {
+        result.Invoke(false);
     }
 }

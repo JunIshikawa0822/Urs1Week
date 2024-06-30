@@ -12,6 +12,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
         gameStat.turnManger.enemyStartSetPhase += getCHeckMyStartSetPhase;
         gameStat.turnManger.enemyStartMovePhase += getCHeckMyStartMovePhase;
         gameStat.turnManger.resetCicle+= getCheckResetTurnNum;
+        gameStat.turnManger.result += getResultCheck;
     }
     public void OnUpdate()
     {
@@ -52,7 +53,10 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
             }
         }
        
-
+        if(gameStat.isPlayerGoal)
+        {
+            GoalAnime(true);
+        }
         
         
     }
@@ -68,10 +72,20 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     {
         Debug.Log("Moveターンを開始");
     }
-    private void PhaseEnd()
-    {
 
+    private void GoalAnime(bool _isWinPlayer)
+    {
+        if (_isWinPlayer)
+        {
+            Debug.Log("あなたの勝利");
+        }
+        else
+        {
+            Debug.Log("あなたの負け");
+        }
+        
     }
+    
 
     private void getCHeckMyStartSetPhase()
     {
@@ -95,5 +109,10 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
         gameStat.isMyPhase = false;
         gameStat.isMySetPhase = false;
         gameStat.isAtackFirst = false;
+    }
+
+    private void getResultCheck(bool _isWinPlayer)
+    {
+        GoalAnime(_isWinPlayer);
     }
 }
