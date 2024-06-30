@@ -15,17 +15,20 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     }
     public void OnUpdate()
     {
+        if (!gameStat.isMatchOk) return;
         //if (!gameStat.isMyPhase) return;
         //自分のSetターンが終わったらい相手のセットターンを始めるようにTurmmanagerに伝える
         if (gameStat.isAtackFirst)
         {
             if ((!gameStat.isMySetPhase)&&(gameStat.turnNum == 1))
             {
+                Debug.Log("さいしよ");
                 gameStat.turnNum++;
                 gameStat.turnManger.EnemyStartSetPhase();
             }
             if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 3))
             {
+                
                 gameStat.turnNum++;
                 gameStat.turnManger.EnemyStartMovePhase();
             }
@@ -34,6 +37,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
         {
             if((!gameStat.isMySetPhase)&&(gameStat.turnNum == 2))
             {
+                
                 gameStat.turnNum++;
                 gameStat.turnManger.EnemyStartMovePhase();
             }
