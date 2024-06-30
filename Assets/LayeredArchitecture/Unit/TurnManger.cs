@@ -10,7 +10,7 @@ public class TurnManger : MonoBehaviourPunCallbacks
     public event Action enemyStartSetPhase;
     public event Action enemyStartMovePhase;
     public event Action resetCicle;
-    public event Action<bool> result;
+    public event Action result;
 
     [ContextMenu("やる")]
     public void EnemyStartSetPhase()
@@ -59,6 +59,6 @@ public class TurnManger : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ResultCheckRPC()
     {
-        result.Invoke(false);
+        result.Invoke();
     }
 }
