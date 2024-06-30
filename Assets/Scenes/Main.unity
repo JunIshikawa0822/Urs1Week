@@ -4619,6 +4619,11 @@ MonoBehaviour:
     - {fileID: 1563920722}
     scrorViewContent: {fileID: 861974734}
     programViewImage: {fileID: 3197495314400806467, guid: a5ab9ce8f9a0c4267a371194c8f7d2d3, type: 3}
+    winUI: {fileID: 0}
+    loseUI: {fileID: 0}
+    enemyFhaseUI: {fileID: 3995463551513652391, guid: e31ef6df54d534bb3b4f4cc55d7bd688, type: 3}
+    mySetFhaseUI: {fileID: 5571299386970503519, guid: fe2ca34255bbd4b46af2424fd8384926, type: 3}
+    myMoveFhaseUI: {fileID: 1108526246318705932, guid: f31c2161b723248c895ac561ec14f23e, type: 3}
     camera1: {fileID: 586543165}
     camera2: {fileID: 742823464}
     taikiPanel: {fileID: 1902402469}
