@@ -95,7 +95,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (tileMap == null)
         {
 
-            tileMapPUN = GameObject.Find("StageTileMap").GetComponent<Tilemap>();
+            tileMapPUN = GameObject.Find("ObjectTileMap").GetComponent<Tilemap>();
             Vector3Int tilePos = tileMapPUN.WorldToCell(this.transform.position);
             this.pos = tilePos;
             Debug.Log("相手のほんとにおけた");
