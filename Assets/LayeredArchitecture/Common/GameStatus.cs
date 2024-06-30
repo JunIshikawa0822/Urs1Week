@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class GameStatus
@@ -69,6 +70,10 @@ public class GameStatus
     [SerializeField]
     public PlaceableObject[] objectAllPrefabsArray;
 
+    //BlockUIのPrefab全てを格納するArray
+    [SerializeField]
+    public Sprite[] objectImageAllPrefabsArray;
+
     //盤面に置いてあるBlockを格納するリスト
     [System.NonSerialized]
     public List<PlaceableObject> placedObjectList = new List<PlaceableObject>();
@@ -121,6 +126,10 @@ public class GameStatus
     public bool isMyMoveStart = true;
     [System.NonSerialized]
     public bool isPhaseEnd = false;
+    [System.NonSerialized]
+    public bool isSetRandomBlockUI = false;
+    [System.NonSerialized]
+    public bool isSetProgramView = false;
 
     //ゴールしたか
     [System.NonSerialized]
@@ -135,6 +144,9 @@ public class GameStatus
 
     [Header("UI")]
     public ButtonBase[] selectPanelArray;
+    public Image[] selsectImageArray;
+    public GameObject scrorViewContent;
+    public GameObject programViewImage;
 
     [Header("Camera")]
     public GameObject camera1;
