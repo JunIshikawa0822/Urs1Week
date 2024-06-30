@@ -111,11 +111,11 @@ public class GameStatus
     public bool isBackward = false;
 
     [Header("Flag")]
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public bool isMySetPhase = false;
     [System.NonSerialized]
     public bool isMySetPhaseInitialized = false;
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public bool isMyMovePhase = false;
     [System.NonSerialized]
     public bool isMyMoveStart = true;
@@ -153,6 +153,16 @@ public class GameStatus
     public GameObject taikiPanel;
     [SerializeField]
     public GameObject gamePanel;
+
+    [Header("Tarn")]
+    public TurnManger turnManger;
+    //[System.NonSerialized]
+    public bool isMyPhase;
+    //[System.NonSerialized]
+    public bool isAtackFirst;
+    //[System.NonSerialized]
+    public int turnNum;
+
     public enum InputNameType
     {
         MouseButtonRight,

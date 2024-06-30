@@ -31,6 +31,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
             gameStat.player1PosForDamage = gameStat.player.transform.position;
             gameStat.player.MoveByProgram(gameStat.programList);
             gameStat.isMyMoveStart = true;
+            gameStat.isMyPhase = false;
         }
 
         gameStat.isPlayerGoal = gameStat.player.GetIsGoal;
@@ -79,8 +80,10 @@ public class PlayerSystem : SystemBase, IOnUpdate
         gameStat.player.moveCheckFunc += MoveCheck;
         gameStat.player.jumpMoveCheckFunc += JumpMoveCheck;
         gameStat.player.breakCheckFunc += BreakCheck;
-        
-       
+        gameStat.player.movePhaseEnd += EndMovePhase;
+
+
+
 
         if (PhotonNetwork.IsMasterClient)
             gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.goalPos1);
@@ -177,7 +180,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
         }
         
     }
-
+    //プログラムのリストをけしてる
     private void BreakPlacedObject(GameObject _object,bool _isMasterClient)
     {
         PlaceableObject obj = _object.GetComponent<PlaceableObject>();
@@ -292,6 +295,10 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     }
 
+    private void EndMovePhase()
+    {
+        gameStat.isMyMovePhase = false;
+    }
     
 
    

@@ -43,6 +43,10 @@ MonoBehaviour:
   - AddEnemyProgramList
   - ForceBackWard
   - BackWard
+  - SetTileRPC
+  - EnemyStartSetPhaseRPC
+  - EnemyStartMovePhaseRPC
+  - ResetTurenNumRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
