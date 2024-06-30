@@ -73,7 +73,7 @@ public class OptionsButtonBase : MonoBehaviour
         return entryTrigger;
     }
 
-    public void ActiveChange(GameObject _object)
+    private void ActiveChange(GameObject _object)
     {
         if (_object == objectUI)
         {
