@@ -109,7 +109,15 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             bool isMasterClient = PhotonNetwork.IsMasterClient;
             if (moveCheckFunc(this, "Right",isMasterClient))
             {
-                Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
+                Vector3 posXZ;
+                if (isMasterClient)
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
+                }
+                else
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position - new Vector3(1, 0, 0), gridLayout);
+                }
                 transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             }
             else
@@ -127,7 +135,16 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             bool isMasterClient = PhotonNetwork.IsMasterClient;
             if (moveCheckFunc(this, "Left",isMasterClient))
             {
-                Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
+                Vector3 posXZ;
+                if (isMasterClient)
+                {
+                   posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
+                }
+                else
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position - new Vector3(-1, 0, 0), gridLayout);
+                }
+                 
                 transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             }
             else
