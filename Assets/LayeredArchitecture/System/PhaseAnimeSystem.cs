@@ -66,6 +66,8 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
        
         if(gameStat.isPlayerGoal)
         {
+            gameStat.isPlayerGoal = false;
+            gameStat.turnManger.ResultCheckGoal();
             GoalAnime(true);
         }
         
@@ -76,20 +78,20 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     //アニメーションやテロップなどを動かす処理をかく
     private void StartSetBlockPhase()
     {
-        GameObject obj = GameObject.Instantiate(gameStat.mySetPhaseUI, gameStat.mySetPhaseUI.transform.position, Quaternion.identity);
+        GameObject obj = GameObject.Instantiate(gameStat.mySetPhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
         obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("SetBlockターンをかいし");
     }
     //アニメーションやテロップなどを動かす処理をかく
     private void StartMovePhase()
     {
-        GameObject obj = GameObject.Instantiate(gameStat.myMovePhaseUI, gameStat.myMovePhaseUI.transform.position, Quaternion.identity);
+        GameObject obj = GameObject.Instantiate(gameStat.myMovePhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
         obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("Moveターンを開始");
     }
     private void EnenmyPhaseUI()
     {
-        GameObject obj = GameObject.Instantiate(gameStat.enemyTurenUI, gameStat.enemyTurenUI.transform.position, Quaternion.identity);
+        GameObject obj = GameObject.Instantiate(gameStat.enemyTurenUI, gameStat.canvas.transform.position, Quaternion.identity);
         obj.transform.parent = gameStat.canvas.transform;
     }
 
@@ -98,13 +100,13 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     {
         if (_isWinPlayer)
         {
-            GameObject obj = GameObject.Instantiate(gameStat.winUI, gameStat.winUI.transform.position, Quaternion.identity);
+            GameObject obj = GameObject.Instantiate(gameStat.winUI, gameStat.canvas.transform.position, Quaternion.identity);
             obj.transform.parent = gameStat.canvas.transform;
             Debug.Log("あなたの勝利");
         }
         else
         {
-            GameObject obj = GameObject.Instantiate(gameStat.loseUI, gameStat.loseUI.transform.position, Quaternion.identity);
+            GameObject obj = GameObject.Instantiate(gameStat.loseUI, gameStat.canvas.transform.position, Quaternion.identity);
             obj.transform.parent = gameStat.canvas.transform;
             Debug.Log("あなたの負け");
         }
