@@ -74,6 +74,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     private void getCHeckMyStartSetPhase()
     {
         gameStat.turnNum++;
+        gameStat.isMyPhase = true;
         gameStat.isMySetPhase = true;
         StartSetBlockPhase();
     }
@@ -81,6 +82,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     private void getCHeckMyStartMovePhase()
     {
         gameStat.turnNum++;
+        gameStat.isMyPhase = true;
         gameStat.isMyMovePhase = true;
         StartMovePhase();
     }
