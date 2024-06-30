@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
-    public Image[] tutorialImagesArray;
+    public GameObject[] tutorialImagesArray;
 
     private int tutorialIndex = 0;
 
@@ -33,6 +33,11 @@ public class TutorialManager : MonoBehaviour
         SetImage();
     }
 
+    public void Reset()
+    {
+        tutorialIndex = 0;
+    }
+
     private void SetImage()
     {
         Debug.Log(tutorialIndex);
@@ -42,11 +47,11 @@ public class TutorialManager : MonoBehaviour
         {
             if(i == tutorialIndex)
             {
-                tutorialImagesArray[i].enabled = true;
+                tutorialImagesArray[i].SetActive(true);
             }
             else
             {
-                tutorialImagesArray[i].enabled = false;
+                tutorialImagesArray[i].SetActive(false);
             }
         }
     }
