@@ -120,6 +120,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 0, y: 0, z: 0}
+  tileMapPUN: {fileID: 0}
+  tileBasePUN1: {fileID: 11400000, guid: 95ffebcd05b7a4fb49449f678443e3c5, type: 2}
+  tileBasePUN2: {fileID: 11400000, guid: 1ba3700b079f645f5b5fdcfb1f36f049, type: 2}
 --- !u!114 &-1355834914136915097
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class PlaceableObject : MonoBehaviour
+
+public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
     public bool Placed { get; private set; }
     public Vector3Int Size;
@@ -15,6 +18,9 @@ public class PlaceableObject : MonoBehaviour
     private Vector3Int pos;
     private GridLayout gridLayout;
 
+    public Tilemap tileMapPUN;
+    public TileBase tileBasePUN1;
+    public TileBase tileBasePUN2;
 
     public void SetUp(Tilemap _tileMap, TileBase _occupiedTileBase, int _index, GridLayout _gridLayout)
     {
@@ -83,13 +89,38 @@ public class PlaceableObject : MonoBehaviour
     //    Placed = true;
     //}
 
-    private void SetTiles()
+    public void SetTiles()
     {
         Debug.Log("おけた");
-        Vector3Int tilePos = tileMap.WorldToCell(this.transform.position);
-        Debug.Log(tilePos);
-        this.pos = tilePos;
-        tileMap.SetTile(pos, occupiedTileBase);
+        if (tileMap == null)
+        {
+
+            tileMapPUN = GameObject.Find("ObjectTileMap").GetComponent<Tilemap>();
+            Vector3Int tilePos = tileMapPUN.WorldToCell(this.transform.position);
+            this.pos = tilePos;
+            Debug.Log("相手のほんとにおけた");
+            Debug.Log(PhotonNetwork.IsMasterClient);
+            if(PhotonNetwork.IsMasterClient)
+                tileMapPUN.SetTile(pos, tileBasePUN2);
+            else
+                
+                tileMapPUN.SetTile(pos, tileBasePUN1);
+        }
+        else
+        {
+            Vector3Int tilePos = tileMap.WorldToCell(this.transform.position);
+            Debug.Log("ほんとにおけた");
+            this.pos = tilePos;
+            if (PhotonNetwork.IsMasterClient)
+                tileMap.SetTile(pos, tileBasePUN1);
+            else
+
+                tileMap.SetTile(pos, tileBasePUN2);
+            //tileMap.SetTile(pos, occupiedTileBase);
+        }
+
+       
+        
     }
 
     public void OnDestroy()
@@ -98,5 +129,39 @@ public class PlaceableObject : MonoBehaviour
 
         tileMap.SetTile(pos, null);
         Destroy(this.gameObject);
+    }
+    void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        if (info.photonView.IsMine)
+        {
+            PhotonView targetPhotonView;
+            targetPhotonView = info.photonView;
+            // 対象のPhotonView IDを指定
+            targetPhotonView.RPC("SetTileRPC", RpcTarget.Others);
+        }
+        /*
+        if (info.Sender.IsLocal)
+        {
+            
+            Debug.Log("自身がネットワークオブジェクトを生成しました");
+            //this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.Others);
+
+        }
+        else
+        {
+           
+            
+            Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
+            SetTiles();
+            //this.GetComponent<PhotonView>().RPC("SetTileRPC", RpcTarget.All);
+        }
+        */
+    }
+    [PunRPC]
+    public void SetTileRPC()
+    {
+        Debug.Log("タイルをセット");
+        SetTiles();
+        
     }
 }

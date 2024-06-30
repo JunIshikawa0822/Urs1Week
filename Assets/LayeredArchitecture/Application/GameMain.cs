@@ -24,7 +24,8 @@ public class GameMain : MonoBehaviour
             new PlayerSystem(),
             new UISystem(),
             new CameraSystem(),
-            new TaikiSystem()
+            new TaikiSystem(),
+            new PhaseAnimeSystem()
 
         };
 
