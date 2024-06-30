@@ -463,10 +463,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
 
             isGoal = GoalCheckFunc();
 
-            if (isGoal)
-            {
-                yield break;
-            }
+           
 
             yield return new WaitForSeconds(1.2f);
         }

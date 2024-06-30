@@ -53,9 +53,11 @@ public class CameraSystem : SystemBase, IOnUpdate
             mainCamera.transform.Rotate(rotateY, rotateX, 0.0f);
         }
         */
-        var scroll = Input.mouseScrollDelta.y;
-        mainCamera.transform.position += -mainCamera.transform.forward * scroll * zoomSpeed;
+        
+        //var scroll = Input.mouseScrollDelta.y;
+        //mainCamera.transform.position += -mainCamera.transform.forward * scroll * zoomSpeed;
         currentPos = mainCamera.transform.localPosition;
+        
         if (isCamera1or2)
         {
             mainCamera.transform.localPosition =
