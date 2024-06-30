@@ -6,8 +6,14 @@ using System;
 
 public class InputSystem : SystemBase, IOnPreUpdate
 {
+    public override void SetUp()
+    {
+        gameStat.mousePos = new Vector3(100, 100, 100);
+        gameStat.selectingCellPos = new Vector3(100, 100, 100);
+    }
     public void OnPreUpdate()
     {
+        if (!gameStat.isMyPhase) return;
         gameStat.mousePos = GetMouseWorldPosition(Input.mousePosition);
 
         Vector3 posXZ = SnapCoordinateToGrid(gameStat.mousePos, gameStat.placingObjectGrid, gameStat.placingObjectGridLayout);
@@ -17,6 +23,8 @@ public class InputSystem : SystemBase, IOnPreUpdate
 
         GetBlockSelectInput();
         KeyInput();
+       
+       
     }
 
     private void KeyInput()
@@ -26,10 +34,20 @@ public class InputSystem : SystemBase, IOnPreUpdate
         gameStat.isLeft = (Input.GetKeyDown(KeyCode.LeftArrow)) ? true : false;
         gameStat.isBackward = (Input.GetKeyDown(KeyCode.DownArrow)) ? true : false;
 
-        gameStat.isMyMoveStart = Input.GetKeyDown(KeyCode.Return) ? false : true;
+
+        if (gameStat.isMyMovePhase)
+        {
+            gameStat.isMyMoveStart = Input.GetKeyDown(KeyCode.Return) ? false : true;
+           
+        }
+        
 
         //if (Input.GetKeyDown(KeyCode.O)) gameStat.isMyMoveStart = false;
-        if (Input.GetKeyDown(KeyCode.P)) gameStat.isMySetPhaseInitialized = false;
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            gameStat.isMySetPhaseInitialized = false;
+        }
+            
     }
 
     private Vector3 GetMouseWorldPosition(Vector3 _point)

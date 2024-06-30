@@ -2,11 +2,12 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 
 // MonoBehaviourPunCallbacksを継承して、PUNのコールバックを受け取れるようにする
-public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallbacks
+public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallbacks, IInRoomCallbacks
 {
-    
+   
     public override void SetUp()
     {
         // PhotonServerSettingsの設定内容を使ってマスターサーバーへ接続する
@@ -16,7 +17,7 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
 
     }
     //isFazeEndがとんできてtrueになったかを判断
-    
+
 
     // マスターサーバーへの接続が成功した時に呼ばれるコールバック
     void IConnectionCallbacks.OnConnectedToMaster()
@@ -39,26 +40,35 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
     // ゲームサーバーへの接続が成功した時に呼ばれるコールバック
     void IMatchmakingCallbacks.OnJoinedRoom()
     {
-        
+
         // ルームが満員になったら、以降そのルームへの参加を不許可にする
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
+            gameStat.isMatchOk = true;
         }
 
-       
+
         if (PhotonNetwork.IsMasterClient)
         {
             gameStat.isMaster = true;
+            gameStat.isAtackFirst = true;
+            //gameStat.isMyPhase = true;
+            gameStat.isMySetPhase = true;
+            gameStat.isMyMovePhase = false;
         }
         else
         {
             gameStat.isMaster = false;
+            gameStat.isAtackFirst = false;
+            gameStat.isMyPhase = false;
+            gameStat.isMySetPhase = false;
+            gameStat.isMyMovePhase = false;
         }
         gameStat.isInstanitiatePlayerObj = true;
         gameStat.isEnterRoom = true;
-        
-            Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber);
+
+        Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber);
 
         /*
         if (PhotonNetwork.IsMasterClient)
@@ -75,9 +85,18 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
             Debug.Log("Playerを生成しました");
         }
         */
-        
-    }
 
+    }
+    
+    public void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        Debug.Log("MatchOk");
+        gameStat.isMyPhase = true;
+        gameStat.isMatchOk = true;
+        throw new System.NotImplementedException();
+    }
+    
+    
     // Photonのサーバーから切断された時に呼ばれるコールバック
     void IConnectionCallbacks.OnDisconnected(DisconnectCause cause)
     {
@@ -85,6 +104,7 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
         // PUNのコールバック対象の登録を解除する
         PhotonNetwork.RemoveCallbackTarget(this);
     }
+    
     
     void IConnectionCallbacks.OnConnected() { }
     //void IConnectionCallbacks.OnDisconnected(DisconnectCause cause) { }
@@ -98,5 +118,36 @@ public class PhotonSystem :SystemBase,IConnectionCallbacks, IMatchmakingCallback
     void IMatchmakingCallbacks.OnJoinRoomFailed(short returnCode, string message) { }
     //void IMatchmakingCallbacks.OnJoinRandomFailed(short returnCode, string message) { }
     void IMatchmakingCallbacks.OnLeftRoom() { }
+
+    //public virtual void OnPlayerEnteredRoom(Player newPlayer) { }
+    public virtual void OnPlayerLeftRoom(Player otherPlayer) { }
+    public virtual void OnJoinRandomFailed(short returnCode, string message) { }
+    public virtual void OnConnectedToMaster() { }
+    public virtual void OnRoomPropertiesUpdate() { }
+    public virtual void OnPlayerPropertiesUpdate() { }
+    
+    
+    
+    
+    public void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedProps)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
+    {
+        throw new System.NotImplementedException();
+    }
+    
     
 }

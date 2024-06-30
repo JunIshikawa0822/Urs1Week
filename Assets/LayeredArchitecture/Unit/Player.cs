@@ -28,6 +28,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
 
     public event Action<GameObject,bool> breakEvent;
     public event Action damageEvent;
+    public event Action movePhaseEnd;
 
     //test
     private int[] nowProgramArray;
@@ -108,7 +109,15 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             bool isMasterClient = PhotonNetwork.IsMasterClient;
             if (moveCheckFunc(this, "Right",isMasterClient))
             {
-                Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
+                Vector3 posXZ;
+                if (isMasterClient)
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position + new Vector3(1, 0, 0), gridLayout);
+                }
+                else
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position - new Vector3(1, 0, 0), gridLayout);
+                }
                 transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             }
             else
@@ -126,7 +135,16 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             bool isMasterClient = PhotonNetwork.IsMasterClient;
             if (moveCheckFunc(this, "Left",isMasterClient))
             {
-                Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
+                Vector3 posXZ;
+                if (isMasterClient)
+                {
+                   posXZ = convertPosToCellPosFunc(transform.position + new Vector3(-1, 0, 0), gridLayout);
+                }
+                else
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position - new Vector3(-1, 0, 0), gridLayout);
+                }
+                 
                 transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             }
             else
@@ -498,18 +516,21 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
 
             isGoal = GoalCheckFunc();
         }
+        //isMovePhaseをfalseにする
+        movePhaseEnd.Invoke();
     }
-
+    
     void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
     {
         if (info.Sender.IsLocal)
         {
-            Debug.Log("自身がネットワークオブジェクトを生成しました");
+            //Debug.Log("自身がネットワークオブジェクトを生成しました");
             
         }
         else
         {
-            Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
+            //Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
         }
     }
+    
 }

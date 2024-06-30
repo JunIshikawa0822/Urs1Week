@@ -23,7 +23,9 @@ public class GameMain : MonoBehaviour
             new PlacingSystem(),
             new PlayerSystem(),
             new UISystem(),
-            new CameraSystem()
+            new CameraSystem(),
+            new TaikiSystem(),
+            new PhaseAnimeSystem()
 
         };
 

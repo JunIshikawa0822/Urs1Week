@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class GameStatus
@@ -69,6 +70,10 @@ public class GameStatus
     [SerializeField]
     public PlaceableObject[] objectAllPrefabsArray;
 
+    //BlockUIのPrefab全てを格納するArray
+    [SerializeField]
+    public Sprite[] objectImageAllPrefabsArray;
+
     //盤面に置いてあるBlockを格納するリスト
     [System.NonSerialized]
     public List<PlaceableObject> placedObjectList = new List<PlaceableObject>();
@@ -111,16 +116,22 @@ public class GameStatus
     public bool isBackward = false;
 
     [Header("Flag")]
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public bool isMySetPhase = false;
     [System.NonSerialized]
     public bool isMySetPhaseInitialized = false;
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public bool isMyMovePhase = false;
     [System.NonSerialized]
     public bool isMyMoveStart = true;
     [System.NonSerialized]
     public bool isPhaseEnd = false;
+    [System.NonSerialized]
+    public bool isSetRandomBlockUI = false;
+    [System.NonSerialized]
+    public bool isSetProgramView = false;
+    [System.NonSerialized]
+    public bool isFirstUI = false;
 
     //ゴールしたか
     [System.NonSerialized]
@@ -135,14 +146,45 @@ public class GameStatus
 
     [Header("UI")]
     public ButtonBase[] selectPanelArray;
+    public Image[] selsectImageArray;
+    public GameObject scrorViewContent;
+    public GameObject programViewImage;
+
+    public GameObject winUI;
+    public GameObject loseUI;
+    public GameObject enemyFhaseUI;
+    public GameObject mySetFhaseUI;
+    public GameObject myMoveFhaseUI;
+    public GameObject canvas;
+    public Text nowPhaseText;
+
 
     [Header("Camera")]
     public GameObject camera1;
     public GameObject camera2;
 
     [Header("Input")]
+    [System.NonSerialized]
     public bool isEnterRoom = false;
+    [System.NonSerialized]
     public bool isMaster;
+
+    [Header("Taiki")]
+    [System.NonSerialized]
+    public bool isMatchOk=false;
+    [SerializeField]
+    public GameObject taikiPanel;
+    [SerializeField]
+    public GameObject gamePanel;
+
+    [Header("Tarn")]
+    public TurnManger turnManger;
+    //[System.NonSerialized]
+    public bool isMyPhase;
+    //[System.NonSerialized]
+    public bool isAtackFirst;
+    //[System.NonSerialized]
+    public int turnNum;
 
     public enum InputNameType
     {
