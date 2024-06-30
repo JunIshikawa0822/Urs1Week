@@ -469,7 +469,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
                 yield break;
             }
 
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(1.2f);
         }
         movePhaseEnd.Invoke();
         Debug.Log("ターンエンド");
