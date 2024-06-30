@@ -153,6 +153,8 @@ public class GameStatus
     public GameObject mySetPhaseUI;
     public GameObject myMovePhaseUI;
     public GameObject canvas;
+    public GameObject winUI;
+    public GameObject loseUI;
 
     [Header("Camera")]
     public GameObject camera1;

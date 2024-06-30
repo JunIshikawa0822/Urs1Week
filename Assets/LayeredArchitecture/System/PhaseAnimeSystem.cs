@@ -98,10 +98,14 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     {
         if (_isWinPlayer)
         {
+            GameObject obj = GameObject.Instantiate(gameStat.winUI, gameStat.winUI.transform.position, Quaternion.identity);
+            obj.transform.parent = gameStat.canvas.transform;
             Debug.Log("あなたの勝利");
         }
         else
         {
+            GameObject obj = GameObject.Instantiate(gameStat.loseUI, gameStat.loseUI.transform.position, Quaternion.identity);
+            obj.transform.parent = gameStat.canvas.transform;
             Debug.Log("あなたの負け");
         }
         
