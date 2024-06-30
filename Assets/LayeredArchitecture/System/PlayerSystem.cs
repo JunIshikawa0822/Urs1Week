@@ -34,25 +34,25 @@ public class PlayerSystem : SystemBase, IOnUpdate
             gameStat.isMyPhase = false;
         }
 
-        gameStat.isPlayerGoal = gameStat.player.GetIsGoal;
-        if (gameStat.isPlayerGoal) Debug.Log("ごーーーーーーる！");
+        //gameStat.isPlayerGoal = gameStat.player.GetIsGoal;
+        //if (gameStat.isPlayerGoal) Debug.Log("ごーーーーーーる！");
 
-        if (gameStat.isForward)
-        {
-            gameStat.player.MoveForward();
-        }
-        else if (gameStat.isRight)
-        {
-            gameStat.player.MoveRight();
-        }
-        else if (gameStat.isLeft)
-        {
-            gameStat.player.MoveLeft();
-        }
-        else if (gameStat.isBackward)
-        {
-            gameStat.player.MoveBackward();
-        }
+        //if (gameStat.isForward)
+        //{
+        //    gameStat.player.MoveForward();
+        //}
+        //else if (gameStat.isRight)
+        //{
+        //    gameStat.player.MoveRight();
+        //}
+        //else if (gameStat.isLeft)
+        //{
+        //    gameStat.player.MoveLeft();
+        //}
+        //else if (gameStat.isBackward)
+        //{
+        //    gameStat.player.MoveBackward();
+        //}
     }
 
     private void PlayerInit()
@@ -81,8 +81,6 @@ public class PlayerSystem : SystemBase, IOnUpdate
         gameStat.player.jumpMoveCheckFunc += JumpMoveCheck;
         gameStat.player.breakCheckFunc += BreakCheck;
         gameStat.player.movePhaseEnd += EndMovePhase;
-
-
 
 
         if (PhotonNetwork.IsMasterClient)
