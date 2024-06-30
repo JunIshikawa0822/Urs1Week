@@ -34,7 +34,12 @@ public class InputSystem : SystemBase, IOnPreUpdate
         gameStat.isLeft = (Input.GetKeyDown(KeyCode.LeftArrow)) ? true : false;
         gameStat.isBackward = (Input.GetKeyDown(KeyCode.DownArrow)) ? true : false;
 
-        gameStat.isMyMoveStart = Input.GetKeyDown(KeyCode.Return) ? false : true;
+
+        if (gameStat.isMyMovePhase)
+        {
+            gameStat.isMyMoveStart = Input.GetKeyDown(KeyCode.Return) ? false : true;
+        }
+        
 
         //if (Input.GetKeyDown(KeyCode.O)) gameStat.isMyMoveStart = false;
         if (Input.GetKeyDown(KeyCode.P)) gameStat.isMySetPhaseInitialized = false;

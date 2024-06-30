@@ -79,8 +79,10 @@ public class PlayerSystem : SystemBase, IOnUpdate
         gameStat.player.moveCheckFunc += MoveCheck;
         gameStat.player.jumpMoveCheckFunc += JumpMoveCheck;
         gameStat.player.breakCheckFunc += BreakCheck;
-        
-       
+        gameStat.player.movePhaseEnd += EndMovePhase;
+
+
+
 
         if (PhotonNetwork.IsMasterClient)
             gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.goalPos1);
@@ -292,6 +294,10 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     }
 
+    private void EndMovePhase()
+    {
+        gameStat.isMyMovePhase = false;
+    }
     
 
    

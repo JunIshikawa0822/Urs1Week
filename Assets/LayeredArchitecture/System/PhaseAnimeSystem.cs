@@ -4,40 +4,89 @@ using UnityEngine;
 
 public class PhaseAnimeSystem : SystemBase, IOnUpdate
 {
+
+    
     public override void SetUp()
     {
-        gameStat.turnManger.enemyStartSetPhase += aa;
+        gameStat.turnNum = 1;
+        gameStat.turnManger.enemyStartSetPhase += getCHeckMyStartSetPhase;
+        gameStat.turnManger.enemyStartMovePhase += getCHeckMyStartMovePhase;
+        gameStat.turnManger.resetCicle+= getCheckResetTurnNum;
     }
     public void OnUpdate()
     {
-        /*
-        if(gameStat.isMySetPhase)
+        //if (!gameStat.isMyPhase) return;
+        //自分のSetターンが終わったらい相手のセットターンを始めるようにTurmmanagerに伝える
+        if (gameStat.isAtackFirst)
         {
-            StartSetBlockPhase();
+            if ((!gameStat.isMySetPhase)&&(gameStat.turnNum == 1))
+            {
+                gameStat.turnNum++;
+                gameStat.turnManger.EnemyStartSetPhase();
+            }
+            if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 3))
+            {
+                gameStat.turnNum++;
+                gameStat.turnManger.EnemyStartMovePhase();
+            }
         }
+        else
+        {
+            if((!gameStat.isMySetPhase)&&(gameStat.turnNum == 2))
+            {
+                gameStat.turnNum++;
+                gameStat.turnManger.EnemyStartMovePhase();
+            }
+            if ((!gameStat.isMyMovePhase)&& (gameStat.turnNum == 4))
+            {
+                //わんサイクル終了
+                gameStat.turnNum = 1;
+                gameStat.isMySetPhase = true;
+                gameStat.isAtackFirst = true;
+            }
+        }
+       
 
-        if(gameStat.isMyMovePhase)
+        //自分のMoveターンが終わったらい相手のセットターンを始めるようにTurmmanagerに伝える
+        if (!gameStat.isMyMovePhase)
         {
-            StartMovePhase();
+            gameStat.turnManger.EnemyStartMovePhase();
         }
-        */
+        
     }
 
+
+    //アニメーションやテロップなどを動かす処理をかく
     private void StartSetBlockPhase()
     {
-
+        Debug.Log("SetBlockターンをかいし");
     }
+    //アニメーションやテロップなどを動かす処理をかく
     private void StartMovePhase()
     {
-
+        Debug.Log("Moveターンを開始");
     }
     private void PhaseEnd()
     {
 
     }
-    private void aa()
+
+    private void getCHeckMyStartSetPhase()
     {
-        Debug.Log("TurnManagerから呼ばれた");
+        gameStat.turnNum++;
         gameStat.isMySetPhase = true;
+        StartSetBlockPhase();
+    }
+
+    private void getCHeckMyStartMovePhase()
+    {
+        gameStat.turnNum++;
+        gameStat.isMyMovePhase = true;
+        StartMovePhase();
+    }
+
+    private void getCheckResetTurnNum()
+    {
+        gameStat.turnNum = 1;
     }
 }

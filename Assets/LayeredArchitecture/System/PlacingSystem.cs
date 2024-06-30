@@ -19,8 +19,9 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
     public void OnUpdate()
     {
-        if (!gameStat.isMyPhase) return;
+        
         if (!gameStat.isMySetPhase) return;
+        if (!gameStat.isMyMovePhase) return;
         //isMySetPhaseスタート
 
         #region Initialize

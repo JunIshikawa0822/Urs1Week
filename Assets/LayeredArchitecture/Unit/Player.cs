@@ -28,6 +28,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
 
     public event Action<GameObject,bool> breakEvent;
     public event Action damageEvent;
+    public event Action movePhaseEnd;
 
     //test
     private int[] nowProgramArray;
@@ -498,6 +499,8 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
 
             isGoal = GoalCheckFunc();
         }
+        //isMovePhaseをfalseにする
+        movePhaseEnd.Invoke();
     }
     
     void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
