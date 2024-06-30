@@ -15,7 +15,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     }
     public void OnUpdate()
     {
-        if (!gameStat.isMatchOk) return;
+        
         //if (!gameStat.isMyPhase) return;
         //自分のSetターンが終わったらい相手のセットターンを始めるようにTurmmanagerに伝える
         if (gameStat.isAtackFirst)
@@ -51,11 +51,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
         }
        
 
-        //自分のMoveターンが終わったらい相手のセットターンを始めるようにTurmmanagerに伝える
-        if (!gameStat.isMyMovePhase)
-        {
-            gameStat.turnManger.EnemyStartMovePhase();
-        }
+        
         
     }
 
