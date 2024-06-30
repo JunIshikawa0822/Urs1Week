@@ -156,6 +156,7 @@ public class GameStatus
     public GameObject mySetFhaseUI;
     public GameObject myMoveFhaseUI;
     public GameObject canvas;
+    public Text nowPhaseText;
 
 
     [Header("Camera")]

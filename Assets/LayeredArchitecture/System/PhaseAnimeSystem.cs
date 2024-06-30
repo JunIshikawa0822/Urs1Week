@@ -23,8 +23,16 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
         if (gameStat.isMatchOk && (!gameStat.isFirstUI))
         {
             gameStat.isFirstUI = true;
-            if (gameStat.isMaster) { StartSetBlockPhase(); }
-            else { EnenmyPhaseUI(); }
+            if (gameStat.isMaster)
+            {
+                gameStat.nowPhaseText.text = "SetPhase";
+                StartSetBlockPhase();
+            }
+            else
+            {
+                gameStat.nowPhaseText.text = "EnemyPhase";
+                EnenmyPhaseUI();
+            }
 
 
         }
@@ -35,6 +43,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
             if ((!gameStat.isMySetPhase) && (gameStat.turnNum == 1))
             {
                 Debug.Log("さいしよ");
+                gameStat.nowPhaseText.text = "EnemyPhase";
                 gameStat.turnNum++;
                 EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartSetPhase();
@@ -43,7 +52,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
             }
             if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 3))
             {
-
+                gameStat.nowPhaseText.text = "EnemyPhase";
                 gameStat.turnNum++;
                 EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartMovePhase();
@@ -54,7 +63,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
         {
             if ((!gameStat.isMySetPhase) && (gameStat.turnNum == 2))
             {
-
+                gameStat.nowPhaseText.text = "EnemyPhase";
                 gameStat.turnNum++;
                 EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartMovePhase();
@@ -88,7 +97,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     //アニメーションやテロップなどを動かす処理をかく
     private void StartSetBlockPhase()
     {
-
+        gameStat.nowPhaseText.text = "SetPhase";
         GameObject obj = GameObject.Instantiate(gameStat.mySetFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
 
         obj.transform.parent = gameStat.canvas.transform;
@@ -97,7 +106,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     //アニメーションやテロップなどを動かす処理をかく
     private void StartMovePhase()
     {
-
+        gameStat.nowPhaseText.text = "MovePhase";
         GameObject obj = GameObject.Instantiate(gameStat.myMoveFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
 
         obj.transform.parent = gameStat.canvas.transform;
