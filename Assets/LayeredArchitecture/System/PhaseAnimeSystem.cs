@@ -19,17 +19,14 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     }
     public void OnUpdate()
     {
-        if (gameStat.isMatchOk&&(!gameStat.isFirstUI))
+
+        if (gameStat.isMatchOk && (!gameStat.isFirstUI))
         {
             gameStat.isFirstUI = true;
-            if (gameStat.isAtackFirst)
-            {
-                StartSetBlockPhase();
-            }
-            else
-            {
-                EnemyTurn();
-            }
+            if (gameStat.isMaster) { StartSetBlockPhase(); }
+            else { EnenmyPhaseUI(); }
+
+
         }
         //if (!gameStat.isMyPhase) return;
         //自分のSetターンが終わったらい相手のセットターンを始めるようにTurmmanagerに伝える
@@ -39,16 +36,18 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
             {
                 Debug.Log("さいしよ");
                 gameStat.turnNum++;
+                EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartSetPhase();
-                EnemyTurn();
+                
 
             }
             if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 3))
             {
 
                 gameStat.turnNum++;
+                EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartMovePhase();
-                EnemyTurn();
+                
             }
         }
         else
@@ -57,8 +56,9 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
             {
 
                 gameStat.turnNum++;
+                EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartMovePhase();
-                EnemyTurn();
+                
             }
             if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 4))
             {
@@ -68,6 +68,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
                 gameStat.isMyPhase = true;
                 gameStat.isAtackFirst = true;
                 gameStat.isMySetPhaseInitialized = false;
+                StartSetBlockPhase();
                 gameStat.turnManger.ResetTurenNum();
                 StartSetBlockPhase();
             }
@@ -75,6 +76,8 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
 
         if (gameStat.isPlayerGoal)
         {
+            gameStat.isPlayerGoal = false;
+            gameStat.turnManger.ResultCheckGoal();
             GoalAnime(true);
         }
 
@@ -85,35 +88,42 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     //アニメーションやテロップなどを動かす処理をかく
     private void StartSetBlockPhase()
     {
-        GameObject obj;
-        obj=GameObject.Instantiate(gameStat.mySetFhaseUI, gameStat.mySetFhaseUI.transform.position, Quaternion.identity);
+
+        GameObject obj = GameObject.Instantiate(gameStat.mySetFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+
         obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("SetBlockターンをかいし");
     }
     //アニメーションやテロップなどを動かす処理をかく
     private void StartMovePhase()
     {
-        GameObject obj;
-        obj=GameObject.Instantiate(gameStat.myMoveFhaseUI, gameStat.myMoveFhaseUI.transform.position, Quaternion.identity);
+
+        GameObject obj = GameObject.Instantiate(gameStat.myMoveFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+
         obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("Moveターンを開始");
     }
-
-    private void EnemyTurn()
+    private void EnenmyPhaseUI()
     {
-        GameObject obj;
-        obj = GameObject.Instantiate(gameStat.enemyFhaseUI, gameStat.enemyFhaseUI.transform.position, Quaternion.identity);
+        GameObject obj = GameObject.Instantiate(gameStat.enemyFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
         obj.transform.parent = gameStat.canvas.transform;
     }
+
+
+   
 
     private void GoalAnime(bool _isWinPlayer)
     {
         if (_isWinPlayer)
         {
+            GameObject obj = GameObject.Instantiate(gameStat.winUI, gameStat.canvas.transform.position, Quaternion.identity);
+            obj.transform.parent = gameStat.canvas.transform;
             Debug.Log("あなたの勝利");
         }
         else
         {
+            GameObject obj = GameObject.Instantiate(gameStat.loseUI, gameStat.canvas.transform.position, Quaternion.identity);
+            obj.transform.parent = gameStat.canvas.transform;
             Debug.Log("あなたの負け");
         }
 
@@ -143,7 +153,8 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
         gameStat.isMySetPhase = false;
         gameStat.isAtackFirst = false;
         gameStat.isMySetPhaseInitialized = false;
-        EnemyTurn();
+
+        EnenmyPhaseUI();
 
     }
 
