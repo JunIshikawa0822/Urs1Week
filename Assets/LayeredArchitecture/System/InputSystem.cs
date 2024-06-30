@@ -38,6 +38,7 @@ public class InputSystem : SystemBase, IOnPreUpdate
         if (gameStat.isMyMovePhase)
         {
             gameStat.isMyMoveStart = Input.GetKeyDown(KeyCode.Return) ? false : true;
+           
         }
         
 

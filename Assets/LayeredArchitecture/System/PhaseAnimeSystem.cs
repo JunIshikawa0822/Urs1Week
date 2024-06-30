@@ -90,5 +90,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     private void getCheckResetTurnNum()
     {
         gameStat.turnNum = 1;
+        gameStat.isMySetPhase = false;
+        gameStat.isAtackFirst = false;
     }
 }

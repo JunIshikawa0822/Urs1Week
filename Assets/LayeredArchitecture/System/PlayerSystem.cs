@@ -31,6 +31,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
             gameStat.player1PosForDamage = gameStat.player.transform.position;
             gameStat.player.MoveByProgram(gameStat.programList);
             gameStat.isMyMoveStart = true;
+            gameStat.isMyPhase = false;
         }
 
         gameStat.isPlayerGoal = gameStat.player.GetIsGoal;
