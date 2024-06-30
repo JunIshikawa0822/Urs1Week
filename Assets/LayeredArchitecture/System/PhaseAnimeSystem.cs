@@ -98,7 +98,8 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     private void StartSetBlockPhase()
     {
         gameStat.nowPhaseText.text = "SetPhase";
-        GameObject obj = GameObject.Instantiate(gameStat.mySetFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+        //GameObject obj = GameObject.Instantiate(gameStat.mySetFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+        GameObject obj = GameObject.Instantiate(gameStat.mySetFhaseUI, gameStat.mySetFhaseUI.transform.position, Quaternion.identity);
         obj.transform.SetParent(gameStat.canvas.transform, false);
         //obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("SetBlockターンをかいし");
@@ -107,14 +108,16 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     private void StartMovePhase()
     {
         gameStat.nowPhaseText.text = "MovePhase";
-        GameObject obj = GameObject.Instantiate(gameStat.myMoveFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+        //GameObject obj = GameObject.Instantiate(gameStat.myMoveFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+        GameObject obj = GameObject.Instantiate(gameStat.myMoveFhaseUI, gameStat.myMoveFhaseUI.transform.position, Quaternion.identity);
         obj.transform.SetParent(gameStat.canvas.transform, false);
         //obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("Moveターンを開始");
     }
     private void EnenmyPhaseUI()
     {
-        GameObject obj = GameObject.Instantiate(gameStat.enemyFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+        //GameObject obj = GameObject.Instantiate(gameStat.enemyFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+        GameObject obj = GameObject.Instantiate(gameStat.enemyFhaseUI, gameStat.enemyFhaseUI.transform.position, Quaternion.identity);
         obj.transform.SetParent(gameStat.canvas.transform, false);
         //obj.transform.parent = gameStat.canvas.transform;
     }
@@ -126,14 +129,16 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     {
         if (_isWinPlayer)
         {
-            GameObject obj = GameObject.Instantiate(gameStat.winUI, gameStat.canvas.transform.position, Quaternion.identity);
+            //GameObject obj = GameObject.Instantiate(gameStat.winUI, gameStat.canvas.transform.position, Quaternion.identity);
+            GameObject obj = GameObject.Instantiate(gameStat.winUI,gameStat.winUI.transform.position, Quaternion.identity);
             obj.transform.SetParent(gameStat.canvas.transform, false);
             //obj.transform.parent = gameStat.canvas.transform;
             Debug.Log("あなたの勝利");
         }
         else
         {
-            GameObject obj = GameObject.Instantiate(gameStat.loseUI, gameStat.canvas.transform.position, Quaternion.identity);
+            //GameObject obj = GameObject.Instantiate(gameStat.loseUI, gameStat.canvas.transform.position, Quaternion.identity);
+            GameObject obj = GameObject.Instantiate(gameStat.loseUI, gameStat.loseUI.transform.position, Quaternion.identity);
             obj.transform.SetParent(gameStat.canvas.transform, false);
             //obj.transform.parent = gameStat.canvas.transform;
             Debug.Log("あなたの負け");
