@@ -22,6 +22,7 @@ public class TurnManger : MonoBehaviourPunCallbacks
     public void EnemyStartSetPhaseRPC()
     {
         Debug.Log("呼ばれた");
-        enemyStartMovePhase.Invoke();
+        enemyStartSetPhase.Invoke();
+        Debug.Log("呼ばれた2");
     }
 }
