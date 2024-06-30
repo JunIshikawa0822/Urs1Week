@@ -111,7 +111,11 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
             Debug.Log("ほんとにおけた");
             this.pos = tilePos;
             Debug.Log(occupiedTileBase);
-            tileMap.SetTile(pos, occupiedTileBase);
+            if (PhotonNetwork.IsMasterClient)
+                tileMapPUN.SetTile(pos, tileBasePUN1);
+            else
+                tileMapPUN.SetTile(pos, tileBasePUN2);
+            //tileMap.SetTile(pos, occupiedTileBase);
         }
 
        
