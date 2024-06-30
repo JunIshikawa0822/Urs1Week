@@ -13,9 +13,7 @@ public class OptionsButtonBase : MonoBehaviour
     [SerializeField]
     private GameObject isSelectUI;
 
-    [SerializeField]
-    private AudioSource audioSource; 
-
+    private AudioSource audioSource;
 
     EventTrigger optionsButtonEventTrigger;
 
@@ -25,6 +23,7 @@ public class OptionsButtonBase : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         SelectPanelInit();
     }
 
