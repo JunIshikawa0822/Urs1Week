@@ -87,6 +87,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
         gameStat.placedObjectList.Add(placedObject);
         gameStat.programList.Add(_Index);
+        gameStat.isSetProgramView = true;
     }
 
 
@@ -219,7 +220,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
         {
             gameStat.objectOptionsIndexArray[i] = Random.Range(0, gameStat.objectAllPrefabsArray.Length);
         }
-
+        gameStat.isSetRandomBlockUI = true;
         Debug.Log(string.Join(",", gameStat.objectOptionsIndexArray));
     }
 
