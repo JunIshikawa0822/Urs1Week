@@ -11,7 +11,7 @@ public class TurnManger : MonoBehaviourPunCallbacks
     public event Action enemyStartMovePhase;
     public event Action resetCicle;
 
-    public event Action<bool> result;
+    public event Action result;
 
 
     [ContextMenu("やる")]

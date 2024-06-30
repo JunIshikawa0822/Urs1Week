@@ -38,7 +38,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
                 gameStat.turnNum++;
                 EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartSetPhase();
-                EnemyTurn();
+                
 
             }
             if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 3))
@@ -47,7 +47,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
                 gameStat.turnNum++;
                 EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartMovePhase();
-                EnemyTurn();
+                
             }
         }
         else
@@ -58,7 +58,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
                 gameStat.turnNum++;
                 EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartMovePhase();
-                EnemyTurn();
+                
             }
             if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 4))
             {
@@ -89,7 +89,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     private void StartSetBlockPhase()
     {
 
-        GameObject obj = GameObject.Instantiate(gameStat.mySetPhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+        GameObject obj = GameObject.Instantiate(gameStat.mySetFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
 
         obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("SetBlockターンをかいし");
@@ -98,14 +98,14 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     private void StartMovePhase()
     {
 
-        GameObject obj = GameObject.Instantiate(gameStat.myMovePhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+        GameObject obj = GameObject.Instantiate(gameStat.myMoveFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
 
         obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("Moveターンを開始");
     }
     private void EnenmyPhaseUI()
     {
-        GameObject obj = GameObject.Instantiate(gameStat.enemyTurenUI, gameStat.canvas.transform.position, Quaternion.identity);
+        GameObject obj = GameObject.Instantiate(gameStat.enemyFhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
         obj.transform.parent = gameStat.canvas.transform;
     }
 
