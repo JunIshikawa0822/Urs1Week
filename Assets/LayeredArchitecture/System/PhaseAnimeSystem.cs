@@ -1,57 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PhaseAnimeSystem : SystemBase, IOnUpdate
 {
 
-    
+
     public override void SetUp()
     {
         gameStat.turnNum = 1;
         gameStat.turnManger.enemyStartSetPhase += getCHeckMyStartSetPhase;
         gameStat.turnManger.enemyStartMovePhase += getCHeckMyStartMovePhase;
-        gameStat.turnManger.resetCicle+= getCheckResetTurnNum;
+        gameStat.turnManger.resetCicle += getCheckResetTurnNum;
         gameStat.turnManger.result += getResultCheck;
+        
+
     }
     public void OnUpdate()
     {
+
         if (gameStat.isMatchOk && (!gameStat.isFirstUI))
         {
             gameStat.isFirstUI = true;
             if (gameStat.isMaster) { StartSetBlockPhase(); }
             else { EnenmyPhaseUI(); }
 
+
         }
         //if (!gameStat.isMyPhase) return;
         //自分のSetターンが終わったらい相手のセットターンを始めるようにTurmmanagerに伝える
         if (gameStat.isAtackFirst)
         {
-            if ((!gameStat.isMySetPhase)&&(gameStat.turnNum == 1))
+            if ((!gameStat.isMySetPhase) && (gameStat.turnNum == 1))
             {
                 Debug.Log("さいしよ");
                 gameStat.turnNum++;
                 EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartSetPhase();
+                EnemyTurn();
+
             }
             if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 3))
             {
-                
+
                 gameStat.turnNum++;
                 EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartMovePhase();
+                EnemyTurn();
             }
         }
         else
         {
-            if((!gameStat.isMySetPhase)&&(gameStat.turnNum == 2))
+            if ((!gameStat.isMySetPhase) && (gameStat.turnNum == 2))
             {
-                
+
                 gameStat.turnNum++;
                 EnenmyPhaseUI();
                 gameStat.turnManger.EnemyStartMovePhase();
+                EnemyTurn();
             }
-            if ((!gameStat.isMyMovePhase)&& (gameStat.turnNum == 4))
+            if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 4))
             {
                 //わんサイクル終了
                 gameStat.turnNum = 1;
@@ -61,31 +70,36 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
                 gameStat.isMySetPhaseInitialized = false;
                 StartSetBlockPhase();
                 gameStat.turnManger.ResetTurenNum();
+                StartSetBlockPhase();
             }
         }
-       
-        if(gameStat.isPlayerGoal)
+
+        if (gameStat.isPlayerGoal)
         {
             gameStat.isPlayerGoal = false;
             gameStat.turnManger.ResultCheckGoal();
             GoalAnime(true);
         }
-        
-        
+
+
     }
 
 
     //アニメーションやテロップなどを動かす処理をかく
     private void StartSetBlockPhase()
     {
+
         GameObject obj = GameObject.Instantiate(gameStat.mySetPhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+
         obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("SetBlockターンをかいし");
     }
     //アニメーションやテロップなどを動かす処理をかく
     private void StartMovePhase()
     {
+
         GameObject obj = GameObject.Instantiate(gameStat.myMovePhaseUI, gameStat.canvas.transform.position, Quaternion.identity);
+
         obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("Moveターンを開始");
     }
@@ -95,6 +109,8 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
         obj.transform.parent = gameStat.canvas.transform;
     }
 
+
+   
 
     private void GoalAnime(bool _isWinPlayer)
     {
@@ -110,9 +126,9 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
             obj.transform.parent = gameStat.canvas.transform;
             Debug.Log("あなたの負け");
         }
-        
+
     }
-    
+
 
     private void getCHeckMyStartSetPhase()
     {
@@ -137,11 +153,14 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
         gameStat.isMySetPhase = false;
         gameStat.isAtackFirst = false;
         gameStat.isMySetPhaseInitialized = false;
+
         EnenmyPhaseUI();
+
     }
 
-    private void getResultCheck(bool _isWinPlayer)
+    private void getResultCheck()
     {
-        GoalAnime(_isWinPlayer);
+        GoalAnime(false);
     }
+   
 }

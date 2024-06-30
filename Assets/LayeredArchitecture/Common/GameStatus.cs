@@ -149,12 +149,14 @@ public class GameStatus
     public Image[] selsectImageArray;
     public GameObject scrorViewContent;
     public GameObject programViewImage;
-    public GameObject enemyTurenUI;
-    public GameObject mySetPhaseUI;
-    public GameObject myMovePhaseUI;
-    public GameObject canvas;
+
     public GameObject winUI;
     public GameObject loseUI;
+    public GameObject enemyFhaseUI;
+    public GameObject mySetFhaseUI;
+    public GameObject myMoveFhaseUI;
+    public GameObject canvas;
+
 
     [Header("Camera")]
     public GameObject camera1;

@@ -4619,12 +4619,14 @@ MonoBehaviour:
     - {fileID: 1563920722}
     scrorViewContent: {fileID: 861974734}
     programViewImage: {fileID: 3197495314400806467, guid: a5ab9ce8f9a0c4267a371194c8f7d2d3, type: 3}
+
     enemyTurenUI: {fileID: 2510689282850740081, guid: 1c3c6dee4097e4c359ad51824058d2b7, type: 3}
     mySetPhaseUI: {fileID: 6863164467343463531, guid: ab5637a8a824043d98da2a323276f9e8, type: 3}
     myMovePhaseUI: {fileID: 6294733984199577356, guid: 2eb91114cd4dd4e8d9f0a8d86f23cf0b, type: 3}
     canvas: {fileID: 563807303}
     winUI: {fileID: 7222867638670759685, guid: cb823dd61d650428b9d3815bfe2af16c, type: 3}
     loseUI: {fileID: 2979316204760807672, guid: bd8d61ebc7a484de1a305bddfb748076, type: 3}
+
     camera1: {fileID: 586543165}
     camera2: {fileID: 742823464}
     taikiPanel: {fileID: 1902402469}
