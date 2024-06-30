@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TitleInputManager : MonoBehaviour
+public class TitleButtonBase : MonoBehaviour
 {
     [SerializeField]
     private GameObject _object;
@@ -10,5 +10,6 @@ public class TitleInputManager : MonoBehaviour
     public void ActiveChange()
     {
         _object.SetActive(!_object.activeSelf);
+        Debug.Log("おせてる"); 
     }
 }
