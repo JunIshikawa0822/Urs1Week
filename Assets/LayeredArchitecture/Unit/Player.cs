@@ -242,8 +242,16 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             bool isMasterClient = PhotonNetwork.IsMasterClient;
             if (jumpMoveCheckFunc(this,isMasterClient))
             {
-                Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 2), gridLayout);
-                transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+                Vector3 posXZ;
+                if (isMasterClient)
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 2), gridLayout);
+                }
+                else
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position - new Vector3(0, 0, 2), gridLayout);
+                }
+                    transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             }
             else
             {
@@ -400,8 +408,8 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
         Debug.Log("いまからこのプログラムは {" + string.Join(",", nowProgramArray) + "}");
 
-        MoveTest();
-        //StartCoroutine(AnimationWait());
+        //MoveTest();
+        StartCoroutine(AnimationWait());
     }
 
     IEnumerator AnimationWait()
@@ -427,6 +435,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             else if (_code == 3)
             {
                 //MoveBackward();
+                ForceBackWard();
             }
             else if (_code == 4)
             {
@@ -462,7 +471,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
 
             yield return new WaitForSeconds(2.0f);
         }
-
+        movePhaseEnd.Invoke();
         Debug.Log("ターンエンド");
     }
 
