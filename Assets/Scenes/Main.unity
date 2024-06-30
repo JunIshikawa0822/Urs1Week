@@ -3912,6 +3912,73 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1181937577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1181937580}
+  - component: {fileID: 1181937579}
+  - component: {fileID: 1181937578}
+  m_Layer: 0
+  m_Name: TarnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1181937578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181937577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &1181937579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181937577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ca577ba823d47c6ba81b0214f11075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1181937580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181937577}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.13706198, y: -3.1756666, z: 1.0459068}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1217233049
 GameObject:
   m_ObjectHideFlags: 0
@@ -4074,7 +4141,7 @@ MonoBehaviour:
     mainTileMap: {fileID: 1040058363}
     occupiedTilesArray:
     - {fileID: 11400000, guid: 95ffebcd05b7a4fb49449f678443e3c5, type: 2}
-    - {fileID: 11400000, guid: 42a0869a4daa8407d86a616a62285661, type: 2}
+    - {fileID: 11400000, guid: 1ba3700b079f645f5b5fdcfb1f36f049, type: 2}
     - {fileID: 11400000, guid: 32e7e2a0d48fe4fdcbfb715a715e08c7, type: 2}
     stageTile: {fileID: 11400000, guid: 42a0869a4daa8407d86a616a62285661, type: 2}
     placingObjectGridLayout: {fileID: 1485745150}
@@ -4116,6 +4183,7 @@ MonoBehaviour:
     camera2: {fileID: 742823464}
     taikiPanel: {fileID: 1902402469}
     gamePanel: {fileID: 1872244146}
+    turnManger: {fileID: 1181937579}
 --- !u!1 &1254831578
 GameObject:
   m_ObjectHideFlags: 0
@@ -5547,3 +5615,4 @@ SceneRoots:
   - {fileID: 1217233053}
   - {fileID: 754249662651737644}
   - {fileID: 1260333208}
+  - {fileID: 1181937580}

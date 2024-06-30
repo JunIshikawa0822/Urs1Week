@@ -14,14 +14,14 @@ public class TurnManger : MonoBehaviourPunCallbacks
     public void EnemyStartSetPhase()
     {
         Debug.Log("こっちyよべた");
-        photonView.RPC("EnemyStartSetPhaseRPC", RpcTarget.Others,"呼んだよ");
+        photonView.RPC(nameof(EnemyStartSetPhaseRPC), RpcTarget.Others);
 
     }
 
     [PunRPC]
-    public void EnemyStartSetPhaseRPC(string message)
+    public void EnemyStartSetPhaseRPC()
     {
-        Debug.Log(message);
+        Debug.Log("呼ばれた");
         enemyStartMovePhase.Invoke();
     }
 }
