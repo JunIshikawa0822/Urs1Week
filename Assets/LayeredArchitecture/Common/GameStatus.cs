@@ -130,6 +130,8 @@ public class GameStatus
     public bool isSetRandomBlockUI = false;
     [System.NonSerialized]
     public bool isSetProgramView = false;
+    [System.NonSerialized]
+    public bool isFirstUI = false;
 
     //ゴールしたか
     [System.NonSerialized]
@@ -147,6 +149,11 @@ public class GameStatus
     public Image[] selsectImageArray;
     public GameObject scrorViewContent;
     public GameObject programViewImage;
+    public GameObject winUI;
+    public GameObject loseUI;
+    public GameObject enemyFhaseUI;
+    public GameObject mySetFhaseUI;
+    public GameObject myMoveFhaseUI;
 
     [Header("Camera")]
     public GameObject camera1;
