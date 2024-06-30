@@ -153,6 +153,12 @@ public class GameStatus
     public GameObject taikiPanel;
     [SerializeField]
     public GameObject gamePanel;
+
+    [Header("Tarn")]
+    public TurnManger turnManger;
+    [System.NonSerialized]
+    public bool isMyPhase;
+
     public enum InputNameType
     {
         MouseButtonRight,

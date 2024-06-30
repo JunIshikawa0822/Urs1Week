@@ -19,8 +19,8 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
     public void OnUpdate()
     {
-
-        //if (!gameStat.isMySetPhase) return;
+        if (!gameStat.isMyPhase) return;
+        if (!gameStat.isMySetPhase) return;
         //isMySetPhaseスタート
 
         #region Initialize
@@ -64,14 +64,18 @@ public class PlacingSystem : SystemBase, IOnUpdate
                 Place(listIndex, gameStat.selectingCellPos, gameStat.occupiedTilesArray[0]);
 
                 //Debug.Log("program : " + string.Join(",", gameStat.programList));
-                //gameStat.isMySetPhase = false;
+                gameStat.isMySetPhase = false;
 
                 //PhaseEnd();
+                gameStat.isMyPhase = false;
+                Debug.Log("セットフェイズ終わり");
             }
         }
 
         #endregion
     }
+
+
 
     private void Place(int _Index, Vector3 _setPos, TileBase _occupiedTileBase)
     {
@@ -83,6 +87,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
         gameStat.placedObjectList.Add(placedObject);
         gameStat.programList.Add(_Index);
     }
+
 
     //オブジェクトの範囲に占有タイルがあるかどうかを返す
     private bool CanBePlaced(PredictionObject _predictionObject, TileBase[] _occupiedTilesArray, GridLayout _gridLayout)
@@ -226,4 +231,5 @@ public class PlacingSystem : SystemBase, IOnUpdate
             gameStat.predictionObjectInstancesArray[i] = preObj;
         }
     }
+
 }

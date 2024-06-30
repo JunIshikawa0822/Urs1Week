@@ -6,8 +6,14 @@ using System;
 
 public class InputSystem : SystemBase, IOnPreUpdate
 {
+    public override void SetUp()
+    {
+        gameStat.mousePos = new Vector3(100, 100, 100);
+        gameStat.selectingCellPos = new Vector3(100, 100, 100);
+    }
     public void OnPreUpdate()
     {
+        if (!gameStat.isMyPhase) return;
         gameStat.mousePos = GetMouseWorldPosition(Input.mousePosition);
 
         Vector3 posXZ = SnapCoordinateToGrid(gameStat.mousePos, gameStat.placingObjectGrid, gameStat.placingObjectGridLayout);
@@ -17,6 +23,8 @@ public class InputSystem : SystemBase, IOnPreUpdate
 
         GetBlockSelectInput();
         KeyInput();
+       
+       
     }
 
     private void KeyInput()

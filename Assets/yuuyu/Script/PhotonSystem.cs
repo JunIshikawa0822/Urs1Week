@@ -52,10 +52,14 @@ public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallba
         if (PhotonNetwork.IsMasterClient)
         {
             gameStat.isMaster = true;
+            gameStat.isMyPhase = true;
+            gameStat.isMySetPhase = true;
         }
         else
         {
             gameStat.isMaster = false;
+            gameStat.isMyPhase = false;
+            gameStat.isMySetPhase = false;
         }
         gameStat.isInstanitiatePlayerObj = true;
         gameStat.isEnterRoom = true;
