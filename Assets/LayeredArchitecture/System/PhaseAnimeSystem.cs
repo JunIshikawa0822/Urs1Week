@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PhaseAnimeSystem : SystemBase, IOnUpdate
 {
@@ -84,19 +85,25 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     //アニメーションやテロップなどを動かす処理をかく
     private void StartSetBlockPhase()
     {
-        GameObject.Instantiate(gameStat.mySetFhaseUI, gameStat.mySetFhaseUI.transform.position, Quaternion.identity);
+        GameObject obj;
+        obj=GameObject.Instantiate(gameStat.mySetFhaseUI, gameStat.mySetFhaseUI.transform.position, Quaternion.identity);
+        obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("SetBlockターンをかいし");
     }
     //アニメーションやテロップなどを動かす処理をかく
     private void StartMovePhase()
     {
-        GameObject.Instantiate(gameStat.myMoveFhaseUI, gameStat.myMoveFhaseUI.transform.position, Quaternion.identity);
+        GameObject obj;
+        obj=GameObject.Instantiate(gameStat.myMoveFhaseUI, gameStat.myMoveFhaseUI.transform.position, Quaternion.identity);
+        obj.transform.parent = gameStat.canvas.transform;
         Debug.Log("Moveターンを開始");
     }
 
     private void EnemyTurn()
     {
-        GameObject.Instantiate(gameStat.enemyFhaseUI, gameStat.enemyFhaseUI.transform.position, Quaternion.identity);
+        GameObject obj;
+        obj = GameObject.Instantiate(gameStat.enemyFhaseUI, gameStat.enemyFhaseUI.transform.position, Quaternion.identity);
+        obj.transform.parent = gameStat.canvas.transform;
     }
 
     private void GoalAnime(bool _isWinPlayer)

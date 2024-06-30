@@ -154,6 +154,7 @@ public class GameStatus
     public GameObject enemyFhaseUI;
     public GameObject mySetFhaseUI;
     public GameObject myMoveFhaseUI;
+    public GameObject canvas;
 
     [Header("Camera")]
     public GameObject camera1;
