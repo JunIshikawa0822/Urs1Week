@@ -43,7 +43,11 @@ public class InputSystem : SystemBase, IOnPreUpdate
         
 
         //if (Input.GetKeyDown(KeyCode.O)) gameStat.isMyMoveStart = false;
-        if (Input.GetKeyDown(KeyCode.P)) gameStat.isMySetPhaseInitialized = false;
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            gameStat.isMySetPhaseInitialized = false;
+        }
+            
     }
 
     private Vector3 GetMouseWorldPosition(Vector3 _point)

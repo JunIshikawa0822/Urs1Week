@@ -49,6 +49,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
                 gameStat.isMySetPhase = true;
                 gameStat.isMyPhase = true;
                 gameStat.isAtackFirst = true;
+                gameStat.isMySetPhaseInitialized = false;
                 gameStat.turnManger.ResetTurenNum();
             }
         }
@@ -109,6 +110,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
         gameStat.isMyPhase = false;
         gameStat.isMySetPhase = false;
         gameStat.isAtackFirst = false;
+        gameStat.isMySetPhaseInitialized = false;
     }
 
     private void getResultCheck(bool _isWinPlayer)
