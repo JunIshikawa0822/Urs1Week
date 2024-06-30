@@ -46,7 +46,9 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
                 //わんサイクル終了
                 gameStat.turnNum = 1;
                 gameStat.isMySetPhase = true;
+                gameStat.isMyPhase = true;
                 gameStat.isAtackFirst = true;
+                gameStat.turnManger.ResetTurenNum();
             }
         }
        
@@ -90,6 +92,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     private void getCheckResetTurnNum()
     {
         gameStat.turnNum = 1;
+        gameStat.isMyPhase = false;
         gameStat.isMySetPhase = false;
         gameStat.isAtackFirst = false;
     }
