@@ -18,7 +18,14 @@ public class GameMain : MonoBehaviour
     {
         allSystems = new List<SystemBase>()
         {
-            new PlayerSystem()
+            new PhotonSystem(),
+            new InputSystem(),
+            new PlacingSystem(),
+            new PlayerSystem(),
+            new UISystem(),
+            new CameraSystem(),
+            new TaikiSystem()
+
         };
 
         allUpdateSystems = new List<IOnUpdate>();
@@ -28,6 +35,8 @@ public class GameMain : MonoBehaviour
 
         foreach(SystemBase system in allSystems)
         {
+            system.Init(gameStat);
+
             if (system is IOnPreUpdate) allPreUpdateSystems.Add(system as IOnPreUpdate);
             if (system is IOnUpdate) allUpdateSystems.Add(system as IOnUpdate);
             if (system is IOnLateUpdate) allLateUpdateSystems.Add(system as IOnLateUpdate);
