@@ -53,7 +53,7 @@ public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallba
         {
             gameStat.isMaster = true;
             gameStat.isAtackFirst = true;
-            gameStat.isMyPhase = true;
+            //gameStat.isMyPhase = true;
             gameStat.isMySetPhase = true;
             gameStat.isMyMovePhase = false;
         }
@@ -91,6 +91,7 @@ public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallba
     public void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         Debug.Log("MatchOk");
+        gameStat.isMyPhase = true;
         gameStat.isMatchOk = true;
         throw new System.NotImplementedException();
     }

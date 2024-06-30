@@ -4693,6 +4693,7 @@ MonoBehaviour:
     mySetFhaseUI: {fileID: 9003017637011794384, guid: 08f0043882ef9480c899885eb5336e48, type: 3}
     myMoveFhaseUI: {fileID: 6012690623898814800, guid: eb780f1ab632a40ba964096837f8d619, type: 3}
     canvas: {fileID: 563807303}
+    nowPhaseText: {fileID: 810975674}
     camera1: {fileID: 586543165}
     camera2: {fileID: 742823464}
     taikiPanel: {fileID: 1902402469}
