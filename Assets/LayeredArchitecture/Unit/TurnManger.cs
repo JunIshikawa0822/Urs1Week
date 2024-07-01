@@ -4,8 +4,9 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using UnityEngine.SceneManagement;
 
-public class TurnManger : MonoBehaviourPunCallbacks
+public class TurnManger : MonoBehaviourPun
 {
     public event Action enemyStartSetPhase;
     public event Action enemyStartMovePhase;
@@ -13,11 +14,9 @@ public class TurnManger : MonoBehaviourPunCallbacks
 
     public event Action result;
 
-
-    [ContextMenu("やる")]
+  
     public void EnemyStartSetPhase()
     {
-        Debug.Log("こっちyよべた");
         photonView.RPC(nameof(EnemyStartSetPhaseRPC), RpcTarget.Others);
 
     }
@@ -33,6 +32,17 @@ public class TurnManger : MonoBehaviourPunCallbacks
     {
         photonView.RPC(nameof(ResultCheckRPC), RpcTarget.Others);
     }
+    public void ResultSceneMove()
+    {
+        PhotonNetwork.Disconnect();
+        
+        Invoke("MoveScene",1.0f);
+    }
+    public void MoveScene()
+    {
+        SceneManager.LoadScene("ResultScene");
+    }
+
 
     [PunRPC]
     public void EnemyStartSetPhaseRPC()

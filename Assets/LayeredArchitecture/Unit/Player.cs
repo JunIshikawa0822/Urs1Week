@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Collections.Concurrent;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
@@ -462,15 +463,25 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
 
             isGoal = GoalCheckFunc();
-        
+            if (isGoal)
+            {
+                Invoke("ChangeResultScene", 1.0f);
+            }
 
-           
+
 
             yield return new WaitForSeconds(1.2f);
         }
         movePhaseEnd.Invoke();
         Debug.Log("ターンエンド");
     }
+
+    private void ChangeResultScene()
+    {
+        SceneManager.LoadScene("ResultScene");
+        PhotonNetwork.Disconnect();
+    }
+
 
     private void MoveTest()
     {
@@ -521,6 +532,8 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
 
             isGoal = GoalCheckFunc();
+            
+
         }
         //isMovePhaseをfalseにする
         movePhaseEnd.Invoke();
