@@ -71,7 +71,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (goalCheckFunc == null) return false;
         return goalCheckFunc(this, goalPos,isMasterClient);
     }
-
+    [ContextMenu("前")]
     public void MoveForward()
     {
         
@@ -98,7 +98,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
         
     }
-
+    [ContextMenu("右")]
     public void MoveRight()
     {
 
@@ -126,7 +126,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
         
     }
-
+    [ContextMenu("日左")]
     public void MoveLeft()
     {
         if (photonView.IsMine)
@@ -153,7 +153,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
         
     }
-
+    [ContextMenu("後ろ")]
     public void MoveBackward()
     {
         if (photonView.IsMine)
@@ -462,6 +462,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
 
             isGoal = GoalCheckFunc();
+        
 
            
 

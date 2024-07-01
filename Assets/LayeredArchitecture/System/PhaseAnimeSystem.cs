@@ -19,10 +19,12 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
     }
     public void OnUpdate()
     {
-
-        if (gameStat.isMatchOk && (!gameStat.isFirstUI))
+        
+        //if (gameStat.isMatchOk && (!gameStat.isFirstUI))
+        if(gameStat.isMatchOk&&gameStat.isFirstUI)
         {
-            gameStat.isFirstUI = true;
+            Debug.Log("入った");
+            gameStat.isFirstUI = false;
             if (gameStat.isMaster)
             {
                 gameStat.nowPhaseText.text = "SetPhase";
@@ -33,62 +35,68 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
                 gameStat.nowPhaseText.text = "EnemyPhase";
                 EnenmyPhaseUI();
             }
-
-
         }
-        //if (!gameStat.isMyPhase) return;
-        //自分のSetターンが終わったらい相手のセットターンを始めるようにTurmmanagerに伝える
-        if (gameStat.isAtackFirst)
-        {
-            if ((!gameStat.isMySetPhase) && (gameStat.turnNum == 1))
-            {
-                Debug.Log("さいしよ");
-                gameStat.nowPhaseText.text = "EnemyPhase";
-                gameStat.turnNum++;
-                EnenmyPhaseUI();
-                gameStat.turnManger.EnemyStartSetPhase();
-                
 
-            }
-            if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 3))
-            {
-                gameStat.nowPhaseText.text = "EnemyPhase";
-                gameStat.turnNum++;
-                EnenmyPhaseUI();
-                gameStat.turnManger.EnemyStartMovePhase();
-                
-            }
-        }
-        else
-        {
-            if ((!gameStat.isMySetPhase) && (gameStat.turnNum == 2))
-            {
-                gameStat.nowPhaseText.text = "EnemyPhase";
-                gameStat.turnNum++;
-                EnenmyPhaseUI();
-                gameStat.turnManger.EnemyStartMovePhase();
-                
-            }
-            if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 4))
-            {
-                //わんサイクル終了
-                gameStat.turnNum = 1;
-                gameStat.isMySetPhase = true;
-                gameStat.isMyPhase = true;
-                gameStat.isAtackFirst = true;
-                gameStat.isMySetPhaseInitialized = false;
-                StartSetBlockPhase();
-                gameStat.turnManger.ResetTurenNum();
-                StartSetBlockPhase();
-            }
-        }
 
         if (gameStat.isPlayerGoal)
         {
             gameStat.isPlayerGoal = false;
-            gameStat.turnManger.ResultCheckGoal();
             GoalAnime(true);
+            gameStat.turnManger.ResultCheckGoal();
+
         }
+        else
+        {
+            //自分のSetターンが終わったらい相手のセットターンを始めるようにTurmmanagerに伝える
+            if (gameStat.isAtackFirst)
+            {
+                if ((!gameStat.isMySetPhase) && (gameStat.turnNum == 1))
+                {
+                    Debug.Log("さいしよ");
+                    gameStat.nowPhaseText.text = "EnemyPhase";
+                    gameStat.turnNum++;
+                    EnenmyPhaseUI();
+                    gameStat.turnManger.EnemyStartSetPhase();
+
+
+                }
+                if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 3))
+                {
+                    gameStat.nowPhaseText.text = "EnemyPhase";
+                    gameStat.turnNum++;
+                    EnenmyPhaseUI();
+                    gameStat.turnManger.EnemyStartMovePhase();
+
+                }
+            }
+            else
+            {
+                if ((!gameStat.isMySetPhase) && (gameStat.turnNum == 2))
+                {
+                    gameStat.nowPhaseText.text = "EnemyPhase";
+                    gameStat.turnNum++;
+                    EnenmyPhaseUI();
+                    gameStat.turnManger.EnemyStartMovePhase();
+
+                }
+                if ((!gameStat.isMyMovePhase) && (gameStat.turnNum == 4))
+                {
+                    //わんサイクル終了
+                    gameStat.turnNum = 1;
+                    gameStat.isMySetPhase = true;
+                    gameStat.isMyPhase = true;
+                    gameStat.isAtackFirst = true;
+                    gameStat.isMySetPhaseInitialized = false;
+                    StartSetBlockPhase();
+                    gameStat.turnManger.ResetTurenNum();
+                    StartSetBlockPhase();
+                }
+            }
+        }
+       
+        
+
+       
 
 
     }

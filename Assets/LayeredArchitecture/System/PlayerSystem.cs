@@ -156,12 +156,14 @@ public class PlayerSystem : SystemBase, IOnUpdate
     {
         if(_isMasterClient)
         {
+            
             if (_player.transform.position.z < _goalPos.position.z)
             {
                 return false;
             }
             else
             {
+                gameStat.isPlayerGoal = true;
                 return true;
             }
         }
@@ -173,6 +175,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
             }
             else
             {
+                gameStat.isPlayerGoal = true;
                 return true;
             }
         }
