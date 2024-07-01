@@ -34,13 +34,14 @@ public class TurnManger : MonoBehaviourPun
     }
     public void ResultSceneMove()
     {
-        PhotonNetwork.Disconnect();
         
-        Invoke("MoveScene",1.0f);
+        
+        Invoke("MoveScene",2.0f);
     }
     public void MoveScene()
     {
         SceneManager.LoadScene("ResultScene");
+        PhotonNetwork.Disconnect();
     }
 
 
