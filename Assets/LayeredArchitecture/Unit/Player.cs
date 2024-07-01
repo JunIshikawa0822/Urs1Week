@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using UnityEngine.Tilemaps;
 using System.Drawing;
-using Palmmedia.ReportGenerator.Core;
 using System.Collections.Concurrent;
 using Photon.Pun;
 using Photon.Realtime;
@@ -72,7 +71,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (goalCheckFunc == null) return false;
         return goalCheckFunc(this, goalPos,isMasterClient);
     }
-
+    [ContextMenu("前")]
     public void MoveForward()
     {
         
@@ -99,7 +98,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
         
     }
-
+    [ContextMenu("右")]
     public void MoveRight()
     {
 
@@ -127,7 +126,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
         
     }
-
+    [ContextMenu("日左")]
     public void MoveLeft()
     {
         if (photonView.IsMine)
@@ -154,7 +153,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
         
     }
-
+    [ContextMenu("後ろ")]
     public void MoveBackward()
     {
         if (photonView.IsMine)
@@ -242,8 +241,16 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             bool isMasterClient = PhotonNetwork.IsMasterClient;
             if (jumpMoveCheckFunc(this,isMasterClient))
             {
-                Vector3 posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 2), gridLayout);
-                transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
+                Vector3 posXZ;
+                if (isMasterClient)
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position + new Vector3(0, 0, 2), gridLayout);
+                }
+                else
+                {
+                    posXZ = convertPosToCellPosFunc(transform.position - new Vector3(0, 0, 2), gridLayout);
+                }
+                    transform.position = new Vector3(posXZ.x, transform.lossyScale.y / 2, posXZ.z);
             }
             else
             {
@@ -400,8 +407,8 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
         Debug.Log("いまからこのプログラムは {" + string.Join(",", nowProgramArray) + "}");
 
-        MoveTest();
-        //StartCoroutine(AnimationWait());
+        //MoveTest();
+        StartCoroutine(AnimationWait());
     }
 
     IEnumerator AnimationWait()
@@ -427,6 +434,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             else if (_code == 3)
             {
                 //MoveBackward();
+                ForceBackWard();
             }
             else if (_code == 4)
             {
@@ -454,15 +462,13 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
 
             isGoal = GoalCheckFunc();
+        
 
-            if (isGoal)
-            {
-                yield break;
-            }
+           
 
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(1.2f);
         }
-
+        movePhaseEnd.Invoke();
         Debug.Log("ターンエンド");
     }
 

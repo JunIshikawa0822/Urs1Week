@@ -116,11 +116,11 @@ public class GameStatus
     public bool isBackward = false;
 
     [Header("Flag")]
-    //[System.NonSerialized]
+    [System.NonSerialized]
     public bool isMySetPhase = false;
     [System.NonSerialized]
     public bool isMySetPhaseInitialized = false;
-    //[System.NonSerialized]
+    [System.NonSerialized]
     public bool isMyMovePhase = false;
     [System.NonSerialized]
     public bool isMyMoveStart = true;
@@ -131,7 +131,7 @@ public class GameStatus
     [System.NonSerialized]
     public bool isSetProgramView = false;
     [System.NonSerialized]
-    public bool isFirstUI = false;
+    public bool isFirstUI = true;
 
     //ゴールしたか
     [System.NonSerialized]
@@ -172,6 +172,8 @@ public class GameStatus
     [Header("Taiki")]
     [System.NonSerialized]
     public bool isMatchOk=false;
+    [System.NonSerialized]
+    public bool ischangeTiakiPanel = false;
     [SerializeField]
     public GameObject taikiPanel;
     [SerializeField]
