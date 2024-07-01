@@ -45,7 +45,7 @@ public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallba
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            gameStat.isMatchOk = true;
+            //gameStat.isMatchOk = true;
         }
 
 
@@ -56,6 +56,8 @@ public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallba
             //gameStat.isMyPhase = true;
             gameStat.isMySetPhase = true;
             gameStat.isMyMovePhase = false;
+            //gameStat.isMatchOk = true;
+            //Debug.Log("MatchOk" + gameStat.isMatchOk);
         }
         else
         {
@@ -64,6 +66,10 @@ public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallba
             gameStat.isMyPhase = false;
             gameStat.isMySetPhase = false;
             gameStat.isMyMovePhase = false;
+            gameStat.isMatchOk = true;
+            gameStat.ischangeTiakiPanel = true;
+            Debug.Log("MatchOk" + gameStat.isMatchOk);
+
         }
         gameStat.isInstanitiatePlayerObj = true;
         gameStat.isEnterRoom = true;
@@ -90,10 +96,11 @@ public class PhotonSystem : SystemBase, IConnectionCallbacks, IMatchmakingCallba
     
     public void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-        Debug.Log("MatchOk");
-        gameStat.isMyPhase = true;
         gameStat.isMatchOk = true;
-        throw new System.NotImplementedException();
+        gameStat.isMyPhase = true;
+        gameStat.ischangeTiakiPanel = true;
+
+        //throw new System.NotImplementedException();
     }
     
     
