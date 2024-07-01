@@ -141,6 +141,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
             GameObject obj = GameObject.Instantiate(gameStat.winUI,gameStat.winUI.transform.position, Quaternion.identity);
             obj.transform.SetParent(gameStat.canvas.transform, false);
             //obj.transform.parent = gameStat.canvas.transform;
+            gameStat.turnManger.ResultSceneMove();
             Debug.Log("あなたの勝利");
         }
         else
@@ -148,6 +149,7 @@ public class PhaseAnimeSystem : SystemBase, IOnUpdate
             //GameObject obj = GameObject.Instantiate(gameStat.loseUI, gameStat.canvas.transform.position, Quaternion.identity);
             GameObject obj = GameObject.Instantiate(gameStat.loseUI, gameStat.loseUI.transform.position, Quaternion.identity);
             obj.transform.SetParent(gameStat.canvas.transform, false);
+            gameStat.turnManger.ResultSceneMove();
             //obj.transform.parent = gameStat.canvas.transform;
             Debug.Log("あなたの負け");
         }
