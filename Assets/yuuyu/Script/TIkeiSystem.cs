@@ -7,9 +7,9 @@ public class TaikiSystem : SystemBase, IOnUpdate
    
     public void OnUpdate()
     {
-        if (gameStat.isMatchOk)
+        if (gameStat.isMatchOk&&gameStat.ischangeTiakiPanel)
         {
-            gameStat.isMatchOk = false;
+            gameStat.ischangeTiakiPanel = false;
             gameStat.taikiPanel.SetActive(false);
             gameStat.gamePanel.SetActive(true);
         }

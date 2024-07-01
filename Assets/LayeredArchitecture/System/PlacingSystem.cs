@@ -19,8 +19,9 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
     public void OnUpdate()
     {
-
-        //if (!gameStat.isMySetPhase) return;
+        
+        if (!gameStat.isMySetPhase) return;
+        //if (!gameStat.isMyMovePhase) return;
         //isMySetPhaseスタート
 
         #region Initialize
@@ -64,24 +65,31 @@ public class PlacingSystem : SystemBase, IOnUpdate
                 Place(listIndex, gameStat.selectingCellPos, gameStat.occupiedTilesArray[0]);
 
                 //Debug.Log("program : " + string.Join(",", gameStat.programList));
-                //gameStat.isMySetPhase = false;
+                gameStat.isMySetPhase = false;
 
                 //PhaseEnd();
+                gameStat.isMyPhase = false;
+                Debug.Log("セットフェイズ終わり");
             }
         }
 
         #endregion
     }
 
+
+
     private void Place(int _Index, Vector3 _setPos, TileBase _occupiedTileBase)
     {
         PlaceableObject placedObject=PhotonNetwork.Instantiate(gameStat.objectAllPrefabsArray[_Index].name, _setPos, Quaternion.identity).GetComponent<PlaceableObject>();
+        Debug.Log("hako"+placedObject);
         //PlaceableObject placedObject = GameObject.Instantiate(gameStat.objectAllPrefabsArray[_Index], _setPos, Quaternion.identity);
         placedObject.SetUp(gameStat.mainTileMap, _occupiedTileBase, gameStat.placedObjectList.Count,gameStat.placingObjectGridLayout);
 
         gameStat.placedObjectList.Add(placedObject);
         gameStat.programList.Add(_Index);
+        gameStat.isSetProgramView = true;
     }
+
 
     //オブジェクトの範囲に占有タイルがあるかどうかを返す
     private bool CanBePlaced(PredictionObject _predictionObject, TileBase[] _occupiedTilesArray, GridLayout _gridLayout)
@@ -212,7 +220,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
         {
             gameStat.objectOptionsIndexArray[i] = Random.Range(0, gameStat.objectAllPrefabsArray.Length);
         }
-
+        gameStat.isSetRandomBlockUI = true;
         Debug.Log(string.Join(",", gameStat.objectOptionsIndexArray));
     }
 
@@ -225,4 +233,5 @@ public class PlacingSystem : SystemBase, IOnUpdate
             gameStat.predictionObjectInstancesArray[i] = preObj;
         }
     }
+
 }

@@ -31,27 +31,28 @@ public class PlayerSystem : SystemBase, IOnUpdate
             gameStat.player1PosForDamage = gameStat.player.transform.position;
             gameStat.player.MoveByProgram(gameStat.programList);
             gameStat.isMyMoveStart = true;
+            gameStat.isMyPhase = false;
         }
 
-        gameStat.isPlayerGoal = gameStat.player.GetIsGoal;
-        if (gameStat.isPlayerGoal) Debug.Log("ごーーーーーーる！");
+        //gameStat.isPlayerGoal = gameStat.player.GetIsGoal;
+        //if (gameStat.isPlayerGoal) Debug.Log("ごーーーーーーる！");
 
-        if (gameStat.isForward)
-        {
-            gameStat.player.MoveForward();
-        }
-        else if (gameStat.isRight)
-        {
-            gameStat.player.MoveRight();
-        }
-        else if (gameStat.isLeft)
-        {
-            gameStat.player.MoveLeft();
-        }
-        else if (gameStat.isBackward)
-        {
-            gameStat.player.MoveBackward();
-        }
+        //if (gameStat.isForward)
+        //{
+        //    gameStat.player.MoveForward();
+        //}
+        //else if (gameStat.isRight)
+        //{
+        //    gameStat.player.MoveRight();
+        //}
+        //else if (gameStat.isLeft)
+        //{
+        //    gameStat.player.MoveLeft();
+        //}
+        //else if (gameStat.isBackward)
+        //{
+        //    gameStat.player.MoveBackward();
+        //}
     }
 
     private void PlayerInit()
@@ -79,8 +80,8 @@ public class PlayerSystem : SystemBase, IOnUpdate
         gameStat.player.moveCheckFunc += MoveCheck;
         gameStat.player.jumpMoveCheckFunc += JumpMoveCheck;
         gameStat.player.breakCheckFunc += BreakCheck;
-        
-       
+        gameStat.player.movePhaseEnd += EndMovePhase;
+
 
         if (PhotonNetwork.IsMasterClient)
             gameStat.player.Init(gameStat.placingObjectGridLayout, gameStat.goalPos1);
@@ -155,12 +156,14 @@ public class PlayerSystem : SystemBase, IOnUpdate
     {
         if(_isMasterClient)
         {
+            
             if (_player.transform.position.z < _goalPos.position.z)
             {
                 return false;
             }
             else
             {
+                gameStat.isPlayerGoal = true;
                 return true;
             }
         }
@@ -172,12 +175,13 @@ public class PlayerSystem : SystemBase, IOnUpdate
             }
             else
             {
+                gameStat.isPlayerGoal = true;
                 return true;
             }
         }
         
     }
-
+    //プログラムのリストをけしてる
     private void BreakPlacedObject(GameObject _object,bool _isMasterClient)
     {
         PlaceableObject obj = _object.GetComponent<PlaceableObject>();
@@ -292,6 +296,10 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     }
 
+    private void EndMovePhase()
+    {
+        gameStat.isMyMovePhase = false;
+    }
     
 
    

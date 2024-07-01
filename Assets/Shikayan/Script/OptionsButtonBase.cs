@@ -13,6 +13,8 @@ public class OptionsButtonBase : MonoBehaviour
     [SerializeField]
     private GameObject isSelectUI;
 
+    private AudioSource audioSource;
+
     EventTrigger optionsButtonEventTrigger;
 
     private event Action<GameObject> pointerDownEvent;
@@ -21,6 +23,7 @@ public class OptionsButtonBase : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         SelectPanelInit();
     }
 
@@ -43,6 +46,8 @@ public class OptionsButtonBase : MonoBehaviour
 
     private void PointerDownEvent()
     {
+        audioSource.PlayOneShot(audioSource.clip);
+
         if (pointerDownEvent == null) return;
         pointerDownEvent?.Invoke(objectUI);
 
@@ -73,7 +78,7 @@ public class OptionsButtonBase : MonoBehaviour
         return entryTrigger;
     }
 
-    public void ActiveChange(GameObject _object)
+    private void ActiveChange(GameObject _object)
     {
         if (_object == objectUI)
         {
