@@ -4803,8 +4803,6 @@ MonoBehaviour:
     mousePos: {x: 0, y: 0, z: 0}
     isPlacingInput: 0
     selectedPlacingObjectIndex: 0
-    isMySetPhase: 0
-    isMyMovePhase: 0
     layHitlayer:
       serializedVersion: 2
       m_Bits: 64
@@ -6502,7 +6500,7 @@ Transform:
   m_GameObject: {fileID: 2084593527}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: -6}
+  m_LocalPosition: {x: 3.72, y: 11.87, z: -12.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
