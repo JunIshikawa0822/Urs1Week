@@ -188,8 +188,9 @@ public class PlayerSystem : SystemBase, IOnUpdate
         PhotonView targetPhotonView = _object.GetComponent<PhotonView>();
         if (!targetPhotonView.IsMine)
         {
-            obj.EnemyReMoveList();
+            Debug.Log("ここまできてる");
             targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            obj.EnemyReMoveList();
             PhotonNetwork.Destroy(targetPhotonView);
         }
         else

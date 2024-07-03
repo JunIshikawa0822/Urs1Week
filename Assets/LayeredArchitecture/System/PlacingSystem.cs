@@ -93,6 +93,7 @@ public class PlacingSystem : SystemBase, IOnUpdate
 
     private void EnemyReMovePlaceableObjectList(GameObject _object)
     {
+        Debug.Log("EnemyList");
         PlaceableObject obj = _object.GetComponent<PlaceableObject>();
         gameStat.placedObjectList.RemoveAt(obj.GetIndex);
         gameStat.programList.RemoveAt(obj.GetIndex);
