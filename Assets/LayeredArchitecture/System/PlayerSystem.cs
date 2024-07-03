@@ -185,12 +185,22 @@ public class PlayerSystem : SystemBase, IOnUpdate
     private void BreakPlacedObject(GameObject _object,bool _isMasterClient)
     {
         PlaceableObject obj = _object.GetComponent<PlaceableObject>();
+        PhotonView targetPhotonView = _object.GetComponent<PhotonView>();
+        if (!targetPhotonView.IsMine)
+        {
+            obj.EnemyReMoveList();
+            targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            PhotonNetwork.Destroy(targetPhotonView);
+        }
+        else
+        {
+            gameStat.placedObjectList.RemoveAt(obj.GetIndex);
+            gameStat.programList.RemoveAt(obj.GetIndex);
 
-        gameStat.placedObjectList.RemoveAt(obj.GetIndex);
-        gameStat.programList.RemoveAt(obj.GetIndex);
-
-        Debug.Log("ぶれいくされてる！！");
-        obj.OnDestroy();
+            Debug.Log("ぶれいくされてる！！");
+            obj.OnDestroy();
+        }
+        
     }
 
     private void PlayerDamage()

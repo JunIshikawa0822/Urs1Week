@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Photon.Pun;
 using Photon.Realtime;
-
+using System;
 
 public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
@@ -21,6 +21,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     public Tilemap tileMapPUN;
     public TileBase tileBasePUN1;
     public TileBase tileBasePUN2;
+    public Action<GameObject> reMovePlaceableObjectList;
 
     public void SetUp(Tilemap _tileMap, TileBase _occupiedTileBase, int _index, GridLayout _gridLayout)
     {
@@ -130,6 +131,12 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
         tileMap.SetTile(pos, null);
         Destroy(this.gameObject);
     }
+
+    public void EnemyReMoveList()
+    {
+        reMovePlaceableObjectList.Invoke(this.gameObject);
+    }
+
     void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
     {
         if (info.photonView.IsMine)
