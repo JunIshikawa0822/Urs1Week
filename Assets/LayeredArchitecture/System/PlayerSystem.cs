@@ -182,12 +182,16 @@ public class PlayerSystem : SystemBase, IOnUpdate
     //プログラムのリストをけしてる
     private void BreakPlacedObject(GameObject _object,bool _isMasterClient)
     {
-        PlaceableObject obj = _object.GetComponent<PlaceableObject>();
+        Debug.Log(_object);
         PhotonView targetPhotonView = _object.GetComponent<PhotonView>();
+        targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+        PlaceableObject obj = _object.GetComponent<PlaceableObject>();
+       
         if (!targetPhotonView.IsMine)
         {
-            targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-            obj.EnemyReMoveList();
+            //targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            _object.GetComponent<PlaceableObject>().EnemyReMoveList();
+            //obj.EnemyReMoveList();
             PhotonNetwork.Destroy(targetPhotonView);
             Debug.Log("ここまできてる");
         }
@@ -277,6 +281,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
         Vector3Int cell;
         if(_isMasterClient)
         {
+            Debug.Log("mmm");
             if (_direction == "Break") cell = new Vector3Int(player.position.x, player.position.y + _player.GetSize.z, player.position.z);
             else if (_direction == "RightBreak") cell = new Vector3Int(player.position.x + _player.GetSize.x, player.position.y, player.position.z);
             else if (_direction == "LeftBreak") cell = new Vector3Int(player.position.x - _player.GetSize.x, player.position.y, player.position.z);

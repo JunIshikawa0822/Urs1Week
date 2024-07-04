@@ -262,20 +262,29 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (photonView.IsMine)
         {
             bool isMasterClient = PhotonNetwork.IsMasterClient;
+            
             if (breakCheckFunc(this, "Break",isMasterClient))
             {
-                if (!Physics.Raycast(this.transform.position, transform.forward, out RaycastHit hitInfo, playerSize.z)) return;
+                Debug.Log("ぷれいさぶる");
+                if (Physics.Raycast(this.transform.position, transform.forward, out RaycastHit hitInfo, playerSize.z))
+                {
+                    //Debug.Log(hitInfo.collider.gameObject.name);
+                    if (hitInfo.collider.gameObject.tag == "PlaceableObject")
+                    {
+                        Debug.Log("ぷれいさぶるだね");
+                        if (breakEvent == null) return;
+                        breakEvent.Invoke(hitInfo.collider.gameObject, isMasterClient);
+                    }
+                    else
+                    {
+                        DamageEvent();
+                    }
+                    Debug.Log("ヒットしてない");
+                    return;
+                }
+                    
 
-                if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
-                {
-                    Debug.Log("ぷれいさぶるだね");
-                    if (breakEvent == null) return;
-                    breakEvent.Invoke(hitInfo.collider.gameObject,isMasterClient);
-                }
-                else
-                {
-                    DamageEvent();
-                }
+               
             }
             else
             {
