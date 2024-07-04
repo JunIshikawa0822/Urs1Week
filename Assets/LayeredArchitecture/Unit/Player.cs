@@ -204,8 +204,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             {
                 Debug.Log("CantMove");
             }
-        }
-        
+        } 
     }
 
     public void MoveLeftFront()
@@ -230,8 +229,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             {
                 Debug.Log("CantMove");
             }
-        }
-        
+        } 
     }
 
     public void MoveJump()
@@ -256,8 +254,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             {
                 Debug.Log("CantMove");
             }
-        }
-        
+        }     
     }
 
     public void MoveBreak()
@@ -271,6 +268,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
 
                 if (hitInfo.collider.gameObject.CompareTag("PlaceableObject"))
                 {
+                    Debug.Log("ぷれいさぶるだね");
                     if (breakEvent == null) return;
                     breakEvent.Invoke(hitInfo.collider.gameObject,isMasterClient);
                 }
@@ -283,8 +281,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             {
                 Debug.Log("CantMove");
             }
-        }
-        
+        }   
     }
 
     public void MoveRightBreak()
@@ -309,8 +306,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             {
                 Debug.Log("CantMove");
             }
-        }
-        
+        }  
     }
 
     public void MoveLeftBreak()
@@ -336,7 +332,6 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
                 Debug.Log("CantMove");
             }
         }
-       
     }
 
     private void DamageEvent()
@@ -345,8 +340,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             if (damageEvent == null) return;
             damageEvent.Invoke();
-        }
-        
+        }   
     }
 
     public void ForceBackWard()
@@ -382,9 +376,6 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         Debug.Log("下げられた");
     }
     
-
-
-
     public Vector3Int GetSize
     {
         get { return playerSize; }
@@ -406,14 +397,12 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             nowProgramArray[i] = _program[i];
         }
         Debug.Log("いまからこのプログラムは {" + string.Join(",", nowProgramArray) + "}");
-
         //MoveTest();
         StartCoroutine(AnimationWait());
     }
 
     IEnumerator AnimationWait()
     {
-        Debug.Log("OK");
         //Debug.Log(string.Join(", ", nowList));
         //yield return new WaitForSeconds(1.0f);
         
@@ -462,9 +451,6 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
 
             isGoal = GoalCheckFunc();
-        
-
-           
 
             yield return new WaitForSeconds(1.2f);
         }

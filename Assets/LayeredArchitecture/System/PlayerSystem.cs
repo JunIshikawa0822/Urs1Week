@@ -16,7 +16,6 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     public void OnUpdate()
     {
-
         if(gameStat.isInstanitiatePlayerObj)
         {
             PlayerInit();
@@ -57,7 +56,6 @@ public class PlayerSystem : SystemBase, IOnUpdate
 
     private void PlayerInit()
     {
-       
         //gameStat.player = GameObject.Instantiate(gameStat.playerPrefab, gameStat.playerStartPos.transform.position, Quaternion.identity);
         if (PhotonNetwork.IsMasterClient)
         {
@@ -188,18 +186,18 @@ public class PlayerSystem : SystemBase, IOnUpdate
         PhotonView targetPhotonView = _object.GetComponent<PhotonView>();
         if (!targetPhotonView.IsMine)
         {
-            Debug.Log("ここまできてる");
             targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             obj.EnemyReMoveList();
             PhotonNetwork.Destroy(targetPhotonView);
+            Debug.Log("ここまできてる");
         }
         else
         {
             gameStat.placedObjectList.RemoveAt(obj.GetIndex);
             gameStat.programList.RemoveAt(obj.GetIndex);
-
+            PhotonNetwork.Destroy(targetPhotonView);
             Debug.Log("ぶれいくされてる！！");
-            obj.OnDestroy();
+            //obj.OnDestroy();
         }
         
     }
@@ -259,7 +257,6 @@ public class PlayerSystem : SystemBase, IOnUpdate
             cell1 = new Vector3Int(player.position.x, player.position.y - _player.GetSize.z, player.position.z);
             cell2 = new Vector3Int(player.position.x, player.position.y - _player.GetSize.z * 2, player.position.z);
         }
-        
 
         if (CanBeMoved(_player, cell1, gameStat.occupiedTilesArray) == false && CanBeMoved(_player, cell2, gameStat.occupiedTilesArray) == true)
         {
