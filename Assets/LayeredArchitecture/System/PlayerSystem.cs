@@ -193,14 +193,14 @@ public class PlayerSystem : SystemBase, IOnUpdate
             //targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             _object.GetComponent<PlaceableObject>().Test();
             //obj.EnemyReMoveList();
-            PhotonNetwork.Destroy(targetPhotonView);
+            PhotonNetwork.Destroy(targetPhotonView.gameObject);
             Debug.Log("ここまできてる");
         }
         else
         {
             gameStat.placedObjectList.RemoveAt(obj.GetIndex);
             gameStat.programList.RemoveAt(obj.GetIndex);
-            PhotonNetwork.Destroy(targetPhotonView);
+            PhotonNetwork.Destroy(targetPhotonView.gameObject);
             Debug.Log("ぶれいくされてる！！");
             //obj.OnDestroy();
         }
