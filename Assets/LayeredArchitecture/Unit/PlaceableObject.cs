@@ -139,6 +139,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     public void Test()
     {
         Debug.Log("テストおけ");
+        reMovePlaceableObjectList.Invoke(this.gameObject);
     }
 
     void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
