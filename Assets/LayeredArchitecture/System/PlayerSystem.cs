@@ -67,6 +67,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
         else
         {
             gameStat.player = PhotonNetwork.Instantiate("Player2", gameStat.player2StartPos.transform.position, Quaternion.identity).GetComponent<Player>();
+            gameStat.player.gameObject.transform.Rotate(0, 180, 0);
             Debug.Log("Player2を生成しました");
         }
         Debug.Log(gameStat.player.gameObject.name);
@@ -190,12 +191,12 @@ public class PlayerSystem : SystemBase, IOnUpdate
         if (!targetPhotonView.IsMine)
         {
             //targetPhotonView.TransferOwnership();
-            
+            Debug.Log("ここまできてる");
             //targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             _object.GetComponent<PlaceableObject>().Test();
             //obj.EnemyReMoveList();
             //PhotonNetwork.Destroy(targetPhotonView.gameObject);
-            Debug.Log("ここまできてる");
+            
         }
         else
         {

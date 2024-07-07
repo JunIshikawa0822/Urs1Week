@@ -145,8 +145,13 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     [PunRPC]
     public void DeleteObjectRPC()
     {
-        
-       PhotonNetwork.Destroy(photonView.gameObject);
+        Debug.Log("RPC成功");
+        if (photonView.IsMine)
+        {
+            Debug.Log("自分の");
+            PhotonNetwork.Destroy(photonView.gameObject);
+        }
+       
       
     }
 
