@@ -139,18 +139,22 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     public void Test()
     {
         Debug.Log("テストおけ");
-        Debug.Log(photonView.OwnerActorNr+"test");
+        Debug.Log(photonView.OwnerActorNr + "test");
         if (PhotonNetwork.IsMasterClient)
         {
             photonView.TransferOwnership(1);
+            Debug.Log(photonView.OwnerActorNr + "test");
             Debug.Log("自分の1");
-            PhotonNetwork.Destroy(photonView.gameObject);
+            //PhotonNetwork.Destroy(photonView.gameObject);
+            Destroy(this.gameObject);
         }
         else
         {
             photonView.TransferOwnership(2);
+            Debug.Log(photonView.OwnerActorNr + "test");
             Debug.Log("自分の2");
-            PhotonNetwork.Destroy(photonView.gameObject);
+            //PhotonNetwork.Destroy(photonView.gameObject);
+            Destroy(this.gameObject);
         }
         photonView.RPC("DeleteObjectRPC", RpcTarget.Others);
         //reMovePlaceableObjectList.Invoke(this.gameObject);
