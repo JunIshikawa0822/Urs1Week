@@ -140,6 +140,11 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     {
         Debug.Log("テストおけ");
         Debug.Log(photonView.OwnerActorNr+"test");
+        if (photonView.IsMine)
+        {
+            Debug.Log("自分の");
+            PhotonNetwork.Destroy(photonView.gameObject);
+        }
         photonView.RPC("DeleteObjectRPC", RpcTarget.Others);
         //reMovePlaceableObjectList.Invoke(this.gameObject);
     }
@@ -147,11 +152,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
     public void DeleteObjectRPC()
     {
         Debug.Log(photonView.OwnerActorNr+"Rpc");
-        if (photonView.IsMine)
-        {
-            Debug.Log("自分の");
-            PhotonNetwork.Destroy(photonView.gameObject);
-        }
+        
        
       
     }
