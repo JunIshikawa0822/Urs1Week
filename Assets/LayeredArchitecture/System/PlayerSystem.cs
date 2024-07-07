@@ -189,11 +189,12 @@ public class PlayerSystem : SystemBase, IOnUpdate
        
         if (!targetPhotonView.IsMine)
         {
-            targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            //targetPhotonView.TransferOwnership();
+            
             //targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-            //_object.GetComponent<PlaceableObject>().Test();
+            _object.GetComponent<PlaceableObject>().Test();
             //obj.EnemyReMoveList();
-            PhotonNetwork.Destroy(targetPhotonView.gameObject);
+            //PhotonNetwork.Destroy(targetPhotonView.gameObject);
             Debug.Log("ここまできてる");
         }
         else
