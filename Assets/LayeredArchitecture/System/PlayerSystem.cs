@@ -190,6 +190,7 @@ public class PlayerSystem : SystemBase, IOnUpdate
         if (!targetPhotonView.IsMine)
         {
             targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            Debug.Log(targetPhotonView.IsMine);
             //targetPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             //_object.GetComponent<PlaceableObject>().Test();
             //obj.EnemyReMoveList();

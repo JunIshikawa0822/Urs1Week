@@ -8,8 +8,9 @@ using System.Collections.Concurrent;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
+public class Player : MonoBehaviourPunCallbacks
 {
+    //IPunInstantiateMagicCallback, 
     private GridLayout gridLayout;
     private Transform goalPos;
 
@@ -520,7 +521,7 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
         //isMovePhaseをfalseにする
         movePhaseEnd.Invoke();
     }
-    
+    /*
     void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
     {
         if (info.Sender.IsLocal)
@@ -533,5 +534,8 @@ public class Player : MonoBehaviourPun, IPunInstantiateMagicCallback
             //Debug.Log("他プレイヤーがネットワークオブジェクトを生成しました");
         }
     }
+    */
+
     
+   
 }

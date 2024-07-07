@@ -87,6 +87,8 @@ namespace Photon.Pun
         /// <param name="targetView"></param>
         /// <param name="senderOfFailedRequest"></param>
         void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest);
+        void OnOwnershipTransferFailed(PhotonView targetView, global::Player previousOwner);
+        void OnOwnershipTransfered(PhotonView targetView, global::Player previousOwner);
     }
 
     /// \ingroup callbacks
