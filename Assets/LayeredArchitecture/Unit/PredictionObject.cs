@@ -13,11 +13,11 @@ public class PredictionObject : MonoBehaviour
     public void SetUp(GridLayout _gridLayout)
     {
         this.gridLayout = _gridLayout;
-        GetColliderVertexPositionLoacl();
+        GetColliderVertexPositionLocal();
         CalculateSizeInCells();
     }
 
-    private void GetColliderVertexPositionLoacl()
+    private void GetColliderVertexPositionLocal()
     {
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
         Vertices = new Vector3[4];

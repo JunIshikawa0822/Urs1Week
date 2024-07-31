@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 using Photon.Pun;
 using Photon.Realtime;
 
-
 public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
     public bool Placed { get; private set; }
@@ -130,6 +129,7 @@ public class PlaceableObject : MonoBehaviourPun, IPunInstantiateMagicCallback
         tileMap.SetTile(pos, null);
         Destroy(this.gameObject);
     }
+
     void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
     {
         if (info.photonView.IsMine)
